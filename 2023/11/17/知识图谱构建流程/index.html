@@ -1,0 +1,849 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Envoutante">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考博客 知乎：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;145447330 博客园：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;huangyc&#x2F;p&#x2F;10043749.html 综述：知识图谱构建技术综述 清华 XLore：https:&#x2F;&#x2F;xlore.cn&#x2F;index   一、知识图谱简介1.1  历史沿革提出知识图谱的目的：  实现智能化语义检索 解决信息检索问题  虽然知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="知识图谱构建流程详解">
+<meta property="og:url" content="http://example.com/2023/11/17/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Envoutante&#39;s Blog">
+<meta property="og:description" content="参考博客 知乎：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;145447330 博客园：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;huangyc&#x2F;p&#x2F;10043749.html 综述：知识图谱构建技术综述 清华 XLore：https:&#x2F;&#x2F;xlore.cn&#x2F;index   一、知识图谱简介1.1  历史沿革提出知识图谱的目的：  实现智能化语义检索 解决信息检索问题  虽然知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/graphpng.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/human.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/process.jpg">
+<meta property="article:published_time" content="2023-11-17T14:50:38.711Z">
+<meta property="article:modified_time" content="2023-11-17T13:50:56.868Z">
+<meta property="article:author" content="Envoutante">
+<meta property="article:tag" content="知识图谱">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/graphpng.png">
+  
+  
+  
+  <title>知识图谱构建流程详解 - Envoutante&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Envoutante&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="知识图谱构建流程详解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-17 22:50" pubdate>
+          2023年11月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          54 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">知识图谱构建流程详解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>参考博客</strong></p>
+<p>知乎：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/145447330">https://zhuanlan.zhihu.com/p/145447330</a></p>
+<p>博客园：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/huangyc/p/10043749.html">https://www.cnblogs.com/huangyc/p/10043749.html</a></p>
+<p>综述：<a target="_blank" rel="noopener" href="http://kns-cnki-net-s.vpn.uestc.edu.cn:8118/KXReader/Detail?invoice=TfXLC2ZSNT9XLq1SP5F5Q9DYo1dpuUSVTM87GLoVDLiokXx5M8xMFoGMu7aMK/3Ct/fki/LdQgDhVvrV505vCEn2VAA3pa6x0jPIWd5WW/alFPDMCs3HfKHXXce3tMJ5b1t90Tg+SvdD9M68sD10nMMgtW8puh+wjUu1P858iwA=&DBCODE=CJFQ&FileName=JFYZ201603009&TABLEName=cjfdlast2016&nonce=49E73AC3869B4489BBF4BDE9628A1CDA&TIMESTAMP=1700221256698&uid=">知识图谱构建技术综述</a></p>
+<p>清华 XLore：<a target="_blank" rel="noopener" href="https://xlore.cn/index">https://xlore.cn/index</a></p>
+</br>
+
+<h2 id="一、知识图谱简介"><a href="#一、知识图谱简介" class="headerlink" title="一、知识图谱简介"></a>一、知识图谱简介</h2><h3 id="1-1-历史沿革"><a href="#1-1-历史沿革" class="headerlink" title="1.1  历史沿革"></a>1.1  历史沿革</h3><p>提出知识图谱的目的：</p>
+<ul>
+<li>实现智能化语义检索</li>
+<li>解决信息检索问题</li>
+</ul>
+<p>虽然知识图谱的概念较新，但它并非是一个全新的研究领域。早在 2006 年，Berners-Lee 就提出了数据链接（linkeddata）的思想，呼吁推广和完善相关的技术标准如：</p>
+<ul>
+<li>URI（uniform resource identifier）</li>
+<li>RDF（resource description framework）</li>
+<li>OWL（ontology language）</li>
+</ul>
+<p>为迎接<strong>语义网络</strong>时代的到来做好准备。随后掀起了一场语义网络研究热潮，知识图谱技术正是建立在相关的研究成果之上的，是对现有语义网络技术的一次扬弃和升华。</p>
+</br>
+
+<h3 id="1-2-定义"><a href="#1-2-定义" class="headerlink" title="1.2  定义"></a>1.2  定义</h3><p>定义：知识图谱是<strong>结构化的语义知识库</strong>，用于以符号形式描述物理世界中的概念及其相互关系。其基本组成单位是<strong>“实体-关系-实体”三元组，以及实体及其相关属性-值对</strong>。实体间通过关系相互联结，构成网状的知识结构。</p>
+<p>通过知识图谱，可以实现 web 从网页链接（web1.0）向概念链接转变，<strong>支持用户按主题而不是字符串检索</strong>，从而真正实现语义检索。基于知识图谱的搜索引擎，能够<strong>以图形方式向用户反馈结构化的知识</strong>，用户不浏览大量网页，就可以准确定位和深度获取知识。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/graphpng.png" srcset="/img/loading.gif" lazyload alt="诸葛亮-清华博拉图"></p>
+<p>上述定义包含 3 层含义：</p>
+<ul>
+<li>知识图谱是由许多具有属性的实体通过关系链接而成的网状知识库。从图的角度来看，知识图谱在本质上是一种<strong>概念网络</strong>，其中的<strong>节点表示物理世界的实体（或概念）</strong>，而实体间的各种语义关系则构成网络中的边。由此，知识图谱是对物理世界的一种符号表达。</li>
+<li>知识图谱的研究价值在于，它是构建在当前 web 基础之上的一层<strong>覆盖网络（overlay network）</strong>，借助知识图谱，能够在 web 网页之上建立概念间的链接关系，从而以最小的代价将互联网中积累的信息组织起来，成为可以被利用的知识<strong>（信息–&gt;知识）</strong></li>
+<li>知识图谱的应用价值在于，它能够改变现有的信息检索方式，一方面<strong>通过推理实现概念检索</strong>（相对于现有的字符串模糊匹配方式而言）；另一方面以<strong>图形化方式</strong>向用户展示经过分类整理的结构化知识，从而使人们从人工过滤网页寻找答案的模式中解脱出来。</li>
+</ul>
+<p>知识图谱的分类：</p>
+<ul>
+<li>用于构建结构化的百科知识的“通用知识图谱”</li>
+<li>基于行业数据构建和应用的“领域知识图谱”</li>
+</ul>
+</br>
+
+<h3 id="1-3-架构"><a href="#1-3-架构" class="headerlink" title="1.3  架构"></a>1.3  架构</h3><p>知识图谱的架构包含：</p>
+<ul>
+<li>知识图谱自身的逻辑结构，分为数据层、模式层</li>
+<li>构建知识图谱所采用的技术架构</li>
+</ul>
+<p><strong>知识图谱自身的逻辑结构</strong></p>
+<p>在知识图谱的数据层，<strong>知识以事实（fact）为单位存储在图数据库</strong>。例如谷歌的 Graphd 和微软的 Trinity 都是典型的图数据库。如果<strong>以“实体-关系-实体”或者“实体-属性-属性值”三元组作为事实的基本表达方式</strong>，则存储在图数据库中的所有数据将构成庞大的实体关系网络，形成知识的“图谱”。</p>
+<p>模式层位居数据层之上，是知识图谱的核心。在模式层存储的是经过提炼的知识，通常采用<strong>本体库</strong>来管理知识图谱的模式层，借助<strong>本体库对公理、规则和约束条件的支持能力</strong>来规范实体、关系以及实体的类型和属性等对象之间的联系。本体库在知识图谱中的地位相当于知识库的模具，拥有本体库的知识库冗余知识较少。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/human.png" srcset="/img/loading.gif" lazyload alt="本体定义-人类"></p>
+<p><strong>构建知识图谱所采用的技术架构</strong></p>
+<p>下图给出了知识图谱技术的整体架构，其中虚线框内的部分为知识图谱的构建过程，同时也是知识图谱更新的过程。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/process.jpg" srcset="/img/loading.gif" lazyload alt="知识图谱构建过程"></p>
+<p>如图所示，<strong>知识图谱的构建过程</strong>是从原始数据出发，采用一系列自动或半自动的技术手段，从原始数据中提取出知识要素（即事实），并将其存入知识库的数据层和模式层的过程。</p>
+<p>这是一个迭代更新的过程，根据知识获取的逻辑，每一轮迭代包含 3 个阶段：</p>
+<ol>
+<li><strong>信息抽取：</strong>从各种类型的数据源中提取出实体、属性以及实体间的相互关系，在此基础上将知识以本体的形式进行表达（本体对实体、属性和关系制定了规则和约束）；</li>
+<li><strong>知识融合：</strong>在获得新知识之后，还需要对其进行整合，以消除矛盾和歧义。比如某些实体可能有多种表达，某个特定称谓也许对应于多个不同的实体等；</li>
+<li><strong>知识加工：</strong>对于经过融合的新知识，还需要接受质量评估（部分需要人工参与甄别），合格的部分才能被加入到知识库中，以确保知识库的质量。新增数据之后，可以进行<strong>知识推理</strong>，以拓展现有知识，得到新的知识。</li>
+</ol>
+<p>知识图谱有 2 种构建方式：</p>
+<ul>
+<li><strong>自顶向下构建：</strong>是指借助百科类网站等结构化数据源，从高质量数据中提取本体和模式信息，加入到知识库中。</li>
+<li><strong>自底向上构建：</strong>是指借助一定的技术手段，从公开采集的数据中<strong>提取出资源模式</strong>，选择其中置信度较高的新模式，经人工审核之后，加入到知识库中。如：谷歌的 Knowledge Vault、微软的 Satori 等。</li>
+</ul>
+<blockquote>
+<p>GPT：提取出资源模式就是指提取出数据中包含的实体、属性、关系。</p>
+</blockquote>
+</br>
+
+<p><strong>Data Acquisition 中的数据类型</strong></p>
+<p>知识图谱的<strong>原始数据</strong>类型一般来说有三类，也是互联网上的三类原始数据：</p>
+<ul>
+<li>结构化数据（Structed Data）：如关系数据库</li>
+<li>半结构化数据（Semi-Structed Data）：如 XML、JSON、百科</li>
+<li>非结构化数据（UnStructed Data）：如图片、音频、视频、文本</li>
+</ul>
+<p>原始数据存储方式：</p>
+<ul>
+<li>使用 RDF（资源描述框架）等规范存储格式来进行存储</li>
+<li>使用 Neo4j 等常用的图数据库来进行存储</li>
+</ul>
+<blockquote>
+<p>在知识图谱方面，图数据库比关系数据库灵活的多。在数据少的时候，关系数据库也没有问题，效率也不低。但是随着知识图谱变的复杂，图数据库的优势会明显增加。当涉及到 2、3 度的关联查询，基于图数据库的效率会比关系数据库的效率高出几千倍甚至几百万倍。</p>
+</blockquote>
+</br>
+
+<hr>
+<p>接下来介绍的是“知识图谱的构建技术”。</p>
+<hr>
+</br>
+
+<h2 id="二、信息抽取"><a href="#二、信息抽取" class="headerlink" title="二、信息抽取"></a>二、信息抽取</h2><p>信息抽取（infromation extraction）是知识图谱构建的第1步，其中的关键问题是：如何从异构数据源中自动抽取信息得到候选知识单元？（候选知识单元：被认为可能包含有用知识的单元或片段。）</p>
+<p>信息抽取是一种自动化地从半结构化、非结构化数据中抽取<strong>实体、关系以及实体属性等结构化信息</strong>的技术。</p>
+<p>关键技术包括：实体抽取、关系抽取、属性抽取。</p>
+</br>
+
+<h3 id="2-1-实体抽取（Entity-Extraction）"><a href="#2-1-实体抽取（Entity-Extraction）" class="headerlink" title="2.1  实体抽取（Entity Extraction）"></a>2.1  实体抽取（Entity Extraction）</h3><p>实体抽取又称为命名实体识别（named entity recognition，NER），是指<strong>从文本数据集中自动识别出命名实体</strong>。</p>
+<p>实体抽取的质量（准确率和召回率）对后续的知识获取效率和质量影响极大，因此是信息抽取中最为基础和关键的部分。</p>
+<blockquote>
+<p>召回率</p>
+<p>$Recall&#x3D;\frac{True Positives+False Negatives}{True Positives} $</p>
+<p>用于衡量模型能够正确识别正例样本的能力。</p>
+</blockquote>
+</br>
+
+<h3 id="2-2-关系抽取（Relation-Extraction）"><a href="#2-2-关系抽取（Relation-Extraction）" class="headerlink" title="2.2  关系抽取（Relation Extraction）"></a>2.2  关系抽取（Relation Extraction）</h3><p>文本语料经过实体抽取，得到的是一系列离散的命名实体，为了得到语义信息，还需要<strong>从相关的语料中提取出实体之间的关联关系</strong>，通过关联关系将实体（概念）联系起来，才能够形成网状的知识结构。研究关系抽取技术的目的，就是解决如何从文本语料中抽取实体间的关系这一基本问题。</p>
+<ol>
+<li>人工构造语法和语义规则（模式匹配）</li>
+<li>统计机器学习方法</li>
+<li>基于特征向量或核函数的有监督学习方法</li>
+<li>研究重点转向半监督和无监督</li>
+<li>开始研究面向开放域的信息抽取方法</li>
+<li>将面向开放域的信息抽取方法和面向封闭领域的传统方法结合</li>
+</ol>
+</br>
+
+<h3 id="2-3-属性抽取（Attribute-Extraction）"><a href="#2-3-属性抽取（Attribute-Extraction）" class="headerlink" title="2.3  属性抽取（Attribute Extraction）"></a>2.3  属性抽取（Attribute Extraction）</h3><p>属性抽取的目标是从不同信息源中采集特定实体的属性信息。例如针对某个公众人物，可以从网络公开信息中得到其昵称、生日、国籍、教育背景等信息。属性抽取技术能够从多种数据来源中汇集这些信息，实现对实体属性的完整勾画。</p>
+<ol>
+<li>将实体的属性视作实体与属性值之间的一种名词性关系，<strong>将属性抽取任务转化为关系抽取任务</strong>。</li>
+<li>基于规则和启发式算法，抽取结构化数据。</li>
+<li>基于百科类网站的半结构化数据，通过自动抽取生成训练语料，用于训练实体属性标注模型，然后将其应用于对非结构化数据的实体属性抽取。</li>
+<li>采用数据挖掘的方法直接从文本中挖掘实体属性和属性值之间的关系模式，据此实现对属性名和属性值在文本中的定位。</li>
+</ol>
+</br>
+
+</br>
+
+<h2 id="三、知识融合"><a href="#三、知识融合" class="headerlink" title="三、知识融合"></a>三、知识融合</h2><p>通过信息抽取，我们就从原始的半结构化、非结构化数据中获得了实体、关系以及实体的属性信息。</p>
+<p>仍需解决的问题：</p>
+<ul>
+<li>信息之间的关系是扁平化的，缺乏层次性和逻辑性</li>
+<li>知识中还存在大量冗杂和错误的信息</li>
+</ul>
+<p>知识融合包括两部分内容：实体链接、知识合并。</p>
+</br>
+
+<h3 id="3-1-实体链接（Entity-Linking）"><a href="#3-1-实体链接（Entity-Linking）" class="headerlink" title="3.1  实体链接（Entity Linking）"></a>3.1  实体链接（Entity Linking）</h3><p>实体链接是指将文本中抽取得到的实体对象链接到知识库中对应的实体对象。</p>
+<p>基本思想：</p>
+<ol>
+<li>根据给定的<strong>实体指称项</strong>，从知识库中选出一组候选实体对象；</li>
+<li>通过相似度计算将实体指称项链接到正确的实体对象。</li>
+</ol>
+<p>研究历史：</p>
+<ol>
+<li>仅关注如何将从文本中抽取到的实体链接到知识库中，忽视了位于同一文档的实体间存在的语义联系。</li>
+<li>开始关注利用实体的共现关系，同时将多个实体链接到知识库中。即集成实体链接（collective entity linking）</li>
+</ol>
+<p>实体链接的流程：</p>
+<ul>
+<li>从文本中通过实体抽取得到实体指称项。</li>
+<li>进行<strong>实体消歧</strong>和<strong>共指消解</strong>：<ul>
+<li>判断知识库中同名的实体是否与之表示不同的含义</li>
+<li>判断知识库中不同名的实体是否与之表示相同的含义</li>
+</ul>
+</li>
+<li>在确认知识库中对应的正确实体对象之后，将该实体指称项链接到知识库中对应实体。</li>
+</ul>
+</br>
+
+<h4 id="3-1-1-实体消歧"><a href="#3-1-1-实体消歧" class="headerlink" title="3.1.1  实体消歧"></a>3.1.1  实体消歧</h4><p>实体消歧主要用于解决同名的实体之间存在歧义的问题。</p>
+<p>通过实体消歧，就可以根据当前的语境，准确建立实体链接，实体消歧主要采用聚类法。其实也可以看做基于上下文的分类问题，类似于<strong>词性消歧</strong>和<strong>词义消歧</strong>。</p>
+</br>
+
+<h4 id="3-1-2-共指消解"><a href="#3-1-2-共指消解" class="headerlink" title="3.1.2  共指消解"></a>3.1.2  共指消解</h4><p>共指消解主要用于解决多个实体指称项对应同一实体对象的问题。</p>
+<p>在一次会话中，多个指称可能指向的是同一实体对象。利用共指消解技术，可以将这些指称项<strong>关联（合并）</strong>到正确的实体对象，由于该问题在信息检索和自然语言处理等领域具有特殊的重要性，吸引了大量的研究努力。共指消解还有一些其他的名字，比如<strong>对象对齐、实体匹配和实体同义</strong>。</p>
+</br>
+
+<h3 id="3-2-知识合并"><a href="#3-2-知识合并" class="headerlink" title="3.2  知识合并"></a>3.2  知识合并</h3><p>在构建知识图谱时，可以从第三方知识库产品或已有的结构化数据获取知识输入。</p>
+<p>常见的知识合并需求有两个：</p>
+<ul>
+<li>合并外部知识库</li>
+<li>合并关系数据库</li>
+</ul>
+<p>合并外部知识库：</p>
+<ul>
+<li>数据层的融合，包括实体的指称、属性、关系以及所属类别等，主要的问题是如何避免实例以及关系的冲突问题，造成不必要的冗余</li>
+<li>模式层的融合，将新得到的本体融入已有的本体库中</li>
+</ul>
+<p>合并关系数据库：在知识图谱构建过程中，一个重要的高质量知识来源是企业或者机构自己的关系数据库。为了将这些结构化的历史数据融入到知识图谱中，可以采用资源描述框架（RDF）作为数据模型。业界和学术界将这一数据转换过程形象地称为 RDB2RDF，其实质就是将关系数据库的数据换成 RDF 的三元组数据。</p>
+</br>
+
+</br>
+
+<h2 id="四、知识加工"><a href="#四、知识加工" class="headerlink" title="四、知识加工"></a>四、知识加工</h2><p>在前面，我们已经通过信息抽取，从原始语料中提取出了实体、关系与属性等知识要素，并且经过知识融合，消除实体指称项与实体对象之间的歧义，得到一系列基本的事实表达。</p>
+<p>然而事实本身并不等于知识。要想最终获得结构化，网络化的知识体系，还需要经历知识加工的过程。</p>
+<p>知识加工主要包括 3 方面内容：本体构建、知识推理、质量评估。</p>
+</br>
+
+<h3 id="4-1-本体构建"><a href="#4-1-本体构建" class="headerlink" title="4.1  本体构建"></a>4.1  本体构建</h3><p>本体（ontology）是指人工的概念集合、概念框架，如“人”、“事”、“物”等。</p>
+<p>本体可以采用人工编辑的方式手动构建（借助<strong>本体编辑软件</strong>），也可以以数据驱动的自动化方式构建本体。因为人工方式工作量巨大，且很难找到符合要求的专家，因此当前主流的全局本体库产品，都是从一些面向特定领域的现有本体库出发，采用自动构建技术逐步扩展得到的。</p>
+<p>自动化本体构建过程包含三个阶段：</p>
+<ol>
+<li>实体并列关系相似度计算</li>
+<li>实体上下位关系抽取</li>
+<li>本体的生成</li>
+</ol>
+<p>比如对下面这个例子，当知识图谱刚得到“阿里巴巴”、“腾讯”、“手机”这三个实体的时候，可能会认为它们三个之间并没有什么差别，但当它去<strong>计算三个实体之间的相似度</strong>后，就会发现，阿里巴巴和腾讯之间可能更相似，和手机差别更大一些。</p>
+<p>这就是第一步的作用，但这样下来，知识图谱实际上还是没有一个上下层的概念，它还是不知道，阿里巴巴和手机，根本就不隶属于一个类型，无法比较。因此我们在<strong>实体上下位关系抽取</strong>这一步，就需要去完成这样的工作，从而生成第三步的本体。</p>
+<p>当三步结束后，这个知识图谱可能就会明白，“阿里巴巴和腾讯，其实都是公司这样一个实体下的细分实体。它们和手机并不是一类。”</p>
+</br>
+
+<h3 id="4-2-知识推理"><a href="#4-2-知识推理" class="headerlink" title="4.2  知识推理"></a>4.2  知识推理</h3><p>在我们完成了本体构建这一步之后，一个知识图谱的雏形便已经搭建好了。但可能在这个时候，知识图谱之间大多数关系都是残缺的，缺失值非常严重，那么这个时候，我们就可以使用知识推理技术，去完成进一步的知识发现。</p>
+<p>我们可以发现：如果 A 是 B 的配偶，B 是 C 的主席，C 坐落于 D，那么我们就可以认为，A 生活在 D 这个城市。</p>
+<p>根据这一条规则，我们可以去挖掘一下在图里，是不是还有其它的 path 满足这个条件，那么我们就可以将 AD 两个关联起来。除此之外，我们还可以去思考，串联里有一环是 B 是 C 的主席，那么 B 是 C 的 CEO、B 是 C 的COO，是不是也可以作为这个推理策略的一环呢？</p>
+<p>当然知识推理的对象也并不局限于实体间的关系，也可以是实体的属性值，本体的概念层次关系等。</p>
+<p>推理属性值：已知某实体的生日属性，可以通过推理得到该实体的年龄属性；</p>
+<p>推理概念：已知（老虎，科，猫科）和（猫科，目，食肉目）可以推出（老虎，目，食肉目）</p>
+<p>这一块的算法主要可以分为 3 大类，<strong>基于逻辑的推理、基于图的推理和基于深度学习的推理</strong>。</p>
+</br>
+
+<h3 id="4-3-质量评估"><a href="#4-3-质量评估" class="headerlink" title="4.3  质量评估"></a>4.3  质量评估</h3><p>质量评估也是知识库构建技术的重要组成部分，这一部分存在的意义在于：可以对知识的可信度进行量化，通过舍弃置信度较低的知识来保障知识库的质量。</p>
+</br>
+
+</br>
+
+<h2 id="五、知识更新"><a href="#五、知识更新" class="headerlink" title="五、知识更新"></a>五、知识更新</h2><p>从逻辑上看，知识库的更新包括概念层的更新和数据层的更新。</p>
+<p>概念层的更新是指新增数据后获得了新的概念，需要自动将新的概念添加到知识库的概念层中。</p>
+<p>数据层的更新主要是新增或更新实体、关系、属性值，对数据层进行更新需要考虑数据源的可靠性、数据的一致性（是否存在矛盾或冗杂等问题）等可靠数据源，并选择在各数据源中出现频率高的事实和属性加入知识库。</p>
+<p>知识图谱的内容更新有两种方式：</p>
+<ul>
+<li>全面更新：指以更新后的全部数据为输入，从零开始构建知识图谱。这种方法比较简单，但资源消耗大，而且需要耗费大量人力资源进行系统维护；</li>
+<li>增量更新：以当前新增数据为输入，向现有知识图谱中添加新增知识。这种方式资源消耗小，但目前仍需要大量人工干预（定义规则等），因此实施起来十分困难。</li>
+</ul>
+</br>
+
+</br>
+
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>通过知识图谱技术，不仅可以将互联网的信息表达成更接近人类认知世界的形式，而且提供了一种更好的组织、管理和利用海量信息的方式。目前的知识图谱技术主要用于<strong>智能语义搜索、移动个人助理（Siri）以及深度问答系统（Watson）</strong>，支撑这些应用的核心技术正是知识图谱技术。</p>
+<p>在智能语义搜索中，当用户发起查询时，搜索引擎会借助知识图谱的帮助对用户查询的关键词进行解析和推理，进而将其映射到知识图谱中的一个或一组概念之上，然后根据知识图谱的概念层次结构，向用户返回图形化的知识结构，这就是我们在谷歌和百度的搜索结果中看到的<strong>知识卡片</strong>。</p>
+<p>在深度问答应用中，系统同样会首先在知识图谱的帮助下对用户使用自然语言提出的问题进行语义分析和语法分析，进而将其转化成<strong>结构化形式的查询语句</strong>，然后在知识图谱中查询答案。比如，如果用户提问：『如何判断是否感染了埃博拉病毒？』，则该查询有可能被等价变换为『埃博拉病毒的症状有哪些？』，然后再进行推理变换，<strong>最终形成等价的三元组查询语句</strong>，如（埃博拉，症状，？）和（埃博拉，征兆，？）等。如果由于知识库不完善而无法通过推理来解答用户的问题，深度问答系统还可以利用搜索引擎向用户反馈搜索结果，同时根据搜索结果更新知识库，从而为回答后续的提问提前做出准备。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" class="print-no-link">#知识图谱</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>知识图谱构建流程详解</div>
+      <div>http://example.com/2023/11/17/知识图谱构建流程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Envoutante</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/17/%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BC%9A%E8%AE%AE/" title="专利方向">
+                        <span class="hidden-mobile">专利方向</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
