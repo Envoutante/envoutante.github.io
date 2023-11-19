@@ -1,0 +1,731 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Envoutante">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Learning Entity and Relation Embeddings for Knowledge Graph Completion参考博客 知乎：TransE 算法的理解 知乎：TransE、TransH、TransR 和 TransD 知乎：知识表示学习 Trans 系列梳理（论文+代码）   Abstract知识图谱补全&#x3D;在现有知识图的监督下进行两个实体之间的链路预测 本文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning Entity and Relation Embeddings for Knowledge Graph Completion">
+<meta property="og:url" content="http://example.com/2023/11/19/Learning%20Entity%20and%20Relation%20Embeddings%20for%20Knowledge%20Graph%20Completion/index.html">
+<meta property="og:site_name" content="Envoutante&#39;s Blog">
+<meta property="og:description" content="Learning Entity and Relation Embeddings for Knowledge Graph Completion参考博客 知乎：TransE 算法的理解 知乎：TransE、TransH、TransR 和 TransD 知乎：知识表示学习 Trans 系列梳理（论文+代码）   Abstract知识图谱补全&#x3D;在现有知识图的监督下进行两个实体之间的链路预测 本文">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransR1.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransE2.jpg">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransE.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/L2.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp2.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransH2.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransH.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/proj.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransR2.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransR3.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CTransR.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/loss.png">
+<meta property="article:published_time" content="2023-11-19T08:31:36.319Z">
+<meta property="article:modified_time" content="2023-11-19T14:06:35.313Z">
+<meta property="article:author" content="Envoutante">
+<meta property="article:tag" content="知识图谱">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransR1.png">
+  
+  
+  
+  <title>Learning Entity and Relation Embeddings for Knowledge Graph Completion - Envoutante&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Envoutante&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Learning Entity and Relation Embeddings for Knowledge Graph Completion"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-19 16:31" pubdate>
+          2023年11月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Learning Entity and Relation Embeddings for Knowledge Graph Completion</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Learning-Entity-and-Relation-Embeddings-for-Knowledge-Graph-Completion"><a href="#Learning-Entity-and-Relation-Embeddings-for-Knowledge-Graph-Completion" class="headerlink" title="Learning Entity and Relation Embeddings for Knowledge Graph Completion"></a>Learning Entity and Relation Embeddings for Knowledge Graph Completion</h1><p><strong>参考博客</strong></p>
+<p>知乎：<a target="_blank" rel="noopener" href="https://yaoleo.github.io/2017/10/27/TransE%E7%AE%97%E6%B3%95%E7%9A%84%E7%90%86%E8%A7%A3/">TransE 算法的理解</a></p>
+<p>知乎：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/359925162">TransE、TransH、TransR 和 TransD</a></p>
+<p>知乎：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/144412694">知识表示学习 Trans 系列梳理（论文+代码）</a></p>
+</br>
+
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>知识图谱补全&#x3D;在现有知识图的监督下进行两个实体之间的链路预测</p>
+<p>本文考虑从 knowledge graph embeddings 入手以解决问题。</p>
+<p>前人提出的 TransE 和 TransH 等模型，是通过将关系视为从头部实体到尾部实体的转换，来将三元组（实体、属性、关系）翻译成 embedding 词向量，即一个<strong>低维的向量</strong>。</p>
+<p>我们注意到这些模型还是把实体和关系放在同一个语义空间中的。</p>
+<p>事实上，一个实体有多个方面，它的每个关系可能聚焦在不同的方面，这使得采用相同的语义空间不足以建模。直观的是，一些实体是相似的，因此在实体空间中彼此接近，但在某些特定方面却大不相同，因此在相应的关系空间中彼此相距很远。</p>
+<p>在本文中，我们提出了 TransR 在单独的实体空间和关系空间中构建实体和关系嵌入。</p>
+<p>之后，我们先将实体从实体空间投影到相应的关系空间来学习嵌入，然后在投影的实体之间建立关系。</p>
+<p>在实验中，我们在三个任务上评估我们的模型，包括链接预测、三重分类和关系事实提取。</p>
+<p>源码：<a target="_blank" rel="noopener" href="https://github.com/mrlyk423/relation_extraction">https://github.com/mrlyk423/relation_extraction</a></p>
+</br>
+
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><blockquote>
+<p>由于对链路预测不熟，所以看了 introduction。</p>
+</blockquote>
+<p>三元组 (h, r, t)，符号含义：</p>
+<ul>
+<li>h：head entity</li>
+<li>r：relation</li>
+<li>t：tail entity</li>
+</ul>
+<p>实体空间中的 h 和 t 被投影到关系空间后，被表示为 h_r 和 t_r，三者之间的关系是 h_r + r ≈ t_r。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransR1.png" srcset="/img/loading.gif" lazyload alt="TransR的基本思想"></p>
+<p>这种 relation-specific 的投影可以使之间存在关系的头部实体 h_r 和尾部实体 t_r （圆形）彼此接近，同时还能远离与它们没有关系的实体（三角形）。</p>
+<p>在 head-tail 实体对中，实体之间关系的模式非常多样。例如，“location-location-contains”就可以是“country-city”、“country-university”或者“continent-country”。我们通过将不同的 head-tail 实体对聚类成组，并为每个组学习不同的关系向量来扩展 TransR，称为基于聚类的 TransR（CTransR）。</p>
+</br>
+
+<h2 id="Related-Models"><a href="#Related-Models" class="headerlink" title="Related Models"></a>Related Models</h2><h3 id="TransE"><a href="#TransE" class="headerlink" title="TransE"></a>TransE</h3><p>TransE 认为一个正确的三元组的 embedding 向量 (h, r, t) 会满足公式：h+r&#x3D;t，即头实体的 embedding 加上关系的 embedding 会等于尾实体的 embedding。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransE2.jpg" srcset="/img/loading.gif" lazyload alt="TransE的基本思想"></p>
+<p>如果是一个错误的三元组，那么三者的 embedding 就不会满足这种关系。</p>
+<p>根据上述观点，TransE 的 score function 如下图所示：</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransE.png" srcset="/img/loading.gif" lazyload alt="TransE的score function及其缺点"></p>
+<p>虽然 TransE 具有训练速度快、易于实现等优点，但是<strong>它不能够处理 N-to-1、1-to-N 和 N-to-N 的关系</strong>。以 N-to-1 关系为例，三元组 (h_i, r, t) 中的 r 和 t 固定，TransE 为了满足三角闭包关系，训练出来的 h_i 向量会很相似。</p>
+<p>同理，处理 1-to-N 关系时也会存在此类问题。例如，知识库中有两个三元组，分别是 (美国, 总统, 特朗普) 和 (美国, 总统, 拜登)，这里的“总统”关系是典型的 1-to-N 关系。如果用 TransE 从这两个三元组学习知识表示，则会使“特朗普”和“拜登”的向量变得相同，这显然不符合事实。</p>
+</br>
+
+<h4 id="L2-范数"><a href="#L2-范数" class="headerlink" title="L2 范数"></a>L2 范数</h4><p>L2 范数，又称为欧几里得范数，可以防止过拟合，提升模型的泛化能力。</p>
+<p>其计算步骤如下：</p>
+<ol>
+<li>对向量的每个维度进行平方操作</li>
+<li>将所有平方值相加</li>
+<li>对结果取平方根</li>
+</ol>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/L2.png" srcset="/img/loading.gif" lazyload alt="L2的计算公式"></p>
+</br>
+
+<h4 id="范数"><a href="#范数" class="headerlink" title="范数"></a>范数</h4><p>范数（Norm）是一个对向量空间中的向量进行度量或测量的概念，可以理解为<strong>向量的大小或长度</strong>。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp.png" srcset="/img/loading.gif" lazyload alt="范数的定义"></p>
+<p>其中 p 是一个正整数或是无穷大。常见的范数包括：</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp2.png" srcset="/img/loading.gif" lazyload alt="常见的范数"></p>
+<blockquote>
+<p>此外，L0 范数是指向量中非 0 的元素的个数。</p>
+<p>来自知乎：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28023308">https://zhuanlan.zhihu.com/p/28023308</a></p>
+</blockquote>
+</br>
+
+<h3 id="TransH"><a href="#TransH" class="headerlink" title="TransH"></a>TransH</h3><p><strong>英文全称：</strong>translating on hyperplanes（超平面）</p>
+<p><strong>核心思想：</strong>对于每一个关系 relation，都由一个超平面上的关系向量 r 和该超平面的法向量（the normal vector）W_r 表示，而不是和实体、关系在同一个嵌入空间。</p>
+<p>具体来说，对于每个三元组 (h, r, t)，将头实体 h 和尾实体 t 都映射到超平面 W_r 上，得到向量 h⊥ 和 t⊥，训练使 h⊥+r≈t⊥。目的是通过不同的关系拥有的不同的法平面，让同一个实体 h 或 t 在不同关系中拥有不同的意义。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransH2.png" srcset="/img/loading.gif" lazyload alt="TransH和TransE的对比"></p>
+<p>回到我们上面的 N-to-1 的复杂关系问题。对于三元组 (h_1, r, t) 和 (h_2, r, t)，根据 TransE 的思想，则有 h_1&#x3D;h_2；而根据 TransH 的思想，只需满足 h_1 和 h_2 在关系 r 的超平面 W_r 上的投影相同即可。这样就可以区分出 h_1 和 h_2，因为两个向量的向量表示是不同的。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransH.png" srcset="/img/loading.gif" lazyload alt="TransH的score function"></p>
+</br>
+
+<h4 id="向量投影"><a href="#向量投影" class="headerlink" title="向量投影"></a>向量投影</h4><p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/proj.png" srcset="/img/loading.gif" lazyload alt="向量投影公式"></p>
+<blockquote>
+<p>TransH 限制了 W_r 的模长为 1，所以公式长那样。</p>
+</blockquote>
+</br>
+
+<h4 id="超平面"><a href="#超平面" class="headerlink" title="超平面"></a>超平面</h4><p>超平面（hyperplane）是一个比所嵌套的空间低一维的线性子空间。具体来说，在二维空间中，超平面是一条直线；在三维空间中，它是一个平面；在更高维度的空间中，它是一个超曲面。</p>
+</br>
+
+<h2 id="Our-Method"><a href="#Our-Method" class="headerlink" title="Our Method"></a>Our Method</h2><h3 id="TransR"><a href="#TransR" class="headerlink" title="TransR"></a>TransR</h3><p>TransR 在不同的语义空间表示实体和关系，并用 relation-specific 的矩阵将两个空间连接起来。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransR2.png" srcset="/img/loading.gif" lazyload alt="变量定义"></p>
+<p>实体空间的维度和关系空间的维度不一定相同，由矩阵 M 完成从实体空间到关系空间的投影。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TransR3.png" srcset="/img/loading.gif" lazyload alt="score function"></p>
+<p>score function 的模式和 TransE、TransH 的相同，此外还增加了一些约束。</p>
+</br>
+
+<h3 id="Cluster-based-TransR-CTransR"><a href="#Cluster-based-TransR-CTransR" class="headerlink" title="Cluster-based TransR (CTransR)"></a>Cluster-based TransR (CTransR)</h3><p>不管是 TransE、TransH 还是 TransR，为每个 relation 都只学习了一个矩阵 M，这意味着它们不能拟合到该关系下的所有实体对，因为关系的模式相当多样。</p>
+<p>基本思想：</p>
+<p>首先将输入实例分成几个组。对于特定的关系 r，将它对应的所有实体对 (h, t) 聚类成多个组。对于每个组里的实体对，它们都应该表现出相同的 r 关系。所有实体对 (h, t) 都用它们的向量偏移量 (h − t) 来进行聚类，其中 h 和 t 是使用 TransE 获得。然后，我们分别为每个聚类学习关系向量 r_c，为每个关系学习矩阵 M_r。</p>
+<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CTransR.png" srcset="/img/loading.gif" lazyload alt="CTransR的score function"></p>
+<p>r_c-r 保证 cluster-specific 的关系向量 r_c 不要离原始的关系向量 r 太远，CTransR 也对 h、r、t 和 M 的范数有约束。</p>
+</br>
+
+<h3 id="Training-Method-and-Implementation-Details"><a href="#Training-Method-and-Implementation-Details" class="headerlink" title="Training Method and Implementation Details"></a>Training Method and Implementation Details</h3><p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/loss.png" srcset="/img/loading.gif" lazyload alt="损失函数"></p>
+<p>S 是正确的三元组（正例）的集合，S’ 是错误的三元组（负例）的集合。</p>
+<p><strong>负例的产生</strong></p>
+<p>通常我们得到的知识库是三元组的集合，所有在知识库中出现了的三元组都会被看作是正例。我们通常使用替换法来获取负例，即用其它实体替换掉正例中的实体。对于三元组 (h, r, t)，我们会随机抽取知识库中的某个实体 h’ 来替换 h，或者用某个实体 t’ 来替换 t，这样我们就得到了两个负例 (h’, r, t) 和 (h, r, t’)。</p>
+<p>对于那些 1-to-N、N-to-1 和 N-to-N 关系，通过提供更多替换“one”边的机会，可以减少生成 false-negative（假阴性）实例的机会。</p>
+<p><strong>反向传播和初始化</strong></p>
+<p>反向传播用的是随机梯度下降法（stochastic gradient descent, SGD）；为了避免过拟合，使用 TransE 的结果来初始化实体和关系的向量，使用单位矩阵来初始化关系矩阵。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" class="print-no-link">#知识图谱</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Learning Entity and Relation Embeddings for Knowledge Graph Completion</div>
+      <div>http://example.com/2023/11/19/Learning Entity and Relation Embeddings for Knowledge Graph Completion/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Envoutante</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/17/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/" title="知识图谱构建流程详解">
+                        <span class="hidden-mobile">知识图谱构建流程详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
