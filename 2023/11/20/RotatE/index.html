@@ -33,6 +33,7 @@
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/HP.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE2.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RP.png">
+<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE6.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE3.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE5.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp3.png">
@@ -40,7 +41,7 @@
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/NS.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/NS2.png">
 <meta property="article:published_time" content="2023-11-20T09:17:27.740Z">
-<meta property="article:modified_time" content="2023-11-20T14:21:04.863Z">
+<meta property="article:modified_time" content="2023-11-26T12:13:14.380Z">
 <meta property="article:author" content="Envoutante">
 <meta property="article:tag" content="知识图谱">
 <meta name="twitter:card" content="summary_large_image">
@@ -237,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.4k 字
+          2.7k 字
         
       </span>
     
@@ -248,7 +249,7 @@
         
         
         
-          20 分钟
+          23 分钟
         
       </span>
     
@@ -300,7 +301,7 @@
 </br>
 
 <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>我们研究<strong>实体和关系的低维向量表示</strong>的目的就是为了实现好的<strong>链路预测</strong>。</p>
-<p>本文提出了一种新的知识图片嵌入方法 RotatE，该方法能够建模和推断各种关系模式（relation patterns），包括对称和反对称关系、逆关系、复合关系。</p>
+<p>本文提出了一种新的知识图片嵌入方法 RotatE，该方法能够建模和推断各种关系模式（relation patterns），包括对称和反对称关系、逆向关系、组合关系。</p>
 <p>RotatE 将关系定义为，能够让源实体到目的实体的一个旋转。</p>
 <p>此外，我们提出了一种新的<strong>自对抗负采样技术</strong>来有效地训练 RotatE 模型。</p>
 <p>之前产生负例的方法是，替换正例中的实体。</p>
@@ -322,12 +323,22 @@
 <li>推荐系统（recommender systems）</li>
 <li>自然语言处理（natural language processing）</li>
 </ul>
-<p>关系模式：</p>
-<ul>
-<li>对称&#x2F;反对称关系（symmetry&#x2F;antisymmetry），如：婚姻&#x2F;父子关系</li>
-<li>逆关系（inversion），如：上位词和下位词</li>
-<li>复合关系（composition），如：我的母亲的丈夫是我的父亲</li>
+</br>
+
+<h3 id="关系模式-1"><a href="#关系模式-1" class="headerlink" title="关系模式"></a>关系模式</h3><ul>
+<li>对称&#x2F;反对称关系（symmetry&#x2F;antisymmetry），如：婚姻&#x2F;父子关系。如果在图谱中存在 (x, 父子, y) 的三元组，则可以推断出 (y, 父子, x) 也成立。</li>
+<li>逆向关系（inversion），如：上位词和下位词。如果在图谱中存在 (x, 雇佣, y) 的三元组，可以推断出 (y, 被雇佣, x) 也成立。</li>
+<li>组合关系（composition），如：我的母亲的丈夫是我的父亲。</li>
 </ul>
+<hr>
+<p>Q：为什么对称关系和反对称关系会被归为同一种关系模式？</p>
+<p>A：因为它们具有相似的性质：如果一个关系在一个方向上成立，那么在相反的方向上也会成立或不成立。</p>
+<p>具体来说：</p>
+<ul>
+<li>对称关系：如果 (x, r, y) 成立，则可推断出 (y, r, x) 也成立，即两个实体之间的顺序不影响该关系的成立。</li>
+<li>反对称关系：如果 (x, r, y) 成立，则可推断出 (y, r, x) 不成立，即两个实体之间的顺序很重要。</li>
+</ul>
+<p>尽管对称关系和反对称关系在表现方式上有所不同，但它们都具有关系在一定程度上从一个实体到另一个实体的转换性质。因此，在关系模式的分类中将它们归为同一类，以便更好地进行建模和推断。</p>
 </br>
 
 <h3 id="欧拉公式"><a href="#欧拉公式" class="headerlink" title="欧拉公式"></a>欧拉公式</h3><p><strong>欧拉公式</strong></p>
@@ -359,14 +370,17 @@
 <h4 id="从关系模式的角度理解"><a href="#从关系模式的角度理解" class="headerlink" title="从关系模式的角度理解"></a>从关系模式的角度理解</h4><p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE2.png" srcset="/img/loading.gif" lazyload alt="从关系模式的角度理解"></p>
 <ul>
 <li>对称关系：r 的每个 r_i 都等于 1 或 -1，即 r_i 的角度为 π 的整数倍</li>
-<li>逆关系：r_1 和 r_2 共轭，即实数部分相同而虚数部分互为相反数</li>
-<li>复合关系：r_3 可以由 r_1 通过 r_2 旋转而来</li>
+<li>逆向关系：r_1 和 r_2 共轭，即实数部分相同而虚数部分互为相反数</li>
+<li>组合关系：r_3 可以由 r_1 通过 r_2 旋转而来</li>
 </ul>
 </br>
 
-<h2 id="Our-Method"><a href="#Our-Method" class="headerlink" title="Our Method"></a>Our Method</h2><h3 id="三种关系模式"><a href="#三种关系模式" class="headerlink" title="三种关系模式"></a>三种关系模式</h3><p>文中对“对称&#x2F;反对称关系”、“逆关系”、“复合关系”的定义如下：</p>
+<h2 id="Our-Method"><a href="#Our-Method" class="headerlink" title="Our Method"></a>Our Method</h2><h3 id="三种关系模式"><a href="#三种关系模式" class="headerlink" title="三种关系模式"></a>三种关系模式</h3><p>文中对“对称&#x2F;反对称关系”、“逆向关系”、“组合关系”的定义如下：</p>
 <p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RP.png" srcset="/img/loading.gif" lazyload alt="关系模式的定义"></p>
 <p>作者说，目前没有一种模型可以同时很好地表示上述三种关系模式。</p>
+</br>
+
+<h3 id="模型对比"><a href="#模型对比" class="headerlink" title="模型对比"></a>模型对比</h3><p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE6.png" srcset="/img/loading.gif" lazyload alt="模型对比"></p>
 </br>
 
 <h3 id="RotatE-1"><a href="#RotatE-1" class="headerlink" title="RotatE"></a>RotatE</h3><p>受到欧拉公式的启发，作者把关系 relation 定义为：一种能让头实体 h 到达尾实体 t 的旋转，而且是一种 element-wise 的旋转，即向量中的各个元素是分别旋转的（t_i&#x3D;h_i*r_i）。具体定义如下：</p>
@@ -386,7 +400,7 @@
 <p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp3.png" srcset="/img/loading.gif" lazyload alt="Lp-norm"></p>
 </br>
 
-<h4 id="与-TransE-的比较"><a href="#与-TransE-的比较" class="headerlink" title="与 TransE 的比较"></a>与 TransE 的比较</h4><p>RotatE 能区分“对称”关系，而 TransE 不能区分“对称”关系。所谓能够区分关系模式，就是指能够区分实体的不同。</p>
+<h4 id="与-TransE-相比"><a href="#与-TransE-相比" class="headerlink" title="与 TransE 相比"></a>与 TransE 相比</h4><p>RotatE 能区分“对称”关系，而 TransE 不能区分“对称”关系。所谓能够区分关系模式，就是指能够区分实体的不同。</p>
 <p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE4.png" srcset="/img/loading.gif" lazyload alt="TransE和RotatE&lt;/br&gt;translation是平移，rotation是旋转"></p>
 <p>“The reason is that in TransE, <strong>any symmetric relation will be represented by a 0 translation vector</strong>. As a result, this will push the entities with symmetric relations to be close to each other in the embedding space.”</p>
 <p>因此，TransE 会把“对称”关系中的头实体和尾实体误认为是同一个实体。而 RotatE 不会遇到这种问题，头实体要通过关系旋转 180°才能到达尾实体，因此它俩的向量表示不同，从而能够被区分。此外，不同的“对称”关系也能由不同的向量来表示，而不是被笼统地归纳为 0 向量。</p>
@@ -468,6 +482,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/11/21/Attention-based%20KG/" title="Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
