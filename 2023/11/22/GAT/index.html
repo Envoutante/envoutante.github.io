@@ -16,12 +16,12 @@
   <meta name="author" content="Envoutante">
   <meta name="keywords" content="">
   
-    <meta name="description" content="GRAPH ATTENTION NETWORKS参考博客 知乎：向往的 GAT 知乎：一文搞懂激活函数   GRAPH ATTENTIONAL LAYERGGAM 的变量定义和 GAT 的一模一样：  N 表示节点的总数，F 是输入向量 h_i 的维度，F’是输出向量 h_i’的维度。 升维的好处：“为了获得足够的表达能力，将输入特征转换为高维特征。”这需要一个可学习的线性变换 W，其维度是 F’">
+    <meta name="description" content="GRAPH ATTENTION NETWORKS 参考博客 知乎：向往的 GAT 知乎：一文搞懂激活函数   GRAPH ATTENTIONAL LAYER GGAM 的变量定义和 GAT 的一模一样：   变量定义  N 表示节点的总数，F 是输入向量 h_i 的维度，F&#39;是输出向量 h_i&#39;的维度。 升维的好处：“为了获得足够的表达能力，将输入特征转换为高维特征。”">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GRAPH ATTENTION NETWORKS">
 <meta property="og:url" content="http://example.com/2023/11/22/GAT/index.html">
 <meta property="og:site_name" content="Envoutante&#39;s Blog">
-<meta property="og:description" content="GRAPH ATTENTION NETWORKS参考博客 知乎：向往的 GAT 知乎：一文搞懂激活函数   GRAPH ATTENTIONAL LAYERGGAM 的变量定义和 GAT 的一模一样：  N 表示节点的总数，F 是输入向量 h_i 的维度，F’是输出向量 h_i’的维度。 升维的好处：“为了获得足够的表达能力，将输入特征转换为高维特征。”这需要一个可学习的线性变换 W，其维度是 F’">
+<meta property="og:description" content="GRAPH ATTENTION NETWORKS 参考博客 知乎：向往的 GAT 知乎：一文搞懂激活函数   GRAPH ATTENTIONAL LAYER GGAM 的变量定义和 GAT 的一模一样：   变量定义  N 表示节点的总数，F 是输入向量 h_i 的维度，F&#39;是输出向量 h_i&#39;的维度。 升维的好处：“为了获得足够的表达能力，将输入特征转换为高维特征。”">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT7.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT11.png">
@@ -31,9 +31,8 @@
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT12.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT13.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT14.png">
-<meta property="og:image" content="https://3.bp.blogspot.com/-C9zZb522B6U/XHUf3eUr5UI/AAAAAAAAJj4/7Gn2ht4cJ5cOa7pAbTC_wiM8GZaBpoI4gCLcBGAs/w1200-h630-p-k-no-nu/ActivationFunctions.png">
 <meta property="article:published_time" content="2023-11-22T01:30:26.654Z">
-<meta property="article:modified_time" content="2023-11-22T07:29:29.518Z">
+<meta property="article:modified_time" content="2023-12-01T07:39:47.099Z">
 <meta property="article:author" content="Envoutante">
 <meta property="article:tag" content="知识图谱">
 <meta name="twitter:card" content="summary_large_image">
@@ -230,7 +229,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          955 字
+          1.1k 字
         
       </span>
     
@@ -241,7 +240,7 @@
         
         
         
-          8 分钟
+          9 分钟
         
       </span>
     
@@ -283,44 +282,93 @@
             
               <div class="markdown-body">
                 
-                <h1 id="GRAPH-ATTENTION-NETWORKS"><a href="#GRAPH-ATTENTION-NETWORKS" class="headerlink" title="GRAPH ATTENTION NETWORKS"></a>GRAPH ATTENTION NETWORKS</h1><p><strong>参考博客</strong></p>
-<p>知乎：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/81350196">向往的 GAT</a></p>
-<p>知乎：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/172254089">一文搞懂激活函数</a></p>
-</br>
-
-<h2 id="GRAPH-ATTENTIONAL-LAYER"><a href="#GRAPH-ATTENTIONAL-LAYER" class="headerlink" title="GRAPH ATTENTIONAL LAYER"></a>GRAPH ATTENTIONAL LAYER</h2><p>GGAM 的变量定义和 GAT 的一模一样：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT7.png" srcset="/img/loading.gif" lazyload alt="变量定义"></p>
-<p>N 表示节点的总数，F 是输入向量 h_i 的维度，F’是输出向量 h_i’的维度。</p>
-<p>升维的好处：“为了获得足够的表达能力，将输入特征转换为高维特征。”这需要一个可学习的线性变换 W，其维度是 F’×F。</p>
-</br>
-
-<h3 id="单头注意力"><a href="#单头注意力" class="headerlink" title="单头注意力"></a>单头注意力</h3><p>下图描述了计算 relative attention value 的整个流程：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT11.png" srcset="/img/loading.gif" lazyload alt="attention过程"></p>
-</br>
-
+                <h1 id="graph-attention-networks">GRAPH ATTENTION NETWORKS</h1>
+<p><strong>参考博客</strong></p>
+<p>知乎：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/81350196">向往的
+GAT</a></p>
+<p>知乎：<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/172254089">一文搞懂激活函数</a></p>
+<p> </p>
+<h2 id="graph-attentional-layer">GRAPH ATTENTIONAL LAYER</h2>
+<p>GGAM 的变量定义和 GAT 的一模一样：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT7.png" srcset="/img/loading.gif" lazyload
+alt="变量定义" />
+<figcaption aria-hidden="true">变量定义</figcaption>
+</figure>
+<p>N 表示节点的总数，F 是输入向量 h_i 的维度，F'是输出向量
+h_i'的维度。</p>
+<p>升维的好处：“为了获得足够的表达能力，将输入特征转换为高维特征。”这需要一个可学习的线性变换
+W，其维度是 F'×F。</p>
+<p> </p>
+<h3 id="单头注意力">单头注意力</h3>
+<p>下图描述了计算 relative attention value 的整个流程：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT11.png" srcset="/img/loading.gif" lazyload
+alt="attention过程" />
+<figcaption aria-hidden="true">attention过程</figcaption>
+</figure>
+<p> </p>
 <p>首先使用注意力机制 a 计算 absolute attention value：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT8.png" srcset="/img/loading.gif" lazyload alt="absolute attention value"></p>
-<p>“In its most general formulation, the model allows every node to attend on every other node, <strong>dropping all structural information</strong>.”</p>
-<p>注意力机制允许每个节点都能关注到其它节点，但也因此丢弃了所有的位置信息。我猜，这就是为什么 Transformer 使用了位置编码。</p>
-<p>然后使用 Sotfmax 归一化 absolute attention value，得到 relative attention value：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT9.png" srcset="/img/loading.gif" lazyload alt="relative attention value"></p>
-<p>这里采用的是 <strong>masked 注意力机制</strong>，让每个节点只能关注到自己的邻居节点。具体来说，本文只关注直接邻居。</p>
-<p>本文采用的是 FFN 来计算 absolute attention value，因此公式可改写为：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT10.png" srcset="/img/loading.gif" lazyload alt="具体的relative attention value"></p>
-<p>FFN 的激活函数用的是 LeakyReLU。a 转置的维度为 1×2F’，Wh_i||Wh_j 的维度为 2F’×1，因此运算结果为一个实数。</p>
-<p>最后 h_i’仍然是自己邻居的加权求和：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT12.png" srcset="/img/loading.gif" lazyload alt="输出向量"></p>
-<p>权值用的就是 relative attention value。此外，还用了一个非线性函数 σ，其实就是一个激活函数。</p>
-</br>
-
-<h3 id="多头注意力"><a href="#多头注意力" class="headerlink" title="多头注意力"></a>多头注意力</h3><p>“To stabilize the learning process of self-attention, we have found extending our mechanism to employ multi-head attention to be beneficial, similarly to <strong>Vaswani et al. (2017)</strong>.”模仿 Transformer 使用多头注意力机制。</p>
-<p>对于拼接版输出，h_i’的维度将会是 K*F’：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT13.png" srcset="/img/loading.gif" lazyload alt="multi-head"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT8.png" srcset="/img/loading.gif" lazyload
+alt="absolute attention value" />
+<figcaption aria-hidden="true">absolute attention value</figcaption>
+</figure>
+<p>“In its most general formulation, the model allows every node to
+attend on every other node, <strong>dropping all structural
+information</strong>.”</p>
+<p>注意力机制允许每个节点都能关注到其它节点，但也因此丢弃了所有的位置信息。我猜，这就是为什么
+Transformer 使用了位置编码。</p>
+<p>然后使用 Sotfmax 归一化 absolute attention value，得到 relative
+attention value：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT9.png" srcset="/img/loading.gif" lazyload
+alt="relative attention value" />
+<figcaption aria-hidden="true">relative attention value</figcaption>
+</figure>
+<p>这里采用的是 <strong>masked
+注意力机制</strong>，让每个节点只能关注到自己的邻居节点。具体来说，本文只关注直接邻居。</p>
+<p>本文采用的是 FFN 来计算 absolute attention
+value，因此公式可改写为：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT10.png" srcset="/img/loading.gif" lazyload
+alt="具体的relative attention value" />
+<figcaption aria-hidden="true">具体的relative attention
+value</figcaption>
+</figure>
+<p>FFN 的激活函数用的是 LeakyReLU。a 转置的维度为 1×2F'，Wh_i||Wh_j
+的维度为 2F'×1，因此运算结果为一个实数。</p>
+<p>最后 h_i'仍然是自己邻居的加权求和：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT12.png" srcset="/img/loading.gif" lazyload
+alt="输出向量" />
+<figcaption aria-hidden="true">输出向量</figcaption>
+</figure>
+<p>权值用的就是 relative attention value。此外，还用了一个非线性函数
+σ，其实就是一个激活函数。</p>
+<p> </p>
+<h3 id="多头注意力">多头注意力</h3>
+<p>“To stabilize the learning process of self-attention, we have found
+extending our mechanism to employ multi-head attention to be beneficial,
+similarly to <strong>Vaswani et al. (2017)</strong>.”模仿 Transformer
+使用多头注意力机制。</p>
+<p>对于拼接版输出，h_i'的维度将会是 K*F'：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT13.png" srcset="/img/loading.gif" lazyload
+alt="multi-head" />
+<figcaption aria-hidden="true">multi-head</figcaption>
+</figure>
 <p>本文采用的是 3 头，下图非常形象：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT14.png" srcset="/img/loading.gif" lazyload alt="3-head attention"></p>
-</br>
-
-<h3 id="LeakyReLU"><a href="#LeakyReLU" class="headerlink" title="LeakyReLU"></a>LeakyReLU</h3><p><img src="https://3.bp.blogspot.com/-C9zZb522B6U/XHUf3eUr5UI/AAAAAAAAJj4/7Gn2ht4cJ5cOa7pAbTC_wiM8GZaBpoI4gCLcBGAs/w1200-h630-p-k-no-nu/ActivationFunctions.png" srcset="/img/loading.gif" lazyload></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT14.png" srcset="/img/loading.gif" lazyload
+alt="3-head attention" />
+<figcaption aria-hidden="true">3-head attention</figcaption>
+</figure>
+<p> </p>
+<h3 id="leakyrelu">LeakyReLU</h3>
+<p><img
+src="https://3.bp.blogspot.com/-C9zZb522B6U/XHUf3eUr5UI/AAAAAAAAJj4/7Gn2ht4cJ5cOa7pAbTC_wiM8GZaBpoI4gCLcBGAs/w1200-h630-p-k-no-nu/ActivationFunctions.png" srcset="/img/loading.gif" lazyload /></p>
 
                 
               </div>
@@ -458,6 +506,12 @@
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -651,6 +705,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

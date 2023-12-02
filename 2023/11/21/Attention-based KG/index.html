@@ -16,12 +16,12 @@
   <meta name="author" content="Envoutante">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs模型图莫名其妙；解码器是 CNN 所以没看   参考博客 博客：论文阅读：Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs(2019">
+    <meta name="description" content="Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs 模型图莫名其妙；解码器是 CNN 所以没看   参考博客 博客：论文阅读：Learning Attention-based Embeddings for Relation Prediction in Knowledge Gr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs">
 <meta property="og:url" content="http://example.com/2023/11/21/Attention-based%20KG/index.html">
 <meta property="og:site_name" content="Envoutante&#39;s Blog">
-<meta property="og:description" content="Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs模型图莫名其妙；解码器是 CNN 所以没看   参考博客 博客：论文阅读：Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs(2019">
+<meta property="og:description" content="Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs 模型图莫名其妙；解码器是 CNN 所以没看   参考博客 博客：论文阅读：Learning Attention-based Embeddings for Relation Prediction in Knowledge Gr">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/KG.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp4.png">
@@ -40,12 +40,11 @@
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM6.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM7.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Res1.png">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM10.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/n-hop.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM8.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM9.png">
 <meta property="article:published_time" content="2023-11-21T11:51:21.006Z">
-<meta property="article:modified_time" content="2023-11-22T01:30:05.269Z">
+<meta property="article:modified_time" content="2023-12-01T07:40:01.949Z">
 <meta property="article:author" content="Envoutante">
 <meta property="article:tag" content="知识图谱">
 <meta name="twitter:card" content="summary_large_image">
@@ -242,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.2k 字
+          3.4k 字
         
       </span>
     
@@ -253,7 +252,7 @@
         
         
         
-          27 分钟
+          29 分钟
         
       </span>
     
@@ -295,136 +294,269 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Learning-Attention-based-Embeddings-for-Relation-Prediction-in-Knowledge-Graphs"><a href="#Learning-Attention-based-Embeddings-for-Relation-Prediction-in-Knowledge-Graphs" class="headerlink" title="Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs"></a>Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs</h1><p><u>模型图莫名其妙；解码器是 CNN 所以没看</u></p>
-</br>
-
+                <h1
+id="learning-attention-based-embeddings-for-relation-prediction-in-knowledge-graphs">Learning
+Attention-based Embeddings for Relation Prediction in Knowledge
+Graphs</h1>
+<p><u>模型图莫名其妙；解码器是 CNN 所以没看</u></p>
+<p> </p>
 <p><strong>参考博客</strong></p>
-<p>博客：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanch01/p/note_Learning-Attention-based-Embeddings-for-Relation-Prediction-in-Knowledge-Graphs.html">论文阅读：Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs(2019 ACL)</a></p>
-</br>
-
-<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>链路预测（link prediction）或称关系预测（relation prediction），对应到知识库补全（knowledge base completion）任务，它是通过“预测给定的三元组是否有效”来实现的。</p>
-<p>我们观察到 CNN-based 的 KG 向量分开地处理各个三元组，没有考虑到一个三元组的邻域中的信息。</p>
-<p>为此，我们提出了一种 attention-based 的特征向量，它能捕获任意实体的邻域中的实体和关系特征。</p>
+<p>博客：<a
+target="_blank" rel="noopener" href="https://www.cnblogs.com/yanch01/p/note_Learning-Attention-based-Embeddings-for-Relation-Prediction-in-Knowledge-Graphs.html">论文阅读：Learning
+Attention-based Embeddings for Relation Prediction in Knowledge
+Graphs(2019 ACL)</a></p>
+<p> </p>
+<h2 id="abstract">Abstract</h2>
+<p>链路预测（link prediction）或称关系预测（relation
+prediction），对应到知识库补全（knowledge base
+completion）任务，它是通过“预测给定的三元组是否有效”来实现的。</p>
+<p>我们观察到 CNN-based 的 KG
+向量分开地处理各个三元组，没有考虑到一个三元组的邻域中的信息。</p>
+<p>为此，我们提出了一种 attention-based
+的特征向量，它能捕获任意实体的邻域中的实体和关系特征。</p>
 <p>此外，我们还在模型中封装了<strong>关系簇和多跳关系</strong>。</p>
 <p><strong>关系簇</strong>是指相似或相关的关系被组织成一个簇或集合。<strong>多跳关系</strong>是指获取两个实体之间的关系需要通过中间的实体和关系来实现跳转。</p>
-</br>
-
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>知识图（KG）将知识库（knowledge bases, KB）表示为有向图（directed graph），其节点（node）和边（edge）分别表示实体和实体之间的关系。</p>
-<p>主流的链路预测模型都是 knowledge embedding-based 的模型，分为两派：<strong>Trans 系列和 CNN-based 系列</strong>，但是它们都是分开处理各个三元组的，从而忽略了三元组邻域中的信息。</p>
+<p> </p>
+<h2 id="introduction">Introduction</h2>
+<p>知识图（KG）将知识库（knowledge bases, KB）表示为有向图（directed
+graph），其节点（node）和边（edge）分别表示实体和实体之间的关系。</p>
+<p>主流的链路预测模型都是 knowledge embedding-based
+的模型，分为两派：<strong>Trans 系列和 CNN-based
+系列</strong>，但是它们都是分开处理各个三元组的，从而忽略了三元组邻域中的信息。</p>
 <blockquote>
 <p>基于知识嵌入的模型：将实体和关系映射到低维向量空间，并且使相似的实体和关系在向量空间中的距离较近。</p>
 </blockquote>
-<p>图注意力网络（graph attention networks, GAT）已被证明可以关注图谱中最相关的部分，即 1 跳（1-hop）邻域中的节点（实体）特征。</p>
+<p>图注意力网络（graph attention networks,
+GAT）已被证明可以关注图谱中最相关的部分，即 1
+跳（1-hop）邻域中的节点（实体）特征。</p>
 <p>作者的 Idea：</p>
 <ul>
 <li>捕捉多跳（multi-hop）关系</li>
 <li>封装一个实体在不同关系中的角色</li>
 <li>把语义相似的关系簇中的知识整合起来</li>
 </ul>
-<p>我们的模型<strong>将不同的权重（注意力）分配给邻域中的节点</strong>，并通过层来传播注意力。然而，随着模型深度的增加，远距离实体的贡献呈指数下降。为了解决这个问题，我们使用<strong>关系组合（relation composition）</strong>在 n-hop 邻居之间引入辅助边，从而实现实体之间的知识流动。</p>
-<p>我们采用编码器-解码器架构，其中我们的<strong>广义图注意力模型（generalized graph attention model）</strong>和 <strong>ConvKB（Nguyen et al., 2018）</strong>分别扮演编码器和解码器的角色。</p>
-</br>
-
-<h2 id="Our-Approach"><a href="#Our-Approach" class="headerlink" title="Our Approach"></a>Our Approach</h2><h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><p>KG 中的符号和定义如下图所示：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/KG.png" srcset="/img/loading.gif" lazyload alt="KG中的符号和定义"></p>
-<p>一个知识图谱被表示为 G&#x3D;(E, R)：</p>
+<p>我们的模型<strong>将不同的权重（注意力）分配给邻域中的节点</strong>，并通过层来传播注意力。然而，随着模型深度的增加，远距离实体的贡献呈指数下降。为了解决这个问题，我们使用<strong>关系组合（relation
+composition）</strong>在 n-hop
+邻居之间引入辅助边，从而实现实体之间的知识流动。</p>
+<p>我们采用编码器-解码器架构，其中我们的<strong>广义图注意力模型（generalized
+graph attention model）</strong>和 <strong>ConvKB（Nguyen et al.,
+2018）</strong>分别扮演编码器和解码器的角色。</p>
+<p> </p>
+<h2 id="our-approach">Our Approach</h2>
+<h3 id="background">Background</h3>
+<p>KG 中的符号和定义如下图所示：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/KG.png" srcset="/img/loading.gif" lazyload
+alt="KG中的符号和定义" />
+<figcaption aria-hidden="true">KG中的符号和定义</figcaption>
+</figure>
+<p>一个知识图谱被表示为 G=(E, R)：</p>
 <ul>
 <li>G：graph</li>
 <li>E：entity，这里表示实体（节点）的集合</li>
 <li>R：relation，这里表示关系（边）的集合</li>
 </ul>
-<p>三元组 (e_s, r, e_o)，表示的是 e_s 和 e_o 之间的边 r（但原文好像把下标打错了）。打分函数（score function）f 为每个三元组 (e_s, r, e_o) 打分，判断该三元组是否有效。下图是一个链路预测的例子：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp4.png" srcset="/img/loading.gif" lazyload alt="链路预测举例"></p>
+<p>三元组 (e_s, r, e_o)，表示的是 e_s 和 e_o 之间的边
+r（但原文好像把下标打错了）。打分函数（score function）f 为每个三元组
+(e_s, r, e_o) 打分，判断该三元组是否有效。下图是一个链路预测的例子：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp4.png" srcset="/img/loading.gif" lazyload
+alt="链路预测举例" />
+<figcaption aria-hidden="true">链路预测举例</figcaption>
+</figure>
 <ul>
-<li>根据 (CN, born_in, London) 和 (London, capital_of, UK) 来预测 (CN, nationality, UK)</li>
-<li>根据 (CN, born_in, London) 和 (CN, brother_of, JN) 来预测 (JN, born_in, London)</li>
-<li>根据 (CN, colleague, TH) 和 (CN, colleague, LD) 来预测 (TH, colleague, LD)</li>
+<li>根据 (CN, born_in, London) 和 (London, capital_of, UK) 来预测 (CN,
+nationality, UK)</li>
+<li>根据 (CN, born_in, London) 和 (CN, brother_of, JN) 来预测 (JN,
+born_in, London)</li>
+<li>根据 (CN, colleague, TH) 和 (CN, colleague, LD) 来预测 (TH,
+colleague, LD)</li>
 </ul>
-</br>
-
-<h3 id="GATs"><a href="#GATs" class="headerlink" title="GATs"></a>GATs</h3><p>GATs 学习为邻域中的节点分配权重，而不是像 GCNs（Graph convolutional networks）一样平等地对待每一个节点。</p>
+<p> </p>
+<h3 id="gats">GATs</h3>
+<p>GATs 学习为邻域中的节点分配权重，而不是像 GCNs（Graph convolutional
+networks）一样平等地对待每一个节点。</p>
 <p>下图对变量进行定义：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT1.png" srcset="/img/loading.gif" lazyload alt="变量定义"></p>
-<p>输入向量为 X，经过注意力层后得到输出向量 X’。其中，X 和 X’的每个元素表示的是每个实体的向量，N 是实体的总数。</p>
-</br>
-
-<h4 id="单头注意力"><a href="#单头注意力" class="headerlink" title="单头注意力"></a>单头注意力</h4><p>下图计算实体 e_i 和 e_j 之间的相似度：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT2.png" srcset="/img/loading.gif" lazyload alt="计算相似度"></p>
-<p>和 Transformer 中采用的操作一样，实体 e_i 和 e_j 的向量 x_i 和 x_j 先和一个线性变换矩阵 W 相乘，再被送入注意力层中。如下图所示：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/T.png" srcset="/img/loading.gif" lazyload alt="Transformer的multi-head attention"></p>
-<p>公式（1）中的 a 表示任意一种计算相似度的函数，比如：向量点乘、余弦相似度、曼哈顿编码等。最后得到的结果 e_ij 就是实体 e_i 和 e_j 之间的相似度。相似度（attention score）衡量了边 (e_i, e_j) 对源节点 e_i 的重要性。</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT1.png" srcset="/img/loading.gif" lazyload
+alt="变量定义" />
+<figcaption aria-hidden="true">变量定义</figcaption>
+</figure>
+<p>输入向量为 X，经过注意力层后得到输出向量 X'。其中，X 和
+X'的每个元素表示的是每个实体的向量，N 是实体的总数。</p>
+<p> </p>
+<h4 id="单头注意力">单头注意力</h4>
+<p>下图计算实体 e_i 和 e_j 之间的相似度：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT2.png" srcset="/img/loading.gif" lazyload
+alt="计算相似度" />
+<figcaption aria-hidden="true">计算相似度</figcaption>
+</figure>
+<p>和 Transformer 中采用的操作一样，实体 e_i 和 e_j 的向量 x_i 和 x_j
+先和一个线性变换矩阵 W 相乘，再被送入注意力层中。如下图所示：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/T.png" srcset="/img/loading.gif" lazyload
+alt="Transformer的multi-head attention" />
+<figcaption aria-hidden="true">Transformer的multi-head
+attention</figcaption>
+</figure>
+<p>公式（1）中的 a
+表示任意一种计算相似度的函数，比如：向量点乘、余弦相似度、曼哈顿编码等。最后得到的结果
+e_ij 就是实体 e_i 和 e_j 之间的相似度。相似度（attention score）衡量了边
+(e_i, e_j) 对源节点 e_i 的重要性。</p>
 <p>下图是最终得到的 attention value：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT3.png" srcset="/img/loading.gif" lazyload alt="注意力层的输出"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT3.png" srcset="/img/loading.gif" lazyload
+alt="注意力层的输出" />
+<figcaption aria-hidden="true">注意力层的输出</figcaption>
+</figure>
 <p>下图是 GATs 单头 attention 的整个计算过程：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT4.png" srcset="/img/loading.gif" lazyload alt="attention value计算过程"></p>
-<p>区别在于，Transformer 是拿整个矩阵进行说明的，而本文是拿矩阵中的一个向量进行说明的。此外，在输出 X’之前还加了一个非线性函数 σ。</p>
-</br>
-
-<h4 id="多头注意力"><a href="#多头注意力" class="headerlink" title="多头注意力"></a>多头注意力</h4><p>下图是采用多头注意力的结果：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT5.png" srcset="/img/loading.gif" lazyload alt="multi-head attention"></p>
-<p>和 Transformer 一样采用多头注意力机制，我猜测还是把 W 劈成了多个 W。</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT4.png" srcset="/img/loading.gif" lazyload
+alt="attention value计算过程" />
+<figcaption aria-hidden="true">attention value计算过程</figcaption>
+</figure>
+<p>区别在于，Transformer
+是拿整个矩阵进行说明的，而本文是拿矩阵中的一个向量进行说明的。此外，在输出
+X'之前还加了一个非线性函数 σ。</p>
+<p> </p>
+<h4 id="多头注意力">多头注意力</h4>
+<p>下图是采用多头注意力的结果：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT5.png" srcset="/img/loading.gif" lazyload
+alt="multi-head attention" />
+<figcaption aria-hidden="true">multi-head attention</figcaption>
+</figure>
+<p>和 Transformer 一样采用多头注意力机制，我猜测还是把 W 劈成了多个
+W。</p>
 <p>最终取各个头的结果的均值作为输出，而不是把它们拼接起来：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT6.png" srcset="/img/loading.gif" lazyload alt="输出向量"></p>
-</br>
-
-<h3 id="GGAM"><a href="#GGAM" class="headerlink" title="GGAM"></a>GGAM</h3><p>“In KGs, entities play different roles depending on the relation they are associated with.”</p>
-<p>在知识图谱中，实体在不同关系中扮演着不同的角色，而 GATs 忽略了关系的不同，平等地对待邻域中的每一个节点。</p>
-<p>在 GGAM 中，注意力层的输入有两个：实体向量的矩阵 H 和关系向量的矩阵 G，输出矩阵分别为 H’和 G’。如下图所示：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM.png" srcset="/img/loading.gif" lazyload alt="变量定义"></p>
-<p>实体 e_i 不再是仅仅注意实体 e_j，而是注意自己所处的三元组 (e_i, r_k, e_j)。以下是三元组的向量表示：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM2.png" srcset="/img/loading.gif" lazyload alt="三元组的向量表示"></p>
-<p>三元组向量 c_ijk 基于实体向量 h_i、实体向量 h_j 和关系向量 g_k 的拼接，然后再乘了一个线性变换矩阵 W。</p>
-</br>
-
-<h4 id="单头注意力-1"><a href="#单头注意力-1" class="headerlink" title="单头注意力"></a>单头注意力</h4><p>名词说明：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GAT6.png" srcset="/img/loading.gif" lazyload
+alt="输出向量" />
+<figcaption aria-hidden="true">输出向量</figcaption>
+</figure>
+<p> </p>
+<h3 id="ggam">GGAM</h3>
+<p>“In KGs, entities play different roles depending on the relation they
+are associated with.”</p>
+<p>在知识图谱中，实体在不同关系中扮演着不同的角色，而 GATs
+忽略了关系的不同，平等地对待邻域中的每一个节点。</p>
+<p>在 GGAM 中，注意力层的输入有两个：实体向量的矩阵 H 和关系向量的矩阵
+G，输出矩阵分别为 H'和 G'。如下图所示：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM.png" srcset="/img/loading.gif" lazyload
+alt="变量定义" />
+<figcaption aria-hidden="true">变量定义</figcaption>
+</figure>
+<p>实体 e_i 不再是仅仅注意实体 e_j，而是注意自己所处的三元组 (e_i, r_k,
+e_j)。以下是三元组的向量表示：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM2.png" srcset="/img/loading.gif" lazyload
+alt="三元组的向量表示" />
+<figcaption aria-hidden="true">三元组的向量表示</figcaption>
+</figure>
+<p>三元组向量 c_ijk 基于实体向量 h_i、实体向量 h_j 和关系向量 g_k
+的拼接，然后再乘了一个线性变换矩阵 W。</p>
+<p> </p>
+<h4 id="单头注意力-1">单头注意力</h4>
+<p>名词说明：</p>
 <ul>
 <li>absolute attention value，相似度</li>
 <li>relative attention value，权值</li>
 </ul>
-<p>下图中 b_ijk 表示这个三元组的重要性，即相似度（attention score）：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM3.png" srcset="/img/loading.gif" lazyload alt="attention value"></p>
+<p>下图中 b_ijk 表示这个三元组的重要性，即相似度（attention
+score）：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM3.png" srcset="/img/loading.gif" lazyload
+alt="attention value" />
+<figcaption aria-hidden="true">attention value</figcaption>
+</figure>
 <blockquote>
 <p>为什么要用一个 LeakyReLU？它能计算相似度吗？</p>
 </blockquote>
 <p>下图中 α_ijk 表示这个三元组所具有的权值：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM4.png" srcset="/img/loading.gif" lazyload alt="权值矩阵的元素"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM4.png" srcset="/img/loading.gif" lazyload
+alt="权值矩阵的元素" />
+<figcaption aria-hidden="true">权值矩阵的元素</figcaption>
+</figure>
 <blockquote>
 <p>为什么 R_ij 是个集合？难道 e_i 和 e_j 之间还有多条关系吗？</p>
 </blockquote>
 <p>下图是注意力层的输出结果：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM5.png" srcset="/img/loading.gif" lazyload alt="单头输出结果"></p>
-<p>即新的实体向量表示 h_i’是它所处的三元组的加权和。</p>
-</br>
-
-<h4 id="多头注意力-1"><a href="#多头注意力-1" class="headerlink" title="多头注意力"></a>多头注意力</h4><p>本文还是采用了多头注意力机制，因此输出结果如下：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM6.png" srcset="/img/loading.gif" lazyload alt="multi-head"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM5.png" srcset="/img/loading.gif" lazyload
+alt="单头输出结果" />
+<figcaption aria-hidden="true">单头输出结果</figcaption>
+</figure>
+<p>即新的实体向量表示 h_i'是它所处的三元组的加权和。</p>
+<p> </p>
+<h4 id="多头注意力-1">多头注意力</h4>
+<p>本文还是采用了多头注意力机制，因此输出结果如下：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM6.png" srcset="/img/loading.gif" lazyload
+alt="multi-head" />
+<figcaption aria-hidden="true">multi-head</figcaption>
+</figure>
 <p>作者还是没有采用拼接操作，而是对各个头的结果取的均值：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM7.png" srcset="/img/loading.gif" lazyload alt="多头输出结果"></p>
-</br>
-
-<h4 id="残差连接"><a href="#残差连接" class="headerlink" title="残差连接"></a>残差连接</h4><p>作者认为虽然学到了新的向量表示，但同时也丢了原始的向量表示，因此做一个残差连接以保留原始的信息：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Res1.png" srcset="/img/loading.gif" lazyload alt="残差连接"></p>
-<p>原始实体向量的维度为 T^i，而最后输出的向量的维度为 T^f，因此 H^i 要乘一个线性变换矩阵 W^E，才能和 H^f 相加（原文好像把 H^i 打错了，H^i * W^E &#x3D; H^t）。</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM7.png" srcset="/img/loading.gif" lazyload
+alt="多头输出结果" />
+<figcaption aria-hidden="true">多头输出结果</figcaption>
+</figure>
+<p> </p>
+<h4 id="残差连接">残差连接</h4>
+<p>作者认为虽然学到了新的向量表示，但同时也丢了原始的向量表示，因此做一个残差连接以保留原始的信息：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Res1.png" srcset="/img/loading.gif" lazyload
+alt="残差连接" />
+<figcaption aria-hidden="true">残差连接</figcaption>
+</figure>
+<p>原始实体向量的维度为 T^i，而最后输出的向量的维度为 T^f，因此 H^i
+要乘一个线性变换矩阵 W^E，才能和 H^f 相加（原文好像把 H^i 打错了，H^i *
+W^E = H^t）。</p>
 <p>整个模型如下图所示：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM10.png" srcset="/img/loading.gif" lazyload alt="GGAM"></p>
-</br>
-
-<h4 id="多跳关系"><a href="#多跳关系" class="headerlink" title="多跳关系"></a>多跳关系</h4><p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/n-hop.png" srcset="/img/loading.gif" lazyload alt="n-hop"></p>
-<p>在 Graph Attention Layer1，所有实体获得直接邻居的信息；在 Graph Attention Layer2，所有实体通过直接邻居获得间接邻居的信息。比如：U.S 通过 Barack Obama 获得 Michelle Obama 的信息，通过 Washington D.C 获得 Samuel L. Jackson 的信息。这些信息都是 Barack Obama 和 Washington D.C 在 Graph Attention Layer1 获得的。</p>
-<p>由此，U.S 能获得 2-hop 邻居的信息，从而形成<strong>辅助边</strong>（由虚线表示）。如果模型有 n 层，那么源节点就能获得 n-hop 邻居的信息。</p>
-<p>“模型中，作者通过定义辅助关系，<strong>将边的定义拓展为有向路径</strong>，辅助关系的嵌入为<strong>有向路径中所有关系的嵌入之和</strong>，这样对于一个 n 层的模型，在第 m 层就可以通过聚合相邻 m 跳的邻居计算出新嵌入。”</p>
-</br>
-
-<h4 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h4><p>本文采用的 score function 和 TransE 的一样，损失函数用的是 <strong>hinge-loss</strong>：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM8.png" srcset="/img/loading.gif" lazyload alt="loss function"></p>
-</br>
-
-<h4 id="负例产生方法"><a href="#负例产生方法" class="headerlink" title="负例产生方法"></a>负例产生方法</h4><p>本文采用的是传统的产生负例的方法：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM9.png" srcset="/img/loading.gif" lazyload alt="negative sample"></p>
-</br>
-
-
-
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM10.png" srcset="/img/loading.gif" lazyload
+alt="GGAM" />
+<figcaption aria-hidden="true">GGAM</figcaption>
+</figure>
+<p> </p>
+<h4 id="多跳关系">多跳关系</h4>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/n-hop.png" srcset="/img/loading.gif" lazyload
+alt="n-hop" />
+<figcaption aria-hidden="true">n-hop</figcaption>
+</figure>
+<p>在 Graph Attention Layer1，所有实体获得直接邻居的信息；在 Graph
+Attention Layer2，所有实体通过直接邻居获得间接邻居的信息。比如：U.S 通过
+Barack Obama 获得 Michelle Obama 的信息，通过 Washington D.C 获得 Samuel
+L. Jackson 的信息。这些信息都是 Barack Obama 和 Washington D.C 在 Graph
+Attention Layer1 获得的。</p>
+<p>由此，U.S 能获得 2-hop
+邻居的信息，从而形成<strong>辅助边</strong>（由虚线表示）。如果模型有 n
+层，那么源节点就能获得 n-hop 邻居的信息。</p>
+<p>“模型中，作者通过定义辅助关系，<strong>将边的定义拓展为有向路径</strong>，辅助关系的嵌入为<strong>有向路径中所有关系的嵌入之和</strong>，这样对于一个
+n 层的模型，在第 m 层就可以通过聚合相邻 m 跳的邻居计算出新嵌入。”</p>
+<p> </p>
+<h4 id="损失函数">损失函数</h4>
+<p>本文采用的 score function 和 TransE 的一样，损失函数用的是
+<strong>hinge-loss</strong>：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM8.png" srcset="/img/loading.gif" lazyload
+alt="loss function" />
+<figcaption aria-hidden="true">loss function</figcaption>
+</figure>
+<p> </p>
+<h4 id="负例产生方法">负例产生方法</h4>
+<p>本文采用的是传统的产生负例的方法：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/GGAM9.png" srcset="/img/loading.gif" lazyload
+alt="negative sample" />
+<figcaption aria-hidden="true">negative sample</figcaption>
+</figure>
+<p> </p>
 
                 
               </div>
@@ -562,6 +694,12 @@
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -755,6 +893,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

@@ -16,18 +16,16 @@
   <meta name="author" content="Envoutante">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Representing Text for Joint Embedding of Text and Knowledge BasesAbstract学习表示同一连续潜在空间（continuous latent space）中的文本关系和知识库关系的模型能够对两种关系进行联合推理，并获得较高的知识库补全精度。在本文中，我们提出了一个模型来捕获文本关系的组成结构，并联合优化实体、知识库和文本关系表示。与">
+    <meta name="description" content="Representing Text for Joint Embedding of Text and Knowledge Bases Abstract 学习表示同一连续潜在空间（continuous latent space）中的文本关系和知识库关系的模型能够对两种关系进行联合推理，并获得较高的知识库补全精度。在本文中，我们提出了一个模型来捕获文本关系的组成结构，并联合优化实体、知识库和文本">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Representing Text for Joint Embedding of Text and Knowledge Bases">
 <meta property="og:url" content="http://example.com/2023/11/24/CONV/index.html">
 <meta property="og:site_name" content="Envoutante&#39;s Blog">
-<meta property="og:description" content="Representing Text for Joint Embedding of Text and Knowledge BasesAbstract学习表示同一连续潜在空间（continuous latent space）中的文本关系和知识库关系的模型能够对两种关系进行联合推理，并获得较高的知识库补全精度。在本文中，我们提出了一个模型来捕获文本关系的组成结构，并联合优化实体、知识库和文本关系表示。与">
+<meta property="og:description" content="Representing Text for Joint Embedding of Text and Knowledge Bases Abstract 学习表示同一连续潜在空间（continuous latent space）中的文本关系和知识库关系的模型能够对两种关系进行联合推理，并获得较高的知识库补全精度。在本文中，我们提出了一个模型来捕获文本关系的组成结构，并联合优化实体、知识库和文本">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TR.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TR2.png">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/notation.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/task.png">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/notation2.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV3.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/table.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV1.png">
@@ -36,7 +34,7 @@
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV5.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV6.png">
 <meta property="article:published_time" content="2023-11-24T09:04:10.767Z">
-<meta property="article:modified_time" content="2023-11-25T01:54:44.068Z">
+<meta property="article:modified_time" content="2023-12-01T07:39:54.205Z">
 <meta property="article:author" content="Envoutante">
 <meta property="article:tag" content="词嵌入">
 <meta name="twitter:card" content="summary_large_image">
@@ -286,89 +284,175 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Representing-Text-for-Joint-Embedding-of-Text-and-Knowledge-Bases"><a href="#Representing-Text-for-Joint-Embedding-of-Text-and-Knowledge-Bases" class="headerlink" title="Representing Text for Joint Embedding of Text and Knowledge Bases"></a>Representing Text for Joint Embedding of Text and Knowledge Bases</h1><h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>学习表示同一连续潜在空间（continuous latent space）中的文本关系和知识库关系的模型能够对两种关系进行联合推理，并获得较高的知识库补全精度。在本文中，我们提出了一个模型来捕获文本关系的组成结构，并联合优化实体、知识库和文本关系表示。与不共享具有公共子结构的文本关系参数的模型相比，本文提出的模型显著提高了性能。</p>
-</br>
-
-<h2 id="新术语"><a href="#新术语" class="headerlink" title="新术语"></a>新术语</h2><h3 id="连续表示"><a href="#连续表示" class="headerlink" title="连续表示"></a>连续表示</h3><p>连续表示（continuous representations） 是指用来表示对象、概念或数据的向量或矩阵形式的特征。这些特征是连续值，而不是离散值。</p>
-<h3 id="潜在特征"><a href="#潜在特征" class="headerlink" title="潜在特征"></a>潜在特征</h3><p>潜在特征（latent features）是指在学习过程中未直接观测到的特征。这些特征不是通过手动设计，而是由模型自动学习的。在许多深度学习模型中，潜在特征常常是模型通过训练数据学到的高层抽象表示，反映了数据中的重要特征和关系。</p>
-<h3 id="文本提及"><a href="#文本提及" class="headerlink" title="文本提及"></a>文本提及</h3><p>文本提及（textual mention）是指在文本中提到某个实体或概念。这种提及可能涉及到<strong>命名实体、关键词、短语</strong>等，通常是为了<strong>指代</strong>文本中讨论的具体内容。例如，在文本中提到了公司的名称、人物、地点等都可以被认为是文本提及。</p>
-<h3 id="文本关系"><a href="#文本关系" class="headerlink" title="文本关系"></a>文本关系</h3><p>文本关系（textual relation）是指在文本中不同元素之间的关系。这种关系可以是语法上的关系，也可以是语义上的关系。以下是一些文本关系的示例：</p>
+                <h1
+id="representing-text-for-joint-embedding-of-text-and-knowledge-bases">Representing
+Text for Joint Embedding of Text and Knowledge Bases</h1>
+<h2 id="abstract">Abstract</h2>
+<p>学习表示同一连续潜在空间（continuous latent
+space）中的文本关系和知识库关系的模型能够对两种关系进行联合推理，并获得较高的知识库补全精度。在本文中，我们提出了一个模型来捕获文本关系的组成结构，并联合优化实体、知识库和文本关系表示。与不共享具有公共子结构的文本关系参数的模型相比，本文提出的模型显著提高了性能。</p>
+<p> </p>
+<h2 id="新术语">新术语</h2>
+<h3 id="连续表示">连续表示</h3>
+<p>连续表示（continuous representations）
+是指用来表示对象、概念或数据的向量或矩阵形式的特征。这些特征是连续值，而不是离散值。</p>
+<h3 id="潜在特征">潜在特征</h3>
+<p>潜在特征（latent
+features）是指在学习过程中未直接观测到的特征。这些特征不是通过手动设计，而是由模型自动学习的。在许多深度学习模型中，潜在特征常常是模型通过训练数据学到的高层抽象表示，反映了数据中的重要特征和关系。</p>
+<h3 id="文本提及">文本提及</h3>
+<p>文本提及（textual
+mention）是指在文本中提到某个实体或概念。这种提及可能涉及到<strong>命名实体、关键词、短语</strong>等，通常是为了<strong>指代</strong>文本中讨论的具体内容。例如，在文本中提到了公司的名称、人物、地点等都可以被认为是文本提及。</p>
+<h3 id="文本关系">文本关系</h3>
+<p>文本关系（textual
+relation）是指在文本中不同元素之间的关系。这种关系可以是语法上的关系，也可以是语义上的关系。以下是一些文本关系的示例：</p>
 <ul>
 <li>同义关系：汽车和轿车。</li>
 <li>上下位关系：橡树是树的上下位词。</li>
 <li>时序关系：早上起床发生在吃早餐之前。</li>
 <li>因果关系：下雨导致街道湿润。</li>
 </ul>
-<h3 id="远程监督"><a href="#远程监督" class="headerlink" title="远程监督"></a>远程监督</h3><p>远程监督（Distant supervision）是一种在自然语言处理（NLP）和信息检索领域中的方法，用于生成标注数据以训练模型。这种方法的核心思想是通过利用现有的知识库或结构化数据来为非结构化文本生成标签，而无需手动标注大量的训练数据。</p>
-</br>
-
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>著名的知识库（KB）：Freebase、YAGO、DBPedia，但是这些 KB 仍然不完整。</p>
+<h3 id="远程监督">远程监督</h3>
+<p>远程监督（Distant
+supervision）是一种在自然语言处理（NLP）和信息检索领域中的方法，用于生成标注数据以训练模型。这种方法的核心思想是通过利用现有的知识库或结构化数据来为非结构化文本生成标签，而无需手动标注大量的训练数据。</p>
+<p> </p>
+<h2 id="introduction">Introduction</h2>
+<p>著名的知识库（KB）：Freebase、YAGO、DBPedia，但是这些 KB
+仍然不完整。</p>
 <p>这推动了自动推导新事实以扩展手动构建的知识库的研究，使用来自现有知识库的信息、实体的文本提及以及表格和网页形式等<strong>半结构化数据</strong>。</p>
 <p>在本文中，我们联合学习知识库和文本关系的连续表示。</p>
 <p>文本关系（textual relation）表示了句子中实体之间的关系。</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TR.png" srcset="/img/loading.gif" lazyload alt="KB和textual relation"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TR.png" srcset="/img/loading.gif" lazyload
+alt="KB和textual relation" />
+<figcaption aria-hidden="true">KB和textual relation</figcaption>
+</figure>
 <p>Riedel 等人使用词汇化的依赖路径来表示两个实体之间的文本提及。</p>
 <p>通过两个实体之间的词汇化依赖路径表示实体对的每个文本提及</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TR2.png" srcset="/img/loading.gif" lazyload alt="表示规则"></p>
-<p>我们假设知识库使用 RDF 三元组表示，形式为 (subject, predicate, object)，其中主语和宾语是实体，谓词是关系。</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/notation.png" srcset="/img/loading.gif" lazyload alt="符号定义（s: subject o:object）"></p>
-<p>训练任务是预测没有出现在 KB 中的新关系，即针对给出的询问，模型要能够给出候选的实体：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/task.png" srcset="/img/loading.gif" lazyload alt="训练任务"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/TR2.png" srcset="/img/loading.gif" lazyload
+alt="表示规则" />
+<figcaption aria-hidden="true">表示规则</figcaption>
+</figure>
+<p>我们假设知识库使用 RDF 三元组表示，形式为 (subject, predicate,
+object)，其中主语和宾语是实体，谓词是关系。</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/notation.png" srcset="/img/loading.gif" lazyload
+alt="符号定义（s: subject o:object）" />
+<figcaption aria-hidden="true">符号定义（s: subject
+o:object）</figcaption>
+</figure>
+<p>训练任务是预测没有出现在 KB
+中的新关系，即针对给出的询问，模型要能够给出候选的实体：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/task.png" srcset="/img/loading.gif" lazyload
+alt="训练任务" />
+<figcaption aria-hidden="true">训练任务</figcaption>
+</figure>
 <p>局部封闭世界假设（local closed world assumption）</p>
 <p>“是说如果没有见过就认为它不存在，比如在知识图谱中之前没有新冠这个词，那就不应该被添加进来。反之就是开放世界假定，什么都可以加进来，但是会有准确率问题。”</p>
 <blockquote>
-<p>知乎：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/380560296">https://www.zhihu.com/question/380560296</a></p>
+<p>知乎：https://www.zhihu.com/question/380560296</p>
 </blockquote>
-<p>认为我们的图谱是部分完备的。比如假设我们的图谱中已经包含了所有航空公司的所有航线，在所有这些航线中都没有 Viña del Mar 和 Arica 之间的航班，那么我们就认为这两地之间确实没有航班。</p>
+<p>认为我们的图谱是部分完备的。比如假设我们的图谱中已经包含了所有航空公司的所有航线，在所有这些航线中都没有
+Viña del Mar 和 Arica
+之间的航班，那么我们就认为这两地之间确实没有航班。</p>
 <blockquote>
-<p>博客：<a target="_blank" rel="noopener" href="https://rogerspy.github.io/2021/05/29/kg-survey-3/">https://rogerspy.github.io/2021/05/29/kg-survey-3/</a></p>
+<p>博客：https://rogerspy.github.io/2021/05/29/kg-survey-3/</p>
 </blockquote>
 <p>本文的符号定义：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/notation2.png" srcset="/img/loading.gif" lazyload alt="符号定义2"></p>
-</br>
-
-<h2 id="Models-for-KB-completion"><a href="#Models-for-KB-completion" class="headerlink" title="Models for KB completion"></a>Models for KB completion</h2><h3 id="Basic-Models"><a href="#Basic-Models" class="headerlink" title="Basic Models"></a>Basic Models</h3><p>F 和 E 用于包含 KB+text 的图谱，DISTMULT 用于只包含 KB relation 的图谱。</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/notation2.png" srcset="/img/loading.gif" lazyload
+alt="符号定义2" />
+<figcaption aria-hidden="true">符号定义2</figcaption>
+</figure>
+<p> </p>
+<h2 id="models-for-kb-completion">Models for KB completion</h2>
+<h3 id="basic-models">Basic Models</h3>
+<p>F 和 E 用于包含 KB+text 的图谱，DISTMULT 用于只包含 KB relation
+的图谱。</p>
 <p>model F：</p>
 <ul>
 <li>分别为实体对 (e_s, e_o) 和关系 r 学习 K 维潜在特征</li>
-<li>score function &#x3D; v(r) 点积 v(e_s, e_o)</li>
+<li>score function = v(r) 点积 v(e_s, e_o)</li>
 <li>因此，subject 和 object 相同的实体对之间不会共享参数</li>
 </ul>
 <p>model E：</p>
 <ul>
 <li>分别为实体 e_s 和 e_o 学习 K 维潜在特征</li>
 <li>为关系 r 学习 2 个 K 维潜在特征：v(r_s) 和 v(r_o)</li>
-<li>score function &#x3D; v(r_s) 点积 v(e_s) + v(r_o) 点积 v(e_o)</li>
+<li>score function = v(r_s) 点积 v(e_s) + v(r_o) 点积 v(e_o)</li>
 <li>模型预测候选实体时不依赖实体，而是只依赖关系 r</li>
 </ul>
 <p>DISTMULT：</p>
 <ul>
 <li>分别为实体 e_s、e_o 和关系 r 学习 K 维潜在特征</li>
-<li>score function &#x3D; v(r) 点积 (v(e_s) ○ v(e_o))</li>
+<li>score function = v(r) 点积 (v(e_s) ○ v(e_o))</li>
 <li>subject 和 object 相同的实体对之间会共享参数</li>
 <li>模型预测候选实体时不依赖关系 r，而是只依赖实体</li>
 </ul>
 <p>以下是上述三种模型的参数数量比较：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV3.png" srcset="/img/loading.gif" lazyload alt="参数数量"></p>
-<p>model F 需要 KN_e^2+KN_r 个参数，因为它是为实体对生成潜在特征的，而实体总数为 N_e，因此根据排列组合可知有 N_e^2 个实体对。</p>
-<p><strong>缺点：</strong>在这些基本模型中，KB 和文本关系（textual relation）会被统一处理，即每个文本关系都会得到各自的 K 维的潜在特征。按照这样的处理方式，当加入文本关系来训练模型的时候，关系数量 R 会大幅增加。此外，上述三个模型只会在训练时使用文本关系，在预测时则只会使用实体和 KB 中的关系。</p>
-</br>
-
-<h2 id="CONV"><a href="#CONV" class="headerlink" title="CONV"></a>CONV</h2><p>当前的模型孤立地看待每一个文本关系（textual relation），从而使每一个文本关系都有独属于自己的潜在特征（latent feature）。然而，许多文本关系之间只是一些些单词或者依赖弧不同。比如，下表展示了一些文本模式，它们都对应着 KB 中的 person&#x2F;organizations_founded 关系：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/table.png" srcset="/img/loading.gif" lazyload alt="文本模式"></p>
-<p>虽然某些依赖路径出现得非常频繁（12 次），但是许多与它非常类似的依赖路径只被使用了一次。</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV3.png" srcset="/img/loading.gif" lazyload
+alt="参数数量" />
+<figcaption aria-hidden="true">参数数量</figcaption>
+</figure>
+<p>model F 需要 KN_e^2+KN_r
+个参数，因为它是为实体对生成潜在特征的，而实体总数为
+N_e，因此根据排列组合可知有 N_e^2 个实体对。</p>
+<p><strong>缺点：</strong>在这些基本模型中，KB 和文本关系（textual
+relation）会被统一处理，即每个文本关系都会得到各自的 K
+维的潜在特征。按照这样的处理方式，当加入文本关系来训练模型的时候，关系数量
+R
+会大幅增加。此外，上述三个模型只会在训练时使用文本关系，在预测时则只会使用实体和
+KB 中的关系。</p>
+<p> </p>
+<h2 id="conv">CONV</h2>
+<p>当前的模型孤立地看待每一个文本关系（textual
+relation），从而使每一个文本关系都有独属于自己的潜在特征（latent
+feature）。然而，许多文本关系之间只是一些些单词或者依赖弧不同。比如，下表展示了一些文本模式，它们都对应着
+KB 中的 person/organizations_founded 关系：</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/table.png" srcset="/img/loading.gif" lazyload
+alt="文本模式" />
+<figcaption aria-hidden="true">文本模式</figcaption>
+</figure>
+<p>虽然某些依赖路径出现得非常频繁（12
+次），但是许多与它非常类似的依赖路径只被使用了一次。</p>
 <p>我们把词汇化的依赖路径视为单词序列和有向依赖弧，再对其使用 CNN。</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV1.png" srcset="/img/loading.gif" lazyload alt="模型"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV1.png" srcset="/img/loading.gif" lazyload
+alt="模型" />
+<figcaption aria-hidden="true">模型</figcaption>
+</figure>
 <p>变量定义：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV2.png" srcset="/img/loading.gif" lazyload alt="变量定义"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV2.png" srcset="/img/loading.gif" lazyload
+alt="变量定义" />
+<figcaption aria-hidden="true">变量定义</figcaption>
+</figure>
 <p>本文使用的 score function 如下：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV4.png" srcset="/img/loading.gif" lazyload alt="score function"></p>
-<p>Neg(e_s, r, ?) 是指不是三元组 (e_s, r, ?) 中的 object 的实体的集合。</p>
-<p>需要注意的是，基于边际损失函数（margin-based）和似然损失函数（log-likelihood）都容易受到潜在的假阴性（false negative）样本选择噪声的影响。训练损失函数的实证比较将是有趣的。</p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV4.png" srcset="/img/loading.gif" lazyload
+alt="score function" />
+<figcaption aria-hidden="true">score function</figcaption>
+</figure>
+<p>Neg(e_s, r, ?) 是指不是三元组 (e_s, r, ?) 中的 object
+的实体的集合。</p>
+<p>需要注意的是，基于边际损失函数（margin-based）和似然损失函数（log-likelihood）都容易受到潜在的假阴性（false
+negative）样本选择噪声的影响。训练损失函数的实证比较将是有趣的。</p>
 <p>本文使用的损失函数如下：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV5.png" srcset="/img/loading.gif" lazyload alt="loss function"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV5.png" srcset="/img/loading.gif" lazyload
+alt="loss function" />
+<figcaption aria-hidden="true">loss function</figcaption>
+</figure>
 <p>本文使用的损失函数如下：</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV6.png" srcset="/img/loading.gif" lazyload alt="loss function"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/CONV6.png" srcset="/img/loading.gif" lazyload
+alt="loss function" />
+<figcaption aria-hidden="true">loss function</figcaption>
+</figure>
 
                 
               </div>
@@ -506,6 +590,12 @@
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -699,6 +789,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

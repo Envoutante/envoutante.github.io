@@ -16,29 +16,23 @@
   <meta name="author" content="Envoutante">
   <meta name="keywords" content="">
   
-    <meta name="description" content="RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space 负采样看不懂   参考博客 知乎：小白必看：一文读懂推荐系统负采样 博客：论文阅读笔记 9：GAN&amp;KBGAN 源码：https:&#x2F;&#x2F;github.com&#x2F;DeepGraphLearning&#x2F;KnowledgeGraphEmbe">
+    <meta name="description" content="RNN 和 CNN 基础 GRU 英文：Gated Recurrent Unit 中文：门控循环单元 门控循环神经网络包含了两个主要的门：更新门（Update Gate）和重置门（Reset Gate）。这些门控制着信息在序列中的流动，使得 GRU 能够更好地处理长期依赖关系。   Reset Gate 公式：\(r_t&#x3D;\sigma(W_{ir}x_t+b_{ir}+W_{hr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Knowledge Graph Embedding by Relational Rotation in Complex Space">
-<meta property="og:url" content="http://example.com/2023/11/20/RotatE/index.html">
+<meta property="og:title" content="RNN 和 CNN 基础">
+<meta property="og:url" content="http://example.com/2023/12/01/RNN&CNN/index.html">
 <meta property="og:site_name" content="Envoutante&#39;s Blog">
-<meta property="og:description" content="RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space 负采样看不懂   参考博客 知乎：小白必看：一文读懂推荐系统负采样 博客：论文阅读笔记 9：GAN&amp;KBGAN 源码：https:&#x2F;&#x2F;github.com&#x2F;DeepGraphLearning&#x2F;KnowledgeGraphEmbe">
+<meta property="og:description" content="RNN 和 CNN 基础 GRU 英文：Gated Recurrent Unit 中文：门控循环单元 门控循环神经网络包含了两个主要的门：更新门（Update Gate）和重置门（Reset Gate）。这些门控制着信息在序列中的流动，使得 GRU 能够更好地处理长期依赖关系。   Reset Gate 公式：\(r_t&#x3D;\sigma(W_{ir}x_t+b_{ir}+W_{hr">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/euler.png">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/HP.png">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RP.png">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp3.png">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/NS.png">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/NS2.png">
-<meta property="article:published_time" content="2023-11-20T09:17:27.740Z">
-<meta property="article:modified_time" content="2023-12-01T07:39:36.106Z">
+<meta property="article:published_time" content="2023-12-01T13:47:37.606Z">
+<meta property="article:modified_time" content="2023-12-02T03:14:53.517Z">
 <meta property="article:author" content="Envoutante">
-<meta property="article:tag" content="知识图谱">
+<meta property="article:tag" content="RNN">
+<meta property="article:tag" content="CNN">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/euler.png">
   
   
   
-  <title>Knowledge Graph Embedding by Relational Rotation in Complex Space - Envoutante&#39;s Blog</title>
+  <title>RNN 和 CNN 基础 - Envoutante&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -204,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Knowledge Graph Embedding by Relational Rotation in Complex Space"></span>
+            <span id="subtitle" data-typed-text="RNN 和 CNN 基础"></span>
           
         </div>
 
@@ -215,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-11-20 17:17" pubdate>
-          2023年11月20日 下午
+        <time datetime="2023-12-01 21:47" pubdate>
+          2023年12月1日 晚上
         </time>
       </span>
     
@@ -227,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          991 字
         
       </span>
     
@@ -238,7 +232,7 @@
         
         
         
-          25 分钟
+          9 分钟
         
       </span>
     
@@ -275,247 +269,74 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Knowledge Graph Embedding by Relational Rotation in Complex Space</h1>
+            <h1 id="seo-header">RNN 和 CNN 基础</h1>
             
             
               <div class="markdown-body">
                 
-                <h1
-id="rotate-knowledge-graph-embedding-by-relational-rotation-in-complex-space">RotatE:
-Knowledge Graph Embedding by Relational Rotation in Complex Space</h1>
-<p><u>负采样看不懂</u></p>
+                <h1 id="rnn-和-cnn-基础">RNN 和 CNN 基础</h1>
+<h2 id="gru">GRU</h2>
+<p>英文：Gated Recurrent Unit</p>
+<p>中文：门控循环单元</p>
+<p>门控循环神经网络包含了两个主要的门：更新门（Update
+Gate）和重置门（Reset Gate）。这些门控制着信息在序列中的流动，使得 GRU
+能够更好地处理长期依赖关系。</p>
 <p> </p>
-<p><strong>参考博客</strong></p>
-<p>知乎：<a
-target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/387378387">小白必看：一文读懂推荐系统负采样</a></p>
-<p>博客：<a
-target="_blank" rel="noopener" href="https://zhang-each.github.io/2021/08/08/reading9/">论文阅读笔记
-9：GAN&amp;KBGAN</a></p>
-<p>源码：https://github.com/DeepGraphLearning/KnowledgeGraphEmbedding</p>
-<p> </p>
-<h2 id="abstract">Abstract</h2>
-<p>我们研究<strong>实体和关系的低维向量表示</strong>的目的就是为了实现好的<strong>链路预测</strong>。</p>
-<p>本文提出了一种新的知识图片嵌入方法
-RotatE，该方法能够建模和推断各种关系模式（relation
-patterns），包括对称和反对称关系、逆向关系、组合关系。</p>
-<p>RotatE 将关系定义为，能够让源实体到目的实体的一个旋转。</p>
-<p>此外，我们提出了一种新的<strong>自对抗负采样技术</strong>来有效地训练
-RotatE 模型。</p>
-<p>之前产生负例的方法是，替换正例中的实体。</p>
-<p> </p>
-<h3 id="关系模式">关系模式</h3>
-<p>尽管“国家-城市”、“国家-大学”、“洲-国家”都属于“位置包含”关系，但是每个模式都涉及到<strong>不同类型的头尾实体对</strong>，反映了在知识图谱中的多样性。因此，在处理这样的关系时，需要考虑到不同的模式，而不仅仅是一个通用的关系向量。这样可以更准确地捕捉到不同实体对之间的语义关系。</p>
-<blockquote>
-<p>这是 TransR 中的举例。</p>
-</blockquote>
-<p> </p>
-<h2 id="introduction">Introduction</h2>
-<blockquote>
-<p>随便看看</p>
-</blockquote>
-<p>知识图谱的应用：</p>
+<h3 id="reset-gate">Reset Gate</h3>
+<p><strong>公式：</strong><span
+class="math inline">\(r_t=\sigma(W_{ir}x_t+b_{ir}+W_{hr}h_{t-1}+b_{hr})\)</span></p>
+<p><strong>参数说明：</strong></p>
 <ul>
-<li>问答（question-answering）</li>
-<li>信息检索（information retrieval）</li>
-<li>推荐系统（recommender systems）</li>
-<li>自然语言处理（natural language processing）</li>
+<li><span class="math inline">\(r_t\)</span> 是重置门在时间步 <span
+class="math inline">\(t\)</span> 的输出，<span
+class="math inline">\(\sigma\)</span> 是 Sigmoid 激活函数</li>
+<li><span class="math inline">\(W_{ir}\)</span> 和 <span
+class="math inline">\(b_{ir}\)</span> 分别是输入门的权重和偏重</li>
+<li><span class="math inline">\(W_{hr}\)</span> 和 <span
+class="math inline">\(b_{hr}\)</span> 分别是隐藏状态的权重和偏重</li>
+</ul>
+<p><strong>作用：</strong>控制当前时间步 <span
+class="math inline">\(t\)</span> 的候选隐藏状态 <span
+class="math inline">\(\widehat{h_t}\)</span>，有多少信息来自前一时间步的隐藏状态
+<span class="math inline">\(h_{t-1}\)</span>。</p>
+<p>通过重置门，模型可以选择性地遗忘一些先前的信息，从而更灵活地适应不同时间步的输入。“重置”一词表示了它在重新设置或调整计算过程中的权重，以及在某种程度上“重置”隐藏状态的作用。</p>
+<p> </p>
+<h3 id="update-gate">Update Gate</h3>
+<p><strong>公式：</strong><span
+class="math inline">\(z_t=\sigma(W_{iz}x_t+b_{iz}+W_{hz}h_{t-1}+b_{hz})\)</span></p>
+<p><strong>参数说明：</strong></p>
+<ul>
+<li><span class="math inline">\(z_t\)</span> 是更新门在时间步 <span
+class="math inline">\(t\)</span> 的输出，<span
+class="math inline">\(\sigma\)</span> 是 Sigmoid 激活函数</li>
+<li><span class="math inline">\(W_{iz}\)</span> 和 <span
+class="math inline">\(b_{iz}\)</span> 分别是输入门的权重和偏重</li>
+<li><span class="math inline">\(W_{hz}\)</span> 和 <span
+class="math inline">\(b_{hz}\)</span> 分别是隐藏状态的权重和偏重</li>
+</ul>
+<p><strong>作用：</strong><span class="math inline">\(z_t\)</span>
+取值在 0 和 1 之间，它决定了保留多少先前的信息加入到新的信息。</p>
+<p>即控制当前时间步 <span class="math inline">\(t\)</span> 的隐藏状态
+<span class="math inline">\(h_t\)</span></p>
+<ul>
+<li>有多少信息来自前一时间步的隐藏状态 <span
+class="math inline">\(h_{t-1}\)</span></li>
+<li>有多少信息来自当前时间步的候选隐藏状态 <span
+class="math inline">\(\widehat{h_t}\)</span></li>
 </ul>
 <p> </p>
-<h3 id="关系模式-1">关系模式</h3>
+<h3 id="candidate-context">Candidate Context</h3>
+<p><span
+class="math inline">\(\widehat{h_t}=tanh(W_{ih}x_t+b_{ih}+r_{t}\odot(W_{hh}h_{t-1}+b_{hh})))\)</span></p>
+<p>参数说明：</p>
 <ul>
-<li>对称/反对称关系（symmetry/antisymmetry），如：婚姻/父子关系。如果在图谱中存在
-(x, 父子, y) 的三元组，则可以推断出 (y, 父子, x) 也成立。</li>
-<li>逆向关系（inversion），如：上位词和下位词。如果在图谱中存在 (x,
-雇佣, y) 的三元组，可以推断出 (y, 被雇佣, x) 也成立。</li>
-<li>组合关系（composition），如：我的母亲的丈夫是我的父亲。</li>
+<li><span class="math inline">\(\widehat{h_t}\)</span> 是在时间步 <span
+class="math inline">\(t\)</span> 的候选隐藏状态</li>
+<li><span class="math inline">\(tanh\)</span> 是双曲正切激活函数</li>
+<li><span class="math inline">\(\odot\)</span> 是逐元素乘法</li>
 </ul>
-<hr />
-<p>Q：为什么对称关系和反对称关系会被归为同一种关系模式？</p>
-<p>A：因为它们具有相似的性质：如果一个关系在一个方向上成立，那么在相反的方向上也会成立或不成立。</p>
-<p>具体来说：</p>
-<ul>
-<li>对称关系：如果 (x, r, y) 成立，则可推断出 (y, r, x)
-也成立，即两个实体之间的顺序不影响该关系的成立。</li>
-<li>反对称关系：如果 (x, r, y) 成立，则可推断出 (y, r, x)
-不成立，即两个实体之间的顺序很重要。</li>
-</ul>
-<p>尽管对称关系和反对称关系在表现方式上有所不同，但它们都具有关系在一定程度上从一个实体到另一个实体的转换性质。因此，在关系模式的分类中将它们归为同一类，以便更好地进行建模和推断。</p>
-<p> </p>
-<h3 id="欧拉公式">欧拉公式</h3>
-<p><strong>欧拉公式</strong></p>
-<p>欧拉公式首次将三角函数与复指数函数关联起来，因其提出者莱昂哈德·欧拉而得名，公式如下：</p>
-<figure>
-<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/euler.png" srcset="/img/loading.gif" lazyload
-alt="欧拉公式" />
-<figcaption aria-hidden="true">欧拉公式</figcaption>
-</figure>
-<p><strong>复平面</strong></p>
-<p>下图是一个复平面，Im（Imaginary Axis）表示虚轴，Re（Real
-Axis）表示实轴。复平面中的二维单位向量 r_i，即 (cos(θ),
-sin(θ))，可以被写作复数形式
-cos(θ)+isin(θ)，也可以再进一步通过欧拉公式被写作复指数形式。</p>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/euler2.png" srcset="/img/loading.gif" lazyload
-alt="复平面" />
-<figcaption aria-hidden="true">复平面</figcaption>
-</figure>
-<p><strong>几何含义</strong></p>
-<p>当一个复数向量 (x, y)
-乘以一个复数单位向量时，这个操作的几何含义是将该向量绕原点逆时针旋转（counterclockwise
-rotation）角度 θ 。</p>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/euler3.png" srcset="/img/loading.gif" lazyload
-alt="绕原点旋转" />
-<figcaption aria-hidden="true">绕原点旋转</figcaption>
-</figure>
-<p>为了更加直观地理解复数向量乘积的几何含义，我们接下来使用极坐标进行讨论。向量坐标如下：</p>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/euler4.png" srcset="/img/loading.gif" lazyload
-alt="极坐标" />
-<figcaption aria-hidden="true">极坐标</figcaption>
-</figure>
-<p>计算 h_i 和 r_i 的乘积结果，发现等于 h_i'：</p>
-<p><img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/euler5.png" srcset="/img/loading.gif" lazyload /></p>
-<p>从而验证了复数向量 h_i 乘以复数单位向量 r_i 的几何含义是复数向量 h_i
-绕原点逆时针旋转角度 θ 。</p>
-<p>如果使用的是直角坐标系，则乘积结果为：</p>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/euler6.png" srcset="/img/loading.gif" lazyload
-alt="直角坐标系" />
-<figcaption aria-hidden="true">直角坐标系</figcaption>
-</figure>
-<p> </p>
-<h3 id="rotate">RotatE</h3>
-<p>基于欧拉公式，RotatE 把关系 relation 定义为使 h 能够到达 t
-的一个旋转。具体来说，t 是 h 和 r 的元素乘积（Hadamard
-product），定义如下：</p>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE.png" srcset="/img/loading.gif" lazyload
-alt="RotatE对于r的定义" />
-<figcaption aria-hidden="true">RotatE对于r的定义</figcaption>
-</figure>
-<p> </p>
-<h4 id="hadamard-product">Hadamard product</h4>
-<p>Hadamard
-product，也称为元素乘积，是指两个相同维度的矩阵（或向量）对应位置上的元素相乘得到的新矩阵（或向量）。</p>
-<figure>
-<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/HP.png" srcset="/img/loading.gif" lazyload
-alt="Hadamard product" />
-<figcaption aria-hidden="true">Hadamard product</figcaption>
-</figure>
-<p> </p>
-<h4 id="从关系模式的角度理解">从关系模式的角度理解</h4>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE2.png" srcset="/img/loading.gif" lazyload
-alt="从关系模式的角度理解" />
-<figcaption aria-hidden="true">从关系模式的角度理解</figcaption>
-</figure>
-<ul>
-<li>对称关系：r 的每个 r_i 都等于 1 或 -1，即 r_i 的角度为 π
-的整数倍</li>
-<li>逆向关系：r_1 和 r_2 共轭，即实数部分相同而虚数部分互为相反数</li>
-<li>组合关系：r_3 可以由 r_1 通过 r_2 旋转而来</li>
-</ul>
-<p> </p>
-<h2 id="our-method">Our Method</h2>
-<h3 id="三种关系模式">三种关系模式</h3>
-<p>文中对“对称/反对称关系”、“逆向关系”、“组合关系”的定义如下：</p>
-<figure>
-<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RP.png" srcset="/img/loading.gif" lazyload
-alt="关系模式的定义" />
-<figcaption aria-hidden="true">关系模式的定义</figcaption>
-</figure>
-<p>作者说，目前没有一种模型可以同时很好地表示上述三种关系模式。</p>
-<p> </p>
-<h3 id="模型对比">模型对比</h3>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE6.png" srcset="/img/loading.gif" lazyload
-alt="模型对比" />
-<figcaption aria-hidden="true">模型对比</figcaption>
-</figure>
-<p> </p>
-<h3 id="rotate-1">RotatE</h3>
-<p>受到欧拉公式的启发，作者把关系 relation 定义为：一种能让头实体 h
-到达尾实体 t 的旋转，而且是一种 element-wise
-的旋转，即向量中的各个元素是分别旋转的（t_i=h_i*r_i）。具体定义如下：</p>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE3.png" srcset="/img/loading.gif" lazyload
-alt="r是一种旋转" />
-<figcaption aria-hidden="true">r是一种旋转</figcaption>
-</figure>
-<p>其中的 C 代表“Complex”，即 h、t、r
-被映射到复数平面，而不是实数平面。约束 r_i 的模长为 1，使得 r_i
-是一个单位向量。实体向量与 r_i
-相乘，只会被影响到相位（phase），而不会被影响到幅度（magnitude）。</p>
-<blockquote>
-<p>相位表示向量的旋转角度，幅度表示向量的长度。</p>
-</blockquote>
-<p>从而 RotatE 的 distance function 为：</p>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE5.png" srcset="/img/loading.gif" lazyload
-alt="distance function" />
-<figcaption aria-hidden="true">distance function</figcaption>
-</figure>
-<blockquote>
-<p>Trans 系列都叫的是 score function。</p>
-</blockquote>
-<p> </p>
-<h4 id="使用的范数">使用的范数</h4>
-<p>本文使用的都是 L1-norm：</p>
-<figure>
-<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/Lp3.png" srcset="/img/loading.gif" lazyload
-alt="Lp-norm" />
-<figcaption aria-hidden="true">Lp-norm</figcaption>
-</figure>
-<p> </p>
-<h4 id="与-transe-相比">与 TransE 相比</h4>
-<p>RotatE 能区分“对称”关系，而 TransE
-不能区分“对称”关系。所谓能够区分关系模式，就是指能够区分实体的不同。</p>
-<figure>
-<img
-src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RotatE4.png" srcset="/img/loading.gif" lazyload
-alt="TransE和RotatE translation是平移，rotation是旋转" />
-<figcaption
-aria-hidden="true">TransE和RotatE translation是平移，rotation是旋转</figcaption>
-</figure>
-<p>“The reason is that in TransE, <strong>any symmetric relation will be
-represented by a 0 translation vector</strong>. As a result, this will
-push the entities with symmetric relations to be close to each other in
-the embedding space.”</p>
-<p>因此，TransE 会把“对称”关系中的头实体和尾实体误认为是同一个实体。而
-RotatE 不会遇到这种问题，头实体要通过关系旋转
-180°才能到达尾实体，因此它俩的向量表示不同，从而能够被区分。此外，不同的“对称”关系也能由不同的向量来表示，而不是被笼统地归纳为
-0 向量。</p>
-<p> </p>
-<h3 id="自对抗负采样">自对抗负采样</h3>
-<blockquote>
-<p>负采样算法的本质就是基于某些方式来设置或调整负采样时的采样分布。</p>
-</blockquote>
-<p>本文采用的损失函数：</p>
-<figure>
-<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/NS.png" srcset="/img/loading.gif" lazyload
-alt="loss function" />
-<figcaption aria-hidden="true">loss function</figcaption>
-</figure>
-<p>传统的负采样方法就是随机替换三元组中的 h 或者 t
-来得到一个负样本，但这种方式产生的负样本可能太平凡了，很容易被模型判断出来是错的。我们训练模型就是想让它学会如何辨别一个三元组是不是合理的，而如果三元组太容易被辨别出来，训练就没有效果了。</p>
-<p>因此，作者提出的自对抗负采样：</p>
-<figure>
-<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/NS2.png" srcset="/img/loading.gif" lazyload
-alt="self-adversarial negative sampling" />
-<figcaption aria-hidden="true">self-adversarial negative
-sampling</figcaption>
-</figure>
+<p>最终 <span class="math inline">\(h_t=(1-z_t)\odot
+h_{t-1}+z_t\odot\widehat{h_t}\)</span></p>
 
                 
               </div>
@@ -528,7 +349,9 @@ sampling</figcaption>
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" class="print-no-link">#知识图谱</a>
+        <a href="/tags/RNN/" class="print-no-link">#RNN</a>
+      
+        <a href="/tags/CNN/" class="print-no-link">#CNN</a>
       
     </div>
   
@@ -540,8 +363,8 @@ sampling</figcaption>
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Knowledge Graph Embedding by Relational Rotation in Complex Space</div>
-      <div>http://example.com/2023/11/20/RotatE/</div>
+      <div>RNN 和 CNN 基础</div>
+      <div>http://example.com/2023/12/01/RNN&amp;CNN/</div>
     </div>
     <div class="license-meta">
       
@@ -553,7 +376,7 @@ sampling</figcaption>
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年11月20日</div>
+          <div>2023年12月1日</div>
         </div>
       
       
@@ -585,18 +408,12 @@ sampling</figcaption>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/11/21/Attention-based%20KG/" title="Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Learning Attention-based Embeddings for Relation Prediction in Knowledge Graphs</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/11/19/TransR/" title="Learning Entity and Relation Embeddings for Knowledge Graph Completion">
-                        <span class="hidden-mobile">Learning Entity and Relation Embeddings for Knowledge Graph Completion</span>
+                      <a href="/2023/12/01/GA-RNN/" title="Graph Attention Recurrent Neural Networks for Correlated Time Series Forecasting">
+                        <span class="hidden-mobile">Graph Attention Recurrent Neural Networks for Correlated Time Series Forecasting</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

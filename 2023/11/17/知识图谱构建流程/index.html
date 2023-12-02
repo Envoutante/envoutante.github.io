@@ -16,23 +16,21 @@
   <meta name="author" content="Envoutante">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考博客 知乎：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;145447330 博客园：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;huangyc&#x2F;p&#x2F;10043749.html 综述：知识图谱构建技术综述 清华 XLore：https:&#x2F;&#x2F;xlore.cn&#x2F;index   一、知识图谱简介1.1  历史沿革提出知识图谱的目的：  实现智能化语义检索 解决信息检索问题  虽然知识">
+    <meta name="description" content="参考博客 知乎：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;145447330 博客园：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;huangyc&#x2F;p&#x2F;10043749.html 综述：知识图谱构建技术综述 清华 XLore：https:&#x2F;&#x2F;xlore.cn&#x2F;index   一、知识图谱简介 1.1 历史沿革 提出知识图谱的目的：  实现智能化语义检索 解决">
 <meta property="og:type" content="article">
 <meta property="og:title" content="知识图谱构建流程详解">
 <meta property="og:url" content="http://example.com/2023/11/17/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E6%9E%84%E5%BB%BA%E6%B5%81%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Envoutante&#39;s Blog">
-<meta property="og:description" content="参考博客 知乎：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;145447330 博客园：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;huangyc&#x2F;p&#x2F;10043749.html 综述：知识图谱构建技术综述 清华 XLore：https:&#x2F;&#x2F;xlore.cn&#x2F;index   一、知识图谱简介1.1  历史沿革提出知识图谱的目的：  实现智能化语义检索 解决信息检索问题  虽然知识">
+<meta property="og:description" content="参考博客 知乎：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;145447330 博客园：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;huangyc&#x2F;p&#x2F;10043749.html 综述：知识图谱构建技术综述 清华 XLore：https:&#x2F;&#x2F;xlore.cn&#x2F;index   一、知识图谱简介 1.1 历史沿革 提出知识图谱的目的：  实现智能化语义检索 解决">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/graphpng.png">
 <meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/human.png">
-<meta property="og:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/process.jpg">
 <meta property="og:image" content="https://me.jinchuang.org/usr/uploads/2020/01/2122950147.png">
 <meta property="article:published_time" content="2023-11-17T14:50:38.711Z">
-<meta property="article:modified_time" content="2023-11-19T07:13:56.206Z">
+<meta property="article:modified_time" content="2023-12-01T07:40:10.424Z">
 <meta property="article:author" content="Envoutante">
 <meta property="article:tag" content="知识图谱">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/graphpng.png">
+<meta name="twitter:image" content="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/human.png">
   
   
   
@@ -279,33 +277,46 @@
               <div class="markdown-body">
                 
                 <p><strong>参考博客</strong></p>
-<p>知乎：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/145447330">https://zhuanlan.zhihu.com/p/145447330</a></p>
-<p>博客园：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/huangyc/p/10043749.html">https://www.cnblogs.com/huangyc/p/10043749.html</a></p>
-<p>综述：<a target="_blank" rel="noopener" href="http://kns-cnki-net-s.vpn.uestc.edu.cn:8118/KXReader/Detail?invoice=TfXLC2ZSNT9XLq1SP5F5Q9DYo1dpuUSVTM87GLoVDLiokXx5M8xMFoGMu7aMK/3Ct/fki/LdQgDhVvrV505vCEn2VAA3pa6x0jPIWd5WW/alFPDMCs3HfKHXXce3tMJ5b1t90Tg+SvdD9M68sD10nMMgtW8puh+wjUu1P858iwA=&DBCODE=CJFQ&FileName=JFYZ201603009&TABLEName=cjfdlast2016&nonce=49E73AC3869B4489BBF4BDE9628A1CDA&TIMESTAMP=1700221256698&uid=">知识图谱构建技术综述</a></p>
-<p>清华 XLore：<a target="_blank" rel="noopener" href="https://xlore.cn/index">https://xlore.cn/index</a></p>
-</br>
-
-<h2 id="一、知识图谱简介"><a href="#一、知识图谱简介" class="headerlink" title="一、知识图谱简介"></a>一、知识图谱简介</h2><h3 id="1-1-历史沿革"><a href="#1-1-历史沿革" class="headerlink" title="1.1  历史沿革"></a>1.1  历史沿革</h3><p>提出知识图谱的目的：</p>
+<p>知乎：https://zhuanlan.zhihu.com/p/145447330</p>
+<p>博客园：https://www.cnblogs.com/huangyc/p/10043749.html</p>
+<p>综述：<a
+target="_blank" rel="noopener" href="http://kns-cnki-net-s.vpn.uestc.edu.cn:8118/KXReader/Detail?invoice=TfXLC2ZSNT9XLq1SP5F5Q9DYo1dpuUSVTM87GLoVDLiokXx5M8xMFoGMu7aMK%2F3Ct%2Ffki%2FLdQgDhVvrV505vCEn2VAA3pa6x0jPIWd5WW%2FalFPDMCs3HfKHXXce3tMJ5b1t90Tg%2BSvdD9M68sD10nMMgtW8puh%2BwjUu1P858iwA%3D&amp;DBCODE=CJFQ&amp;FileName=JFYZ201603009&amp;TABLEName=cjfdlast2016&amp;nonce=49E73AC3869B4489BBF4BDE9628A1CDA&amp;TIMESTAMP=1700221256698&amp;uid=">知识图谱构建技术综述</a></p>
+<p>清华 XLore：https://xlore.cn/index</p>
+<p> </p>
+<h2 id="一知识图谱简介">一、知识图谱简介</h2>
+<h3 id="历史沿革">1.1 历史沿革</h3>
+<p>提出知识图谱的目的：</p>
 <ul>
 <li>实现智能化语义检索</li>
 <li>解决信息检索问题</li>
 </ul>
-<p>虽然知识图谱的概念较新，但它并非是一个全新的研究领域。早在 2006 年，Berners-Lee 就提出了数据链接（linkeddata）的思想，呼吁推广和完善相关的技术标准如：</p>
+<p>虽然知识图谱的概念较新，但它并非是一个全新的研究领域。早在 2006
+年，Berners-Lee
+就提出了数据链接（linkeddata）的思想，呼吁推广和完善相关的技术标准如：</p>
 <ul>
 <li>URI（uniform resource identifier）</li>
 <li>RDF（resource description framework）</li>
 <li>OWL（ontology language）</li>
 </ul>
 <p>为迎接<strong>语义网络</strong>时代的到来做好准备。随后掀起了一场语义网络研究热潮，知识图谱技术正是建立在相关的研究成果之上的，是对现有语义网络技术的一次扬弃和升华。</p>
-</br>
-
-<h3 id="1-2-定义"><a href="#1-2-定义" class="headerlink" title="1.2  定义"></a>1.2  定义</h3><p>定义：知识图谱是<strong>结构化的语义知识库</strong>，用于以符号形式描述物理世界中的概念及其相互关系。其基本组成单位是<strong>“实体-关系-实体”三元组，以及实体及其相关属性-值对</strong>。实体间通过关系相互联结，构成网状的知识结构。</p>
-<p>通过知识图谱，可以实现 web 从网页链接（web1.0）向概念链接转变，<strong>支持用户按主题而不是字符串检索</strong>，从而真正实现语义检索。基于知识图谱的搜索引擎，能够<strong>以图形方式向用户反馈结构化的知识</strong>，用户不浏览大量网页，就可以准确定位和深度获取知识。</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/graphpng.png" srcset="/img/loading.gif" lazyload alt="诸葛亮-清华博拉图"></p>
+<p> </p>
+<h3 id="定义">1.2 定义</h3>
+<p>定义：知识图谱是<strong>结构化的语义知识库</strong>，用于以符号形式描述物理世界中的概念及其相互关系。其基本组成单位是<strong>“实体-关系-实体"三元组，以及实体及其相关属性-值对</strong>。实体间通过关系相互联结，构成网状的知识结构。</p>
+<p>通过知识图谱，可以实现 web
+从网页链接（web1.0）向概念链接转变，<strong>支持用户按主题而不是字符串检索</strong>，从而真正实现语义检索。基于知识图谱的搜索引擎，能够<strong>以图形方式向用户反馈结构化的知识</strong>，用户不浏览大量网页，就可以准确定位和深度获取知识。</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/graphpng.png" srcset="/img/loading.gif" lazyload
+alt="诸葛亮-清华博拉图" />
+<figcaption aria-hidden="true">诸葛亮-清华博拉图</figcaption>
+</figure>
 <p>上述定义包含 3 层含义：</p>
 <ul>
 <li>知识图谱是由许多具有属性的实体通过关系链接而成的网状知识库。从图的角度来看，知识图谱在本质上是一种<strong>概念网络</strong>，其中的<strong>节点表示物理世界的实体（或概念）</strong>，而实体间的各种语义关系则构成网络中的边。由此，知识图谱是对物理世界的一种符号表达。</li>
-<li>知识图谱的研究价值在于，它是构建在当前 web 基础之上的一层<strong>覆盖网络（overlay network）</strong>，借助知识图谱，能够在 web 网页之上建立概念间的链接关系，从而以最小的代价将互联网中积累的信息组织起来，成为可以被利用的知识<strong>（信息–&gt;知识）</strong></li>
+<li>知识图谱的研究价值在于，它是构建在当前 web
+基础之上的一层<strong>覆盖网络（overlay
+network）</strong>，借助知识图谱，能够在 web
+网页之上建立概念间的链接关系，从而以最小的代价将互联网中积累的信息组织起来，成为可以被利用的知识<strong>（信息--&gt;知识）</strong></li>
 <li>知识图谱的应用价值在于，它能够改变现有的信息检索方式，一方面<strong>通过推理实现概念检索</strong>（相对于现有的字符串模糊匹配方式而言）；另一方面以<strong>图形化方式</strong>向用户展示经过分类整理的结构化知识，从而使人们从人工过滤网页寻找答案的模式中解脱出来。</li>
 </ul>
 <p>知识图谱的分类：</p>
@@ -313,23 +324,35 @@
 <li>用于构建结构化的百科知识的“通用知识图谱”</li>
 <li>基于行业数据构建和应用的“领域知识图谱”</li>
 </ul>
-</br>
-
-<h3 id="1-3-架构"><a href="#1-3-架构" class="headerlink" title="1.3  架构"></a>1.3  架构</h3><p>知识图谱的架构包含：</p>
+<p> </p>
+<h3 id="架构">1.3 架构</h3>
+<p>知识图谱的架构包含：</p>
 <ul>
 <li>知识图谱自身的逻辑结构，分为数据层、模式层</li>
 <li>构建知识图谱所采用的技术架构</li>
 </ul>
 <p><strong>知识图谱自身的逻辑结构</strong></p>
-<p>在知识图谱的数据层，<strong>知识以事实（fact）为单位存储在图数据库</strong>。例如谷歌的 Graphd 和微软的 Trinity 都是典型的图数据库。如果<strong>以“实体-关系-实体”或者“实体-属性-属性值”三元组作为事实的基本表达方式</strong>，则存储在图数据库中的所有数据将构成庞大的实体关系网络，形成知识的“图谱”。</p>
+<p>在知识图谱的数据层，<strong>知识以事实（fact）为单位存储在图数据库</strong>。例如谷歌的
+Graphd 和微软的 Trinity
+都是典型的图数据库。如果<strong>以“实体-关系-实体”或者“实体-属性-属性值”三元组作为事实的基本表达方式</strong>，则存储在图数据库中的所有数据将构成庞大的实体关系网络，形成知识的“图谱”。</p>
 <p>模式层位居数据层之上，是知识图谱的核心。在模式层存储的是经过提炼的知识，通常采用<strong>本体库</strong>来管理知识图谱的模式层，借助<strong>本体库对公理、规则和约束条件的支持能力</strong>来规范实体、关系以及实体的类型和属性等对象之间的联系。本体库在知识图谱中的地位相当于知识库的模具，拥有本体库的知识库冗余知识较少。</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/human.png" srcset="/img/loading.gif" lazyload alt="本体定义-人类"></p>
+<figure>
+<img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/human.png" srcset="/img/loading.gif" lazyload
+alt="本体定义-人类" />
+<figcaption aria-hidden="true">本体定义-人类</figcaption>
+</figure>
 <p><strong>构建知识图谱所采用的技术架构</strong></p>
 <p>下图给出了知识图谱技术的整体架构，其中虚线框内的部分为知识图谱的构建过程，同时也是知识图谱更新的过程。</p>
-<p><img src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/process.jpg" srcset="/img/loading.gif" lazyload alt="知识图谱构建过程"></p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/process.jpg" srcset="/img/loading.gif" lazyload
+alt="知识图谱构建过程" />
+<figcaption aria-hidden="true">知识图谱构建过程</figcaption>
+</figure>
 <p>如图所示，<strong>知识图谱的构建过程</strong>是从原始数据出发，采用一系列自动或半自动的技术手段，从原始数据中提取出知识要素（即事实），并将其存入知识库的数据层和模式层的过程。</p>
-<p>这是一个迭代更新的过程，根据知识获取的逻辑，每一轮迭代包含 3 个阶段：</p>
-<ol>
+<p>这是一个迭代更新的过程，根据知识获取的逻辑，每一轮迭代包含 3
+个阶段：</p>
+<ol type="1">
 <li><strong>信息抽取：</strong>从各种类型的数据源中提取出实体、属性以及实体间的相互关系，在此基础上将知识以本体的形式进行表达（本体对实体、属性和关系制定了规则和约束）；</li>
 <li><strong>知识融合：</strong>在获得新知识之后，还需要对其进行整合，以消除矛盾和歧义。比如某些实体可能有多种表达，某个特定称谓也许对应于多个不同的实体等；</li>
 <li><strong>知识加工：</strong>对于经过融合的新知识，还需要接受质量评估（部分需要人工参与甄别），合格的部分才能被加入到知识库中，以确保知识库的质量。新增数据之后，可以进行<strong>知识推理</strong>，以拓展现有知识，得到新的知识。</li>
@@ -337,13 +360,13 @@
 <p>知识图谱有 2 种构建方式：</p>
 <ul>
 <li><strong>自顶向下构建：</strong>是指借助百科类网站等结构化数据源，从高质量数据中提取本体和模式信息，加入到知识库中。</li>
-<li><strong>自底向上构建：</strong>是指借助一定的技术手段，从公开采集的数据中<strong>提取出资源模式</strong>，选择其中置信度较高的新模式，经人工审核之后，加入到知识库中。如：谷歌的 Knowledge Vault、微软的 Satori 等。</li>
+<li><strong>自底向上构建：</strong>是指借助一定的技术手段，从公开采集的数据中<strong>提取出资源模式</strong>，选择其中置信度较高的新模式，经人工审核之后，加入到知识库中。如：谷歌的
+Knowledge Vault、微软的 Satori 等。</li>
 </ul>
 <blockquote>
 <p>GPT：提取出资源模式就是指提取出数据中包含的实体、属性、关系。</p>
 </blockquote>
-</br>
-
+<p> </p>
 <p><strong>Data Acquisition 中的数据类型</strong></p>
 <p>知识图谱的<strong>原始数据</strong>类型一般来说有三类，也是互联网上的三类原始数据：</p>
 <ul>
@@ -357,87 +380,106 @@
 <li>使用 Neo4j 等常用的图数据库来进行存储</li>
 </ul>
 <blockquote>
-<p>在知识图谱方面，图数据库比关系数据库灵活的多。在数据少的时候，关系数据库也没有问题，效率也不低。但是随着知识图谱变的复杂，图数据库的优势会明显增加。当涉及到 2、3 度的关联查询，基于图数据库的效率会比关系数据库的效率高出几千倍甚至几百万倍。</p>
+<p>在知识图谱方面，图数据库比关系数据库灵活的多。在数据少的时候，关系数据库也没有问题，效率也不低。但是随着知识图谱变的复杂，图数据库的优势会明显增加。当涉及到
+2、3
+度的关联查询，基于图数据库的效率会比关系数据库的效率高出几千倍甚至几百万倍。</p>
 </blockquote>
-</br>
-
-<hr>
+<p> </p>
+<hr />
 <p>接下来介绍的是“知识图谱的构建技术”。</p>
-<hr>
-</br>
-
-<h2 id="二、信息抽取"><a href="#二、信息抽取" class="headerlink" title="二、信息抽取"></a>二、信息抽取</h2><p>信息抽取（infromation extraction）是知识图谱构建的第1步，其中的关键问题是：如何从异构数据源中自动抽取信息得到候选知识单元？（候选知识单元：被认为可能包含有用知识的单元或片段。）</p>
+<hr />
+<p> </p>
+<h2 id="二信息抽取">二、信息抽取</h2>
+<p>信息抽取（infromation
+extraction）是知识图谱构建的第1步，其中的关键问题是：如何从异构数据源中自动抽取信息得到候选知识单元？（候选知识单元：被认为可能包含有用知识的单元或片段。）</p>
 <p>信息抽取是一种自动化地从半结构化、非结构化数据中抽取<strong>实体、关系以及实体属性等结构化信息</strong>的技术。</p>
 <p>关键技术包括：实体抽取、关系抽取、属性抽取。</p>
-</br>
-
-<h3 id="2-1-实体抽取（Entity-Extraction）"><a href="#2-1-实体抽取（Entity-Extraction）" class="headerlink" title="2.1  实体抽取（Entity Extraction）"></a>2.1  实体抽取（Entity Extraction）</h3><p>实体抽取又称为命名实体识别（named entity recognition，NER），是指<strong>从文本数据集中自动识别出命名实体</strong>。</p>
+<p> </p>
+<h3 id="实体抽取entity-extraction">2.1 实体抽取（Entity
+Extraction）</h3>
+<p>实体抽取又称为命名实体识别（named entity
+recognition，NER），是指<strong>从文本数据集中自动识别出命名实体</strong>。</p>
 <p>实体抽取的质量（准确率和召回率）对后续的知识获取效率和质量影响极大，因此是信息抽取中最为基础和关键的部分。</p>
 <blockquote>
 <p>召回率</p>
-<p>$Recall&#x3D;\frac{True Positives+False Negatives}{True Positives} $</p>
+<p>$Recall= $</p>
 <p>用于衡量模型能够正确识别正例样本的能力。</p>
 </blockquote>
 <p>早期对实体抽取方法的研究主要面向单一领域（如特定行业或特定业务），关注如何识别出文本中的人名、地名等专有名词和有意义的时间等实体信息。</p>
 <table>
+
 <thead>
-<tr>
+<tr class="header">
 <th>方法</th>
 <th>效果</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>Raul；基于规则的方法</td>
 <td>耗费大量的人力，且可扩展性较差，难以适应数据的变化</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Liu；基于有监督学习；K-最近邻算法和条件随机场模型</td>
 <td>在准确率和召回率上的表现都不够理想，且算法的性能依赖于训练样本的规模</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Lin；基于有监督学习和规则；采用字典辅助下的最大熵算法</td>
-<td>在基于 Meline 论文摘要的 GENIA 数据集上取得了实体抽取准确率和召回率均超过 70％ 的实验结果</td>
+<td>在基于 Meline 论文摘要的 GENIA
+数据集上取得了实体抽取准确率和召回率均超过 70％ 的实验结果</td>
 </tr>
-</tbody></table>
-<p>随着命名实体识别技术不断取得进展，学术界开始关注开放域（open domain）的信息抽取问题，即不再限定于特定的知识领域，而是面向开放的互联网，研究和解决全网信息抽取问题。</p>
+</tbody>
+</table>
+<p>随着命名实体识别技术不断取得进展，学术界开始关注开放域（open
+domain）的信息抽取问题，即不再限定于特定的知识领域，而是面向开放的互联网，研究和解决全网信息抽取问题。</p>
 <table>
+
 <thead>
-<tr>
+<tr class="header">
 <th>方法</th>
 <th>效果</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>Sekine；命名实体分类体系</td>
 <td>将网络中的所有命名实体划分为 150 个分类</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Ling；借鉴 Freebase 的实体分类方法</td>
-<td>归纳出 112 个实体类别，并基于条件随机场模型进行实体边界识别，最后采用自适应感知机算法实现了对实体的自动分类，其实验结果显著优于 StanfordNER 等当前主流的命名实体识别系统</td>
+<td>归纳出 112
+个实体类别，并基于条件随机场模型进行实体边界识别，最后采用自适应感知机算法实现了对实体的自动分类，其实验结果显著优于
+StanfordNER 等当前主流的命名实体识别系统</td>
 </tr>
-</tbody></table>
-<p>然而，互联网中的内容是动态变化的，web2.0 技术更进一步推动了互联网的概念创新，采用人工预定义实体分类体系的方式已经很难适应时代的需求。</p>
+</tbody>
+</table>
+<p>然而，互联网中的内容是动态变化的，web2.0
+技术更进一步推动了互联网的概念创新，采用人工预定义实体分类体系的方式已经很难适应时代的需求。</p>
 <p>面向开放域的实体抽取和分类技术能够较好地解决这一问题，该方法的基本思想是对于任意给定的实体，采用统计机器学习的方法，从目标数据集（通常是网页等文本数据）中抽取出与之具有相似上下文特征的实体，从而实现实体的分类和聚类。在面向开放域的实体识别和分类研究中，不需要（也不可能）为每个领域或每个实体类别建立单独的语料库作为训练集。因此，该领域面临的主要挑战是如何从给定的少量实体实例中自动发现具有区分力的模式。</p>
 <table>
+
 <thead>
-<tr>
+<tr class="header">
 <th>方法</th>
 <th>效果</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>Whitelaw；提出了一种迭代扩展实体语料库的解决方案</td>
 <td>基本思路是根据已知的实体实例进行特征建模，利用该模型处理海量数据集得到新的命名实体列表，然后针对新实体建模，迭代地生成实体标注语料库</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Jain；提出了一种面向开放域的无监督学习算法；通过搜索引擎的服务器日志获取新出现的命名实体</td>
 <td>事先并不给出实体分类，而是基于实体的语义特征从搜索日志中识别出命名实体，然后采用聚类算法对识别出的实体对象进行聚类，该方法已经在搜索引擎技术中得到应用，用于根据用户输入的关键字自动补全信息</td>
 </tr>
-</tbody></table>
-</br>
-
-<h3 id="2-2-关系抽取（Relation-Extraction）"><a href="#2-2-关系抽取（Relation-Extraction）" class="headerlink" title="2.2  关系抽取（Relation Extraction）"></a>2.2  关系抽取（Relation Extraction）</h3><p>文本语料经过实体抽取，得到的是一系列离散的命名实体，为了得到语义信息，还需要<strong>从相关的语料中提取出实体之间的关联关系</strong>，通过关联关系将实体（概念）联系起来，才能够形成网状的知识结构。研究关系抽取技术的目的，就是解决如何从文本语料中抽取实体间的关系这一基本问题。</p>
-<ol>
+</tbody>
+</table>
+<p> </p>
+<h3 id="关系抽取relation-extraction">2.2 关系抽取（Relation
+Extraction）</h3>
+<p>文本语料经过实体抽取，得到的是一系列离散的命名实体，为了得到语义信息，还需要<strong>从相关的语料中提取出实体之间的关联关系</strong>，通过关联关系将实体（概念）联系起来，才能够形成网状的知识结构。研究关系抽取技术的目的，就是解决如何从文本语料中抽取实体间的关系这一基本问题。</p>
+<ol type="1">
 <li>人工构造语法和语义规则（模式匹配）</li>
 <li>统计机器学习方法</li>
 <li>基于特征向量或核函数的有监督学习方法</li>
@@ -445,9 +487,10 @@
 <li>开始研究面向开放域的信息抽取方法</li>
 <li>将面向开放域的信息抽取方法和面向封闭领域的传统方法结合</li>
 </ol>
-</br>
-
-<h3 id="2-3-属性抽取（Attribute-Extraction）"><a href="#2-3-属性抽取（Attribute-Extraction）" class="headerlink" title="2.3  属性抽取（Attribute Extraction）"></a>2.3  属性抽取（Attribute Extraction）</h3><p>属性抽取的目标是从不同信息源中采集特定实体的属性信息。例如针对某个公众人物，可以从网络公开信息中得到其昵称、生日、国籍、教育背景等信息。属性抽取技术能够从多种数据来源中汇集这些信息，实现对实体属性的完整勾画。</p>
+<p> </p>
+<h3 id="属性抽取attribute-extraction">2.3 属性抽取（Attribute
+Extraction）</h3>
+<p>属性抽取的目标是从不同信息源中采集特定实体的属性信息。例如针对某个公众人物，可以从网络公开信息中得到其昵称、生日、国籍、教育背景等信息。属性抽取技术能够从多种数据来源中汇集这些信息，实现对实体属性的完整勾画。</p>
 <p>由于可以将实体的属性视作实体与属性值之间的一种名词性关系，因此也可以<strong>将属性抽取任务转化为关系抽取任务</strong>。</p>
 <ul>
 <li>基于规则和启发式算法，抽取结构化数据。</li>
@@ -455,38 +498,38 @@
 <li>采用数据挖掘的方法直接从文本中挖掘实体属性和属性值之间的关系模式，据此实现对属性名和属性值在文本中的定位。</li>
 </ul>
 <p>采用数据挖掘的方法的基本假设是属性名和属性值之间有位置上的关联关系，事实上在真实语言环境中，许多实体属性值附近都存在一些用于限制和界定该属性值含义的<strong>关键字（属性名）</strong>，在自然语言处理技术中将这类属性称为<strong>有名属性</strong>，因此<strong>可以利用这些关键字来定位有名属性的属性值</strong>。</p>
-</br>
-
-</br>
-
-<h2 id="三、知识融合"><a href="#三、知识融合" class="headerlink" title="三、知识融合"></a>三、知识融合</h2><p>通过信息抽取，我们就从原始的半结构化、非结构化数据中获得了实体、关系以及实体的属性信息。</p>
+<p> </p>
+<p> </p>
+<h2 id="三知识融合">三、知识融合</h2>
+<p>通过信息抽取，我们就从原始的半结构化、非结构化数据中获得了实体、关系以及实体的属性信息。</p>
 <p>仍需解决的问题：</p>
 <ul>
 <li>信息之间的关系是扁平化的，缺乏层次性和逻辑性</li>
 <li>知识中还存在大量冗杂和错误的信息</li>
 </ul>
 <p>知识融合包括两部分内容：实体链接、知识合并。</p>
-</br>
-
-<h3 id="3-1-实体链接（Entity-Linking）"><a href="#3-1-实体链接（Entity-Linking）" class="headerlink" title="3.1  实体链接（Entity Linking）"></a>3.1  实体链接（Entity Linking）</h3><p>实体链接是指将文本中抽取得到的实体对象链接到知识库中对应的实体对象。</p>
+<p> </p>
+<h3 id="实体链接entity-linking">3.1 实体链接（Entity Linking）</h3>
+<p>实体链接是指将文本中抽取得到的实体对象链接到知识库中对应的实体对象。</p>
 <p>基本思想：</p>
-<ol>
+<ol type="1">
 <li>根据给定的<strong>实体指称项</strong>，从知识库中选出一组候选实体对象；</li>
 <li>通过相似度计算将实体指称项链接到正确的实体对象。</li>
 </ol>
 <p>研究历史：</p>
-<ol>
+<ol type="1">
 <li>仅关注如何将从文本中抽取到的实体链接到知识库中，忽视了位于同一文档的实体间存在的语义联系。</li>
-<li>开始关注利用实体的共现关系，同时将多个实体链接到知识库中，即集成实体链接（collective entity linking）。</li>
+<li>开始关注利用实体的共现关系，同时将多个实体链接到知识库中，即集成实体链接（collective
+entity linking）。</li>
 </ol>
 <p>实体链接的流程：</p>
 <ul>
 <li>从文本中通过实体抽取得到实体指称项。</li>
-<li>进行<strong>实体消歧</strong>和<strong>共指消解</strong>：<ul>
+<li>进行<strong>实体消歧</strong>和<strong>共指消解</strong>：
+<ul>
 <li>判断知识库中同名的实体是否与之表示不同的含义</li>
 <li>判断知识库中不同名的实体是否与之表示相同的含义</li>
-</ul>
-</li>
+</ul></li>
 <li>在确认知识库中对应的正确实体对象之后，将该实体指称项链接到知识库中对应实体。</li>
 </ul>
 <blockquote>
@@ -501,8 +544,7 @@
 <li>职业</li>
 <li>教育背景</li>
 <li>家庭关系</li>
-</ul>
-</li>
+</ul></li>
 <li><p>地点实体的指标项：</p>
 <ul>
 <li>名称</li>
@@ -511,19 +553,21 @@
 <li>面积</li>
 <li>历史事件</li>
 <li>相关地理特征</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 </blockquote>
-</br>
-
-<h4 id="3-1-1-实体消歧"><a href="#3-1-1-实体消歧" class="headerlink" title="3.1.1  实体消歧"></a>3.1.1  实体消歧</h4><p>实体消歧主要用于解决同名的实体之间存在歧义的问题。</p>
+<p> </p>
+<h4 id="实体消歧">3.1.1 实体消歧</h4>
+<p>实体消歧主要用于解决同名的实体之间存在歧义的问题。</p>
 <p>例如，“李娜”这个名词（指称项）可以对应于作为歌手的李娜这个实体，也可以对应于作为网球运动员的李娜这个实体。</p>
-<p>通过实体消歧，就可以根据当前的语境，准确建立实体链接，实体消歧主要采用聚类法。聚类法是指以实体对象为聚类中心，将所有指向同一目标实体对象的指称项聚集到以该对象为中心的类别下。采用聚类法消歧的关键问题是<strong>如何定义实体对象与指称项之间的相似度</strong>，常用方法有 4 种。</p>
-</br>
-
-<h4 id="3-1-2-共指消解"><a href="#3-1-2-共指消解" class="headerlink" title="3.1.2  共指消解"></a>3.1.2  共指消解</h4><p>共指消解主要用于解决多个实体指称项对应同一实体对象的问题。</p>
-<p>例如，在一篇新闻稿中，“Barack Obama”、“president Obama”、“the president” 等指称项指向的是同一实体对象，其中的许多代词如 “he”、“him” 等，也可能指向该实体对象。</p>
+<p>通过实体消歧，就可以根据当前的语境，准确建立实体链接，实体消歧主要采用聚类法。聚类法是指以实体对象为聚类中心，将所有指向同一目标实体对象的指称项聚集到以该对象为中心的类别下。采用聚类法消歧的关键问题是<strong>如何定义实体对象与指称项之间的相似度</strong>，常用方法有
+4 种。</p>
+<p> </p>
+<h4 id="共指消解">3.1.2 共指消解</h4>
+<p>共指消解主要用于解决多个实体指称项对应同一实体对象的问题。</p>
+<p>例如，在一篇新闻稿中，“Barack Obama”、“president Obama”、“the
+president” 等指称项指向的是同一实体对象，其中的许多代词如 “he”、“him”
+等，也可能指向该实体对象。</p>
 <p>利用共指消解技术，可以<strong>将这些指称项关联（合并）到正确的实体对象</strong>，由于该问题在信息检索和自然语言处理等领域具有特殊的重要性，吸引了大量的研究努力。</p>
 <p>共指消解还有一些其它的名字，比如：</p>
 <ul>
@@ -531,9 +575,9 @@
 <li>实体匹配（entity matching）</li>
 <li>实体同义（entity synonyms）</li>
 </ul>
-</br>
-
-<h3 id="3-2-知识合并"><a href="#3-2-知识合并" class="headerlink" title="3.2  知识合并"></a>3.2  知识合并</h3><p>在构建知识图谱时，可以从第三方知识库产品或已有的结构化数据获取知识输入。</p>
+<p> </p>
+<h3 id="知识合并">3.2 知识合并</h3>
+<p>在构建知识图谱时，可以从第三方知识库产品或已有的结构化数据获取知识输入。</p>
 <p>常见的知识合并需求有两个：</p>
 <ul>
 <li>合并外部知识库</li>
@@ -544,65 +588,72 @@
 <li>数据层的融合，包括实体的指称、属性、关系以及所属类别等，主要的问题是如何避免实例以及关系的冲突问题，造成不必要的冗余</li>
 <li>模式层的融合，将新得到的本体融入已有的本体库中</li>
 </ul>
-<p>合并关系数据库：在知识图谱构建过程中，一个重要的高质量知识来源是企业或者机构自己的关系数据库。为了将这些结构化的历史数据融入到知识图谱中，可以采用资源描述框架（RDF）作为数据模型。业界和学术界将这一数据转换过程形象地称为 RDB2RDF，其实质就是将关系数据库的数据换成 RDF 的三元组数据。</p>
-</br>
-
-</br>
-
-<h2 id="四、知识加工"><a href="#四、知识加工" class="headerlink" title="四、知识加工"></a>四、知识加工</h2><p>在前面，我们已经通过信息抽取，从原始语料中提取出了实体、关系与属性等知识要素，并且经过知识融合，消除实体指称项与实体对象之间的歧义，得到一系列基本的事实表达。</p>
+<p>合并关系数据库：在知识图谱构建过程中，一个重要的高质量知识来源是企业或者机构自己的关系数据库。为了将这些结构化的历史数据融入到知识图谱中，可以采用资源描述框架（RDF）作为数据模型。业界和学术界将这一数据转换过程形象地称为
+RDB2RDF，其实质就是将关系数据库的数据换成 RDF 的三元组数据。</p>
+<p> </p>
+<p> </p>
+<h2 id="四知识加工">四、知识加工</h2>
+<p>在前面，我们已经通过信息抽取，从原始语料中提取出了实体、关系与属性等知识要素，并且经过知识融合，消除实体指称项与实体对象之间的歧义，得到一系列基本的事实表达。</p>
 <p>然而事实本身并不等于知识。要想最终获得结构化，网络化的知识体系，还需要经历知识加工的过程。</p>
 <p>知识加工主要包括 3 方面内容：本体构建、知识推理、质量评估。</p>
-</br>
-
-<h3 id="4-1-本体构建"><a href="#4-1-本体构建" class="headerlink" title="4.1  本体构建"></a>4.1  本体构建</h3><p>本体（ontology）是指人工的概念集合、概念框架，是描述客观世界的抽象模型，如“人”、“事”、“物”等。在知识图谱中，本体位于模式层，用于描述概念层次体系，是知识库中知识的概念模板。</p>
+<p> </p>
+<h3 id="本体构建">4.1 本体构建</h3>
+<p>本体（ontology）是指人工的概念集合、概念框架，是描述客观世界的抽象模型，如“人”、“事”、“物”等。在知识图谱中，本体位于模式层，用于描述概念层次体系，是知识库中知识的概念模板。</p>
 <p>本体的最大特点在于它是<strong>共享的</strong>：</p>
 <ul>
 <li>本体中反映的知识是一种明确定义的共识</li>
 <li>本体是同一领域内不同主体间交流的语义基础</li>
 </ul>
 <p>本体是树状结构，相邻层次的节点（概念）之间具有严格的“IsA”关系，这种单纯的关系<strong>有助于知识推理，但却不利于表达概念的多样性</strong>。</p>
-</br>
-
+<p> </p>
 <p>本体可以采用人工编辑的方式手动构建，即借助<strong>本体编辑软件</strong>：</p>
-<p><img src="https://me.jinchuang.org/usr/uploads/2020/01/2122950147.png" srcset="/img/loading.gif" lazyload alt="本体编辑软件-protege"></p>
+<figure>
+<img src="https://me.jinchuang.org/usr/uploads/2020/01/2122950147.png" srcset="/img/loading.gif" lazyload
+alt="本体编辑软件-protege" />
+<figcaption aria-hidden="true">本体编辑软件-protege</figcaption>
+</figure>
 <p>也可以用<strong>数据驱动的自动化方式</strong>构建本体，包含三个阶段：实体并列关系相似度计算、实体上下位关系抽取、本体的生成。</p>
-<ol>
-<li><strong>实体并列关系相似度：</strong>用于考察任意给定的 2 个实体在多大程度上属于同一概念分类的指标测度，相似度越高，表明这 2 个实体越有可能属于同一语义类别。所谓并列关系，是相对于纵向的概念隶属关系而言的。例如“中国”和“美国”作为国家名称的实体，具有较高的并列关系相似度；而“美国”和“手机”这 2 个实体，属于同一语义类别的可能性较低，因此具有较低的并列关系相似度。</li>
+<ol type="1">
+<li><strong>实体并列关系相似度：</strong>用于考察任意给定的 2
+个实体在多大程度上属于同一概念分类的指标测度，相似度越高，表明这 2
+个实体越有可能属于同一语义类别。所谓并列关系，是相对于纵向的概念隶属关系而言的。例如“中国”和“美国”作为国家名称的实体，具有较高的并列关系相似度；而“美国”和“手机”这
+2
+个实体，属于同一语义类别的可能性较低，因此具有较低的并列关系相似度。</li>
 <li><strong>实体上下位关系抽取：</strong>用于确定概念之间的隶属（IsA）关系，这种关系也称为上下位关系，例如，词组（导弹，武器）构成上下位关系，其中的“导弹”为下位词，“武器”为上位词。</li>
-<li><strong>本体生成：</strong>用于对得到的概念进行聚类，并对其进行语义类的标定，即为该类中的实体指定 1 个或多个公共上位词。</li>
+<li><strong>本体生成：</strong>用于对得到的概念进行聚类，并对其进行语义类的标定，即为该类中的实体指定
+1 个或多个公共上位词。</li>
 </ol>
 <p><strong>举例说明</strong></p>
-<ol>
+<ol type="1">
 <li><strong>计算实体并列关系相似度：</strong>当知识图谱刚刚得到“中国”、“美国”、“手机”这三个实体（概念）时，可能会认为它们三个之间并没有什么差别。但当它去计算三个实体之间的相似度后，就会发现“中国”、“美国”之间相似度高，可能属于同一语义类别；“中国”和“手机”、“美国”和“手机”之间相似度低，可能不属于同一语义类别。</li>
 <li><strong>抽取实体上下位关系：</strong>确定“中国”和“美国”这两个实体共同的上位概念。在这个例子中，可能的上位概念是“国家”或“主权国家”。确定上位概念后，查找表达实体上下位关系的词语。常见的上下位关系词语包括：“是一种”、“属于”、“包括”等，可能会用到类似“中国是一个国家”、“美国是一个国家”的表达方式。</li>
 <li><strong>生成本体：</strong>在这个例子中，我们将“中国”和“美国”聚类到“国家”类别中，而“手机”则属于“科技产品”类别。然后为每个类别中的实体指定了一个或多个公共上位词。“中国”和“美国”可以共享“政治实体”作为它们的公共上位词，而“手机”可以有“智能设备”作为其公共上位词。</li>
 </ol>
-</br>
-
-<h3 id="4-2-知识推理"><a href="#4-2-知识推理" class="headerlink" title="4.2  知识推理"></a>4.2  知识推理</h3><blockquote>
+<p> </p>
+<h3 id="知识推理">4.2 知识推理</h3>
+<blockquote>
 <p>在我们完成了本体构建这一步之后，一个知识图谱的雏形便已经搭建好了。但可能在这个时候，知识图谱之间大多数关系都是残缺的，缺失值非常严重，那么这个时候，我们就可以使用知识推理技术，去完成进一步的知识发现。</p>
 </blockquote>
 <p>知识推理是指从知识库中已有的实体关系数据出发，经过计算机推理，建立实体间的新关联，从而拓展和丰富知识网络。</p>
 <p>例如，已知（乾隆，父亲，雍正）和（雍正，父亲，康熙），可以得到（乾隆，祖父，康熙）或（康熙，孙子，乾隆）。知识推理的对象并不局限于实体间的关系，也可以是实体的属性值、本体的概念层次关系等。例如，已知某实体的生日属性，可以通过推理得到该实体的年龄属性。根据本体库中的概念继承关系，也可以进行概念推理。例如，已知（老虎，科，猫科）和（猫科，目，食肉目），可以推出（老虎，目，食肉目）。</p>
-<p>这一块的算法主要可以分为 3 大类，<strong>基于逻辑的推理、基于图的推理、基于深度学习的推理</strong>。</p>
-</br>
-
-<h3 id="4-3-质量评估"><a href="#4-3-质量评估" class="headerlink" title="4.3  质量评估"></a>4.3  质量评估</h3><p>质量评估也是知识库构建技术的重要组成部分，这一部分存在的意义在于：可以对知识的可信度进行量化，通过舍弃置信度较低的知识来保障知识库的质量。</p>
-</br>
-
-</br>
-
-<h2 id="五、知识更新"><a href="#五、知识更新" class="headerlink" title="五、知识更新"></a>五、知识更新</h2><p>从逻辑上看，知识库的更新包括数据层的更新和概念层的更新。<strong>数据层的更新</strong>主要是新增或更新实体、关系和属性值，对数据层进行更新时需要考虑数据源的可靠性、数据的一致性（是否存在矛盾或冗余等问题）等多方面因素。<strong>概念层的更新</strong>是指新增数据后获得了新的概念，需要自动将新的概念添加到知识库的概念层中。</p>
+<p>这一块的算法主要可以分为 3
+大类，<strong>基于逻辑的推理、基于图的推理、基于深度学习的推理</strong>。</p>
+<p> </p>
+<h3 id="质量评估">4.3 质量评估</h3>
+<p>质量评估也是知识库构建技术的重要组成部分，这一部分存在的意义在于：可以对知识的可信度进行量化，通过舍弃置信度较低的知识来保障知识库的质量。</p>
+<p> </p>
+<p> </p>
+<h2 id="五知识更新">五、知识更新</h2>
+<p>从逻辑上看，知识库的更新包括数据层的更新和概念层的更新。<strong>数据层的更新</strong>主要是新增或更新实体、关系和属性值，对数据层进行更新时需要考虑数据源的可靠性、数据的一致性（是否存在矛盾或冗余等问题）等多方面因素。<strong>概念层的更新</strong>是指新增数据后获得了新的概念，需要自动将新的概念添加到知识库的概念层中。</p>
 <p>知识图谱的内容更新有两种方式：</p>
 <ul>
 <li>全面更新：指以更新后的全部数据为输入，从零开始构建知识图谱。这种方法比较简单，但资源消耗大，而且需要耗费大量人力资源进行系统维护；</li>
 <li>增量更新：以当前新增数据为输入，向现有知识图谱中添加新增知识。这种方式资源消耗小，但目前仍需要大量人工干预（定义规则等），因此实施起来十分困难。</li>
 </ul>
-</br>
-
-</br>
-
-<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>通过知识图谱技术，不仅可以将互联网的信息表达成更接近人类认知世界的形式，而且提供了一种更好的组织、管理和利用海量信息的方式。目前的知识图谱技术主要用于<strong>智能语义搜索、移动个人助理（Siri）以及深度问答系统（Watson）</strong>，支撑这些应用的核心技术正是知识图谱技术。</p>
+<p> </p>
+<p> </p>
+<h2 id="六总结">六、总结</h2>
+<p>通过知识图谱技术，不仅可以将互联网的信息表达成更接近人类认知世界的形式，而且提供了一种更好的组织、管理和利用海量信息的方式。目前的知识图谱技术主要用于<strong>智能语义搜索、移动个人助理（Siri）以及深度问答系统（Watson）</strong>，支撑这些应用的核心技术正是知识图谱技术。</p>
 <p>在智能语义搜索中，当用户发起查询时，搜索引擎会借助知识图谱的帮助对用户查询的关键词进行解析和推理，进而将其映射到知识图谱中的一个或一组概念之上，然后根据知识图谱的概念层次结构，向用户返回图形化的知识结构，这就是我们在谷歌和百度的搜索结果中看到的<strong>知识卡片</strong>。</p>
 <p>在深度问答应用中，系统同样会首先在知识图谱的帮助下对用户使用自然语言提出的问题进行语义分析和语法分析，进而将其转化成<strong>结构化形式的查询语句</strong>，然后在知识图谱中查询答案。比如，如果用户提问：『如何判断是否感染了埃博拉病毒？』，则该查询有可能被等价变换为『埃博拉病毒的症状有哪些？』，然后再进行推理变换，<strong>最终形成等价的三元组查询语句</strong>，如（埃博拉，症状，？）和（埃博拉，征兆，？）等。如果由于知识库不完善而无法通过推理来解答用户的问题，深度问答系统还可以利用搜索引擎向用户反馈搜索结果，同时根据搜索结果更新知识库，从而为回答后续的提问提前做出准备。</p>
 
@@ -742,6 +793,12 @@
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -935,6 +992,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
