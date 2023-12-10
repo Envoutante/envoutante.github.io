@@ -1,0 +1,1226 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Envoutante">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考博客 知乎：Retention 机制公式推导   Retention RetNet 的架构和 Transformer 的类似，也是堆叠 \(L\) 层相同的模块。 RetNet 的每个模块包含两个子模块：  MSR, multi-scale retention FFN, feed-forward network  下面详细解读一下这个 Retention 子模块。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retention 公式推导">
+<meta property="og:url" content="http://example.com/2023/12/07/RetNet%20%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/index.html">
+<meta property="og:site_name" content="Envoutante&#39;s Blog">
+<meta property="og:description" content="参考博客 知乎：Retention 机制公式推导   Retention RetNet 的架构和 Transformer 的类似，也是堆叠 \(L\) 层相同的模块。 RetNet 的每个模块包含两个子模块：  MSR, multi-scale retention FFN, feed-forward network  下面详细解读一下这个 Retention 子模块。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-12-07T08:44:37.372Z">
+<meta property="article:modified_time" content="2023-12-10T06:19:22.723Z">
+<meta property="article:author" content="Envoutante">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Retention 公式推导 - Envoutante&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Envoutante&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Retention 公式推导"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-07 16:44" pubdate>
+          2023年12月7日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          94 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Retention 公式推导</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>参考博客</strong></p>
+<p>知乎：<a
+target="_blank" rel="noopener" href="https://www.zhihu.com/question/612761391/answer/3135728028">Retention
+机制公式推导</a></p>
+<p> </p>
+<h1 id="retention">Retention</h1>
+<p>RetNet 的架构和 Transformer 的类似，也是堆叠 <span
+class="math inline">\(L\)</span> 层相同的模块。</p>
+<p>RetNet 的每个模块包含两个子模块：</p>
+<ul>
+<li>MSR, multi-scale retention</li>
+<li>FFN, feed-forward network</li>
+</ul>
+<p>下面详细解读一下这个 Retention 子模块。</p>
+<p> </p>
+<h2 id="input">Input</h2>
+<p>首先给定一个输入序列 <span class="math inline">\(\left \{x_i\right
+\}_{i=1}^{|x|}\)</span>，它的展开形式为：</p>
+<p><span class="math display">\[x=x_1x_2...x_{|x|}\]</span></p>
+<p>其中 <span class="math inline">\(|x|\)</span>
+表示输入序列的长度。</p>
+<p>然后把输入序列送入 embedding 层得到它的词嵌入向量：</p>
+<p><span class="math display">\[X^0=[x_1, x_2, ..., x_{|x|}]\in
+R^{|x|\times d}\]</span></p>
+<p>其中 <span class="math inline">\(d\)</span> 表示隐藏层的维度。</p>
+<blockquote>
+<p><span class="math inline">\(X^0\)</span> 的上标 <span
+class="math inline">\(0\)</span> 代表这是模型第 <span
+class="math inline">\(0\)</span> 层的输出，后面提到的 <span
+class="math inline">\(X^l\)</span> 的上标 <span
+class="math inline">\(l\)</span> 代表这是模型第 <span
+class="math inline">\(l\)</span> 层的输出。</p>
+</blockquote>
+<p> </p>
+<h2 id="projection">Projection</h2>
+<p>首先针对上面得到的词嵌入向量序列 <span class="math inline">\(X^0\in
+R^{|x|\times d}\)</span>，让其行向量 <span class="math inline">\(X_n\in
+R^{1\times d}\)</span> 都乘以权值矩阵 <span class="math inline">\(w_V\in
+R^{d\times d}\)</span>，得到 <span class="math inline">\(v_n\in
+R^{1\times d}\)</span> ：</p>
+<p><span class="math display">\[v_n=X_nw_V\]</span></p>
+<blockquote>
+<p>由于 RetNet 把并行范式解构成了循环范式，因此 <span
+class="math inline">\(X_n\)</span> 还可以表示每个时间步 <span
+class="math inline">\(n\)</span> 的输入。</p>
+</blockquote>
+<p>在 Transformer 中是直接拿整个 <span class="math inline">\(X\)</span>
+矩阵去乘 <span
+class="math inline">\(w_V\)</span>，但是这里却拆成了一行一行去乘：</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RetNet12.png" srcset="/img/loading.gif" lazyload
+alt="v_n=X_nw_V" />
+<figcaption aria-hidden="true"><span
+class="math inline">\(v_n=X_nw_V\)</span></figcaption>
+</figure>
+<p>然而对于 <span class="math inline">\(Q\)</span> 和 <span
+class="math inline">\(K\)</span>，其操作是和 Transformer 一样的：</p>
+<p><span class="math display">\[Q=XW_Q,K=XW_K\]</span></p>
+<p>其中 <span class="math inline">\(W_Q,W_K\in R^{d\times d}\)</span>
+是需要学习的权值矩阵。</p>
+<p> </p>
+<h2 id="recurrent">Recurrent</h2>
+<p>现在假设有一个序列建模的问题，它需要通过状态 <span
+class="math inline">\(s_n\)</span> 将 <span
+class="math inline">\(v_n\)</span> 向量映射为 <span
+class="math inline">\(o_n\)</span> 向量。</p>
+<p>首先来看作者定义的映射方式： <span class="math display">\[
+\begin{alignat}{2}
+s_n&amp;=As_{n-1}+K_n^Tv_n \\
+o_n&amp;=Q_ns_n=\sum_{m=1}^{n} Q_nA^{n-m}K_m^Tv_m
+\end{alignat}
+\]</span> 其中 <span class="math inline">\(A\in R^{d\times d}\)</span>
+是一个矩阵，<span class="math inline">\(K_n,Q_n\in R^{1\times
+d}\)</span> 都是一个向量，根据矩阵乘法原理有 <span
+class="math inline">\(K_n^Tv_n\in R^{d\times d}\)</span> 。此外，<span
+class="math inline">\(K_n\)</span> 表示时间步 <span
+class="math inline">\(n\)</span> 对应的 <span
+class="math inline">\(K\)</span> 投影，<span
+class="math inline">\(Q_n\)</span> 表示时间步 <span
+class="math inline">\(n\)</span> 对应的 <span
+class="math inline">\(Q\)</span> 投影。</p>
+<p>那么上述映射方式是怎么得到的呢？为何将映射方式定义成这样呢？下面将进行详细解释。</p>
+<p>首先，根据 RNN 原理对 <span class="math inline">\(Q_ns_n\)</span>
+进行展开： <span class="math display">\[
+\begin{alignat}{2}
+Q_ns_n &amp;= Q_n(As_{n-1}+K_n^Tv_n) \\
+&amp;= Q_n(A(As_{n-2}+K_{n-1}^Tv_{n-1})+K_n^Tv_n)\\
+&amp;= Q_n(A^2s_{n-2}+A^1K_{n-1}^Tv_{n-1}+A^0K_n^Tv_n)\\
+&amp;=
+Q_n(A^2(As_{n-3}+K_{n-2}^Tv_{n-2})+A^1K_{n-1}^Tv_{n-1}+A^0K_n^Tv_n)\\
+&amp;=
+Q_n(A^3s_{n-3}+A^2K_{n-2}^Tv_{n-2}+A^1K_{n-1}^Tv_{n-1}+A^0K_n^Tv_n)\\
+&amp;=\ ...\\
+&amp;=
+Q_n(A^{n-1}s_{1}+A^{n-2}K_{2}^Tv_{2}+...+A^1K_{n-1}^Tv_{n-1}+A^0K_n^Tv_n)
+\end{alignat}
+\]</span> 其中 <span class="math inline">\(A^0\)</span>
+表示单位矩阵。现在，我们假定初始状态 <span
+class="math inline">\(s_0\)</span> 是零矩阵，则有 <span
+class="math inline">\(s_1=As_0+K_{1}^Tv_{1}=K_{1}^Tv_{1}\)</span>，代入上式得到：
+<span class="math display">\[
+\begin{alignat}{2}
+Q_ns_n &amp;=
+Q_n(A^{n-1}K_{1}^Tv_{1}+A^{n-2}K_{2}^Tv_{2}+...+A^1K_{n-1}^Tv_{n-1}+A^0K_n^Tv_n)
+\end{alignat}
+\]</span> 圆括号中的每一项都可以写作 <span
+class="math inline">\(A^{n-m}K_{m}^Tv_{m}\)</span>，因此上式可以整理为：</p>
+<p><span class="math display">\[Q_ns_n=\sum_{m=1}^{n}
+Q_nA^{n-m}K_m^Tv_m\]</span></p>
+<p>以上便是对 <span class="math inline">\(o_n=Q_ns_n\)</span>
+的推导过程。</p>
+<blockquote>
+<p>但是求到这里我还是不明白为什么作者要强调一行一行地计算 <span
+class="math inline">\(v_n\)</span>，它其实可以和 <span
+class="math inline">\(Q\)</span>、<span class="math inline">\(K\)</span>
+一样啊，到时候用的是 <span class="math inline">\(V_n\)</span>
+就行了。</p>
+</blockquote>
+<p> </p>
+<h2 id="a-matrix">A-matrix</h2>
+<p>在前面的小节中，我们已经介绍了 <span
+class="math inline">\(Q\)</span>、<span class="math inline">\(K\)</span>
+和 <span class="math inline">\(v_n\)</span>，并且推导了映射公式：</p>
+<p><span class="math display">\[o_n=Q_ns_n=\sum_{m=1}^{n}
+Q_nA^{n-m}K_m^Tv_m\]</span></p>
+<p>现在来看 <span class="math inline">\(A\)</span>
+到底是何方神圣。作者将 <span class="math inline">\(A\)</span>
+定义为一个可对角化的矩阵：</p>
+<p><span class="math display">\[A=\Lambda (\gamma e^{i\theta})\Lambda
+^{-1}\]</span></p>
+<p>其中 <span class="math inline">\(\gamma,\theta\in R^{d}\)</span>
+都是一个向量，<span class="math inline">\(\Lambda\)</span>
+是一个可逆矩阵，<span class="math inline">\(\gamma e^{i\theta}\)</span>
+是一个对角矩阵。现在我们知道了 <span class="math inline">\(A\)</span>
+矩阵的构成，从而就能得到： <span class="math display">\[
+\begin{alignat}{2}
+A^{n-m} &amp;= (\Lambda (\gamma e^{i\theta})\Lambda ^{-1})^{n-m} \\
+&amp;= \Lambda (\gamma e^{i\theta})\Lambda ^{-1}\Lambda (\gamma
+e^{i\theta})\Lambda ^{-1}...\Lambda (\gamma e^{i\theta})\Lambda ^{-1}\\
+&amp;= \Lambda (\gamma e^{i\theta})(\gamma e^{i\theta})...(\gamma
+e^{i\theta})\Lambda ^{-1}\\
+&amp;= \Lambda (\gamma e^{i\theta})^{n-m}\Lambda ^{-1}
+\end{alignat}
+\]</span> 然后将 <span class="math inline">\(A^{n-m}\)</span> 代回到
+<span class="math inline">\(o_n\)</span> 的公式，则有： <span
+class="math display">\[
+\begin{alignat}{2}
+o_n=Q_ns_n &amp;= \sum_{m=1}^{n} Q_nA^{n-m}K_m^Tv_m \\
+&amp;= \sum_{m=1}^{n} Q_n\Lambda (\gamma e^{i\theta})^{n-m}\Lambda
+^{-1}K_m^Tv_m
+\end{alignat}
+\]</span> 根据前面小节的介绍，我们知道 <span
+class="math inline">\(Q_n\)</span> 和 <span
+class="math inline">\(K_m\)</span> 可以分别表示为 <span
+class="math inline">\(X_nW_Q\)</span> 和 <span
+class="math inline">\(X_nW_K\)</span>，从而有： <span
+class="math display">\[
+\begin{alignat}{2}
+o_n=Q_ns_n &amp;= \sum_{m=1}^{n} Q_nA^{n-m}K_m^Tv_m \\
+&amp;= \sum_{m=1}^{n} Q_n\Lambda (\gamma e^{i\theta})^{n-m}\Lambda
+^{-1}K_m^Tv_m \\
+&amp;= \sum_{m=1}^{n} (X_nW_Q)\Lambda (\gamma e^{i\theta})^{n-m}\Lambda
+^{-1}(W_K^TX_m^T)v_m \\
+\end{alignat}
+\]</span> 作者提出可以把 <span class="math inline">\(\Lambda\)</span> 和
+<span class="math inline">\(\Lambda^{-1}\)</span> 吸收到 <span
+class="math inline">\(W_Q\)</span> 和 <span
+class="math inline">\(W_K^T\)</span> 中，也就是： <span
+class="math display">\[
+\begin{alignat}{2}
+W_Q\Lambda &amp;\Rightarrow W_Q,\ \ Q_n=X_nW_Q\\
+\Lambda^{-1}W_K^T &amp;\Rightarrow W_K^T,\ \ K_n=X_nW_K
+\end{alignat}
+\]</span> 那么可以将 <span class="math inline">\(o_n\)</span>
+的公式进一步简化为： <span class="math display">\[
+\begin{alignat}{2}
+o_n=Q_ns_n &amp;=\ ... \\
+&amp;= \sum_{m=1}^{n} (X_nW_Q)\Lambda (\gamma e^{i\theta})^{n-m}\Lambda
+^{-1}(W_K^TX_m^T)v_m \\
+&amp;= \sum_{m=1}^{n} Q_n(\gamma e^{i\theta})^{n-m}K_m^Tv_m
+\end{alignat}
+\]</span> 接着对 <span class="math inline">\((\gamma
+e^{i\theta})^{n-m}\)</span> 进行拆分，注意 <span
+class="math inline">\(\gamma e^{i\theta}\)</span> 是一个矩阵而不是标量：
+<span class="math display">\[
+\begin{alignat}{2}
+o_n=Q_ns_n &amp;=\ ... \\
+&amp;= \sum_{m=1}^{n} Q_n(\gamma e^{i\theta})^{n-m}K_m^Tv_m \\
+&amp;= \sum_{m=1}^{n} Q_n(\gamma e^{i\theta})^{n}(\gamma
+e^{i\theta})^{-m}K_m^Tv_m \\
+&amp;= \sum_{m=1}^{n} Q_n(\gamma e^{i\theta})^{n}(K_m(\gamma
+e^{i\theta})^{-m})^Tv_m \\
+&amp;= \sum_{m=1}^{n} Q_n(\gamma^{n} e^{in\theta})(K_m\gamma^{-m}
+e^{i(-m)\theta})^Tv_m
+\end{alignat}
+\]</span> 为了进一步将公式简化，作者将 <span
+class="math inline">\(\gamma\)</span> 改为一个实数常量，那么可得： <span
+class="math display">\[
+\begin{alignat}{2}
+o_n=Q_ns_n &amp;=\ ... \\
+&amp;= \sum_{m=1}^{n} Q_n(\gamma^{n} e^{in\theta})(K_m(\gamma^{-m}
+e^{i(-m)\theta}))^Tv_m \\
+&amp;= \sum_{m=1}^{n}
+\gamma^{n-m}(Q_ne^{in\theta})(K_me^{i(-m)\theta})^Tv_m
+\end{alignat}
+\]</span> 根据复数的基本知识，我们可知 <span
+class="math inline">\(e^{im\theta}\)</span> 是 <span
+class="math inline">\({e^{i(-m)\theta}}\)</span> 的共轭，因此有： <span
+class="math display">\[
+\begin{alignat}{2}
+o_n=Q_ns_n &amp;=\ ... \\
+&amp;= \sum_{m=1}^{n}
+\gamma^{n-m}(Q_ne^{in\theta})(K_me^{i(-m)\theta})^Tv_m \\
+&amp;= \sum_{m=1}^{n}
+\gamma^{n-m}(Q_ne^{in\theta})(K_me^{im\theta})^{\dagger}v_m
+\end{alignat}
+\]</span> 其中 <span class="math inline">\(\dagger\)</span>
+表示共轭转置。</p>
+<blockquote>
+<p>感觉就是为了看起来更高级点。。。</p>
+</blockquote>
+<p> </p>
+<h1 id="retnet-recurent">RetNet-Recurent</h1>
+<p>通过前面的介绍，我们知道了 Retention 公式的由来。下面来看看 RetNet
+是怎么用它来进行循环推理的，也就是下图中的各个符号 <span
+class="math inline">\(Q_n\)</span>、<span
+class="math inline">\(K_n\)</span>、<span
+class="math inline">\(V_n\)</span> 等分别代表的是什么。</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RetNet13.png" srcset="/img/loading.gif" lazyload
+alt="RetNet Recurrent" />
+<figcaption aria-hidden="true">RetNet Recurrent</figcaption>
+</figure>
+<p>首先回顾我们推导出的 <span class="math inline">\(o_n\)</span> 公式：
+<span class="math display">\[
+\begin{alignat}{2}
+s_n&amp;=As_{n-1}+K_n^Tv_n \\
+o_n&amp;=Q_ns_n=\sum_{m=1}^{n}
+\gamma^{n-m}(Q_ne^{in\theta})(K_me^{im\theta})^{\dagger}v_m
+\end{alignat}
+\]</span> 然后再来看作者定义的循环范式： <span class="math display">\[
+\begin{alignat}{2}
+S_n &amp;=\gamma S_{n-1}+K_n^TV_n \\
+O_n &amp;=Q_nS_n=\sum_{m=1}^{n}
+\gamma^{n-m}(Q_ne^{in\theta})(K_me^{im\theta})^{\dagger}v_m
+\end{alignat}
+\]</span> 这两组公式可以说是一模一样，区别就在于把 <span
+class="math inline">\(A=\Lambda (\gamma e^{i\theta})\Lambda
+^{-1}\)</span> 简化成了 <span class="math inline">\(\gamma\)</span>
+。事实上，我们在上一节已经介绍了 <span
+class="math inline">\(\Lambda\)</span> 和 <span
+class="math inline">\(\Lambda ^{-1}\)</span> 是怎么被吸收到 <span
+class="math inline">\(W_Q\)</span> 和 <span
+class="math inline">\(W_K^T\)</span>
+里面去的。接下来，让我们来看具体是怎么操作的。</p>
+<p>首先，根据结果会想到把 <span class="math inline">\(Q_n\)</span>
+相关的部分提出来： <span class="math display">\[
+\begin{alignat}{2}
+o_n=Q_ns_n &amp;=\sum_{m=1}^{n}
+\gamma^{n-m}(Q_ne^{in\theta})(K_me^{im\theta})^{\dagger}v_m \\
+&amp;=(Q_ne^{in\theta})(\sum_{m=1}^{n}
+\gamma^{n-m}(K_me^{im\theta})^{\dagger}v_m)
+\end{alignat}
+\]</span> 得到 <span class="math display">\[
+\begin{alignat}{2}
+Q_n&amp;=Q_ne^{in\theta} \\
+S_n&amp;=\sum_{m=1}^{n} \gamma^{n-m}(K_me^{im\theta})^{\dagger}v_m
+\end{alignat}
+\]</span> 由于 <span class="math inline">\(S_n=\gamma
+S_{n-1}+K_n^TV_n\)</span>，因此想到从上式中拆分一个 <span
+class="math inline">\(K_n^TV_n\)</span> 出来： <span
+class="math display">\[
+\begin{alignat}{2}
+S_n&amp;=\sum_{m=1}^{n} \gamma^{n-m}(K_me^{im\theta})^{\dagger}v_m \\
+&amp;=\sum_{m=1}^{n-1}
+\gamma^{n-m}(K_me^{im\theta})^{\dagger}v_m+\gamma^{n-n}(K_ne^{in\theta})^{\dagger}v_n
+\\
+\end{alignat}
+\]</span> 得到 <span class="math display">\[
+\begin{alignat}{2}
+\gamma S_{n-1}&amp;=\sum_{m=1}^{n-1}
+\gamma^{n-m}(K_me^{im\theta})^{\dagger}v_m \\
+K_n^TV_n&amp;=\gamma^{n-n}(K_ne^{in\theta})^{\dagger}v_n=(K_ne^{in\theta})^{\dagger}v_n
+\end{alignat}
+\]</span> 对于 <span class="math display">\[
+\begin{alignat}{2}
+\gamma S_{n-1}&amp;=\sum_{m=1}^{n-1}
+\gamma^{n-m}(K_me^{im\theta})^{\dagger}v_m \\
+S_{n-1}&amp;=\sum_{m=1}^{n-1}
+\gamma^{n-m-1}(K_me^{im\theta})^{\dagger}v_m
+\end{alignat}
+\]</span> 我们同样可以拆得 <span class="math display">\[
+\begin{alignat}{2}
+S_{n-1}&amp;=\sum_{m=1}^{n-1}
+\gamma^{n-m-1}(K_me^{im\theta})^{\dagger}v_m \\
+&amp;=\sum_{m=1}^{n-2}
+\gamma^{n-m-1}(K_me^{im\theta})^{\dagger}v_m++\gamma^{n-n}(K_{n-1}e^{i(n-1)\theta})^{\dagger}v_{n-1}
+\end{alignat}
+\]</span> 可见状态向量 <span class="math inline">\(State\)</span>
+的结构都是一样的，由此证明了 RetNet 能够模拟 RNN 进行循环推理。</p>
+<p>最后简单总结一下： <span class="math display">\[
+\begin{alignat}{2}
+Q_n&amp;=Q_ne^{in\theta} \\
+K_n&amp;=K_ne^{i(-n)\theta} \\
+V_n&amp;=v_n
+\end{alignat}
+\]</span></p>
+<h1 id="retnet-parallel">RetNet-Parallel</h1>
+<p>本文主要介绍的是 RetNet 的循环范式，事实上 <span
+class="math inline">\(o_n\)</span> 的公式完全可以写成并行形式，也就是
+RetNet 的并行范式。如下图所示：</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RetNet14.png" srcset="/img/loading.gif" lazyload
+alt="RetNet Parallel" />
+<figcaption aria-hidden="true">RetNet Parallel</figcaption>
+</figure>
+<p>首先回顾单个时间步 <span class="math inline">\(n\)</span> 的输出
+<span class="math inline">\(o_n\)</span>，其计算公式如下： <span
+class="math display">\[
+\begin{alignat}{2}
+o_n=Q_ns_n &amp;= \sum_{m=1}^{n}
+\gamma^{n-m}(Q_ne^{in\theta})(K_me^{im\theta})^{\dagger}v_m
+\end{alignat}
+\]</span> 然而所有时间步的输出 <span class="math inline">\(o_n\)</span>
+是可以并行计算的，用矩阵形式表达如下：</p>
+<p><span class="math display">\[Q=XW_Q\odot \Theta,K=XW_K\odot
+\overline{\Theta},V=XW_V\]</span></p>
+<p><span class="math display">\[O=[(QK^T)\odot D]V\]</span></p>
+<p>其中 <span
+class="math inline">\(\Theta_n=(e^{i\theta})^n\)</span>，<span
+class="math inline">\(D\)</span> 矩阵如下： <span
+class="math display">\[
+\begin{alignat}{2}
+D_{nm}=\left\{\begin{matrix}\gamma^{n-m},&amp;n\ge m
+\\0,&amp;n\lt m
+\end{matrix}\right.
+\end{alignat}
+\]</span>  </p>
+<h1 id="retnet-chunkwise">RetNet-Chunkwise</h1>
+<p>在前面的小节中，我们已经介绍了 RetNet
+的并行范式和循环范式。下面，我们将介绍 RetNet
+的最后一种范式——块状范式。</p>
+<h2 id="基本原理">基本原理</h2>
+<p>作者提出，针对一个长序列，混合使用并行范式和循环范式将能提高训练速度，这就是所谓的“块状范式”。</p>
+<p>具体来说，就是将一个长序列划分成若干相同长度的短序列，称这些短序列为“块”。在每一个块的内部，我们使用并行范式进行计算；在前一块与后一块之间，我们使用循环范式传递信息。参考下图：</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RetNet16.png" srcset="/img/loading.gif" lazyload
+alt="基本原理图" />
+<figcaption aria-hidden="true">基本原理图</figcaption>
+</figure>
+<p>论文中给出的公式为：</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RetNet17.png" srcset="/img/loading.gif" lazyload
+alt="RetNet Chunkwise" />
+<figcaption aria-hidden="true">RetNet Chunkwise</figcaption>
+</figure>
+<p>接下来，我们将逐一介绍上述公式的各个部分。</p>
+<p> </p>
+<h2 id="符号定义">符号定义</h2>
+<p>首先我们来看论文中定义的各种符号。<span
+class="math inline">\(B\)</span> 表示每个块的长度，下标 <span
+class="math inline">\(|i|\)</span> 表示这个块是第 <span
+class="math inline">\(i\)</span> 个块。比如 <span
+class="math inline">\(Q_{[i]}\)</span> 表示的就是第 <span
+class="math inline">\(i\)</span> 个块的 <span
+class="math inline">\(Q\)</span> 矩阵： <span class="math display">\[
+\begin{alignat}{2}
+Q_{[i]}&amp;=Q_{Bi:B(i+1)} \\
+&amp;=Q_{Bi}Q_{Bi+1}Q_{Bi+2}...Q_{Bi+(B-1)}Q_{Bi+B}
+\end{alignat}
+\]</span> 同理可得 <span class="math display">\[
+\begin{alignat}{2}
+K_{[i]}&amp;=K_{Bi:B(i+1)} \\
+V_{[i]}&amp;=V_{Bi:B(i+1)}
+\end{alignat}
+\]</span> 其余符号在下面的推导中其义自见。</p>
+<p> </p>
+<h2 id="公式推导">公式推导</h2>
+<p><strong>第一阶段</strong></p>
+<p>回顾 RetNet 的循环范式： <span class="math display">\[
+\begin{alignat}{2}
+S_n &amp;=\gamma S_{n-1}+K_n^TV_n \\
+O_n &amp;=Q_nS_n
+\end{alignat}
+\]</span> 根据 RNN 原理，我们把循环范式展开： <span
+class="math display">\[
+\begin{alignat}{2}
+S_n &amp;=\gamma S_{n-1}+K_n^TV_n \\
+&amp;=\gamma (\gamma S_{n-2}+K_{n-1}^TV_{n-1})+K_n^TV_n \\
+&amp;=\gamma^2S_{n-2}+\gamma^1 K_{n-1}^TV_{n-1}+K_n^TV_n \\
+&amp;=\gamma^2(\gamma^1 S_{n-3}+K_{n-2}^TV_{n-2})+\gamma^1
+K_{n-1}^TV_{n-1}+K_n^TV_n \\
+&amp;=\gamma^3S_{n-3}+\gamma^2K_{n-2}^TV_{n-2}+\gamma^1
+K_{n-1}^TV_{n-1}+K_n^TV_n
+\end{alignat}
+\]</span> 对 <span class="math inline">\(S_n\)</span>
+进行部分展开后，可以观察到只有 <span
+class="math inline">\(\gamma^3S_{n-3}\)</span>
+是需要前面传过来的。而对于 <span
+class="math inline">\(\gamma^2K_{n-2}^TV_{n-2}+\gamma
+K_{n-1}^TV_{n-1}+K_n^TV_n\)</span>，只要知道了 <span
+class="math inline">\(K\)</span> 和 <span
+class="math inline">\(V\)</span>
+就能立即算出来，也就是可以并行计算。</p>
+<p>正是这个发现在理论上支持了块状范式，即先把每个块内部的 <span
+class="math inline">\(K_m^TV_m\)</span>
+算出来（块内并行），然后每个块就只需要等着前一个块把状态向量 <span
+class="math inline">\(State\)</span> 传过来（块间循环）。</p>
+<p>因此，<span class="math inline">\(S_n\)</span> 只需要部分展开如下：
+<span class="math display">\[
+\begin{alignat}{2}
+S_n
+&amp;=\gamma^BS_{n-B}+\gamma^{B-1}K_{n-(B-1)}^TV_{n-(B-1)}+...+\gamma^2K_{n-2}^TV_{n-2}+\gamma^1
+K_{n-1}^TV_{n-1}+\gamma^0 K_n^TV_n \\
+&amp;=\gamma^BS_{n-B}+\sum_{m=n-(B-1)}^{n}\gamma^{n-m}K_m^TV_m
+\end{alignat}
+\]</span> 下图说明了 <span class="math inline">\(S_n\)</span> 和 <span
+class="math inline">\(S_{n-B}\)</span> 的关系：</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RetNet18.png" srcset="/img/loading.gif" lazyload
+alt="S_n和S_{n-B}的关系" />
+<figcaption aria-hidden="true"><span
+class="math inline">\(S_n\)</span>和<span
+class="math inline">\(S_{n-B}\)</span>的关系</figcaption>
+</figure>
+<p>上图表示在时间步 <span class="math inline">\(n\)</span>
+的时候，正在计算的是第 <span class="math inline">\(i\)</span>
+个块的最后一个状态向量，即 <span class="math inline">\(S_n\)</span>
+。在循环范式中，<span class="math inline">\(S_n\)</span>
+需要使用上一时间步的 <span class="math inline">\(S_{n-1}\)</span>
+。而在块状范式中，<span class="math inline">\(S_n\)</span>
+只需要前一个块的最后一个状态向量 <span
+class="math inline">\(S_{n-B}\)</span> 。最后再将计算好的 <span
+class="math inline">\(S_n\)</span> 传递给后一个块。</p>
+<p>换句话说，在块状范式中，我们不再需要计算块内部的所有状态向量，而只需要计算最后一个状态向量。现在，我们用一个新符号
+<span class="math inline">\(R_i\)</span> 来表示第 <span
+class="math inline">\(i\)</span> 个块的最后一个状态向量： <span
+class="math display">\[
+\begin{alignat}{2}
+R_i
+&amp;=\gamma^BR_{i-1}+\gamma^{B-1}K_{n-(B-1)}^TV_{n-(B-1)}+...+\gamma^2K_{n-2}^TV_{n-2}+\gamma^1
+K_{n-1}^TV_{n-1}+\gamma^0 K_n^TV_n \\
+&amp;=\gamma^BR_{i-1}+\sum_{m=n-(B-1)}^{n}\gamma^{n-m}K_m^TV_m
+\end{alignat}
+\]</span> 由此我们知道了 <span class="math inline">\(R_i\)</span>
+的含义。</p>
+<p><strong>第二阶段</strong></p>
+<p>为了进一步简化公式，可以用矩阵形式表示 <span
+class="math inline">\(\sum_{m=n-(B-1)}^{n}\gamma^{n-m}K_m^Tv_m\)</span>
+如下： <span class="math display">\[
+K_{[i]}^T(V_{[i]}\odot \zeta)=\sum_{m=n-(B-1)}^{n}\gamma^{n-m}K_m^TV_m
+\]</span> 该公式的等号左侧部分可以用下图表示，我们假定 <span
+class="math inline">\(B=4\)</span>：</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RetNet15.png" srcset="/img/loading.gif" lazyload
+alt="K_{[i]}^T(V_{[i]}\odot \zeta)" />
+<figcaption aria-hidden="true"><span
+class="math inline">\(K_{[i]}^T(V_{[i]}\odot
+\zeta)\)</span></figcaption>
+</figure>
+<p>其中 <span class="math inline">\(\zeta\)</span>
+矩阵是一个对角矩阵，即非主对角线上的元素都为 <span
+class="math inline">\(0\)</span> 。这是因为在上述公式中，<span
+class="math inline">\(K_m^TV_m\)</span>
+限定了只有下标相同的行和列才会相乘。在实际操作中，我们可以先进行矩阵乘法
+<span
+class="math inline">\(K^TV\)</span>，然后把非主对角线上的元素清除为
+<span class="math inline">\(0\)</span> 即可，这就是为什么 <span
+class="math inline">\(\zeta\)</span> 矩阵是一个对角矩阵。此外，根据
+<span class="math inline">\(\gamma^{n-m}\)</span>
+我们还能得到主对角线上的元素为 <span
+class="math inline">\(\zeta_{ij}=\gamma^{B-i}\)</span> 。</p>
+<blockquote>
+<p>论文中写的是 <span
+class="math inline">\(\zeta_{ij}=\gamma^{B-i-1}\)</span>，因为作者是从
+<span class="math inline">\(i=0\)</span>
+开始计数的，我这里懒得改了。</p>
+</blockquote>
+<p>由此我们可以把公式简化为： <span class="math display">\[
+\begin{alignat}{2}
+R_i &amp;=\gamma^BR_{i-1}+\sum_{m=n-(B-1)}^{n}\gamma^{n-m}K_m^TV_m \\
+&amp;=\gamma^BR_{i-1}+K_{[i]}^T(V_{[i]}\odot \zeta)
+\end{alignat}
+\]</span> <strong>第三阶段</strong></p>
+<p>刚才已经分析了块间传递的 <span class="math inline">\(R_i\)</span>
+是如何产生的，现在分析块内的 <span class="math inline">\(O_n\)</span>
+是如何产生的。如下图所示：</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RetNet19.png" srcset="/img/loading.gif" lazyload
+alt="O_{[i]}是第i个块的O_n的集合" />
+<figcaption aria-hidden="true"><span
+class="math inline">\(O_{[i]}\)</span>是第<span
+class="math inline">\(i\)</span>个块的<span
+class="math inline">\(O_n\)</span>的集合</figcaption>
+</figure>
+<p>回顾公式： <span class="math display">\[
+\begin{alignat}{2}
+S_n &amp;=\gamma S_{n-1}+K_n^TV_n \\
+O_n &amp;=Q_nS_n
+\end{alignat}
+\]</span> 根据第二阶段的分析可得： <span class="math display">\[
+\begin{alignat}{2}
+O_n &amp;= Q_n(\gamma^BR_{i-1}+\sum_{m=n-(B-1)}^{n}\gamma^{n-m}K_m^TV_m)
+\\
+O_{n-1} &amp;=
+Q_{n-1}(\gamma^{B-1}R_{i-1}+\sum_{m=n-(B-1)}^{n-1}\gamma^{n-m}K_m^TV_m)
+\\
+&amp;...\\
+O_{n-(B-2)} &amp;=
+Q_{n-(B-2)}(\gamma^{2}R_{i-1}+\sum_{m=n-(B-1)}^{n-(B-2)}\gamma^{n-m}K_m^TV_m)\\
+O_{n-(B-1)} &amp;=
+Q_{n-(B-1)}(\gamma^{1}R_{i-1}+\sum_{m=n-(B-1)}^{n-(B-1)}\gamma^{n-m}K_m^TV_m)
+\end{alignat}
+\]</span> 打开圆括号得到： <span class="math display">\[
+\begin{alignat}{2}
+O_n &amp;=
+Q_n\gamma^BR_{i-1}+Q_n\sum_{m=n-(B-1)}^{n}\gamma^{n-m}K_m^TV_m \\
+O_{n-1} &amp;=
+Q_{n-1}\gamma^{B-1}R_{i-1}+Q_{n-1}\sum_{m=n-(B-1)}^{n-1}\gamma^{n-m}K_m^TV_m
+\\
+&amp;...\\
+O_{n-(B-2)} &amp;=
+Q_{n-(B-2)}\gamma^{2}R_{i-1}+Q_{n-(B-2)}\sum_{m=n-(B-1)}^{n-(B-2)}\gamma^{n-m}K_m^TV_m\\
+O_{n-(B-1)} &amp;=
+Q_{n-(B-1)}\gamma^{1}R_{i-1}+Q_{n-(B-1)}\sum_{m=n-(B-1)}^{n-(B-1)}\gamma^{n-m}K_m^TV_m
+\end{alignat}
+\]</span> 加号左侧的项可用矩阵形式表示为： <span class="math display">\[
+(Q_{|i|}R_{i-1})\odot \xi,\ \xi_{ij}=\gamma^{i}
+\]</span> 下图描述了该过程：</p>
+<figure>
+<img
+src="https://hexo-0711.oss-cn-chengdu.aliyuncs.com/image/RetNet20.png" srcset="/img/loading.gif" lazyload
+alt="(Q_{|i|}R_{i-1})\odot \xi" />
+<figcaption aria-hidden="true"><span
+class="math inline">\((Q_{|i|}R_{i-1})\odot \xi\)</span></figcaption>
+</figure>
+<blockquote>
+<p>论文中写的是 <span
+class="math inline">\(\xi_{ij}=\gamma^{i+1}\)</span>，因为作者是从 <span
+class="math inline">\(i=0\)</span>
+开始计数的，我这里也懒得改了。注意这里的 <span
+class="math inline">\(i\)</span> 指的是在矩阵中的行数，不要和第 <span
+class="math inline">\(i\)</span> 个块的 <span
+class="math inline">\(i\)</span> 搞混了。</p>
+</blockquote>
+<p>加号右侧的项可用矩阵形式表示为： <span class="math display">\[
+[(Q_{[i]}K_{[i]}^T)\odot D]V_{[i]}
+\]</span> 合起来得到： <span class="math display">\[
+O_{[i]}=[(Q_{[i]}K_{[i]}^T)\odot D]V_{[i]}+(Q_{|i|}R_{i-1})\odot \xi
+\]</span> <strong><em>推导完毕！</em></strong></p>
+<p> </p>
+<h1 id="end">End</h1>
+<p>本文仅针对公式的推导，各矩阵的具体作用请参见另一篇博客。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Retention 公式推导</div>
+      <div>http://example.com/2023/12/07/RetNet 公式推导/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Envoutante</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/12/09/RetNet%20%E8%8D%89%E7%A8%BF/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/06/RetNet%20%E7%9F%A5%E4%B9%8E/" title="A Successor to Transformer for Large Language Models">
+                        <span class="hidden-mobile">A Successor to Transformer for Large Language Models</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
